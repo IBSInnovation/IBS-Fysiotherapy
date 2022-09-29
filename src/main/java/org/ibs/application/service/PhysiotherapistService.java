@@ -7,7 +7,7 @@ import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,7 +19,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     }
 
     @Override
-    public ArrayList<Physiotherapist> getAll() {
+    public List<Physiotherapist> getAll() {
         return null;
     }
 

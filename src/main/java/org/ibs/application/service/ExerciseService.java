@@ -7,7 +7,7 @@ import org.ibs.domain.Exercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,7 +19,7 @@ public class ExerciseService implements IExerciseService {
     }
 
     @Override
-    public ArrayList<Exercise> getAll() {
+    public List<Exercise> getAll() {
         return null;
     }
 

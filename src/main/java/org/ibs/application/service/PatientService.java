@@ -7,7 +7,7 @@ import org.ibs.domain.Patient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,7 +19,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public ArrayList<Patient> getAll() {
+    public List<Patient> getAll() {
         return null;
     }
 

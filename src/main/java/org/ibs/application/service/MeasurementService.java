@@ -7,7 +7,7 @@ import org.ibs.domain.Measurement;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,7 +19,7 @@ public class MeasurementService implements IMeasurementService {
     }
 
     @Override
-    public ArrayList<Measurement> getAll() {
+    public List<Measurement> getAll() {
         return null;
     }
 
