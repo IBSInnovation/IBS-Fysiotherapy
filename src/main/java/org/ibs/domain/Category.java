@@ -2,10 +2,15 @@ package org.ibs.domain;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @ToString
@@ -13,9 +18,13 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
     public class Category {
+    @Id
+    @GeneratedValue
+    private long id;
     private String name;
 
     @Builder.Default
+    @OneToMany(mappedBy = "category")
     private List<Exercise> exercises = new ArrayList<>();
 
     @Override

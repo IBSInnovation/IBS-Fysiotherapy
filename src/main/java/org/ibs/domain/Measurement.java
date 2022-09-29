@@ -2,9 +2,14 @@ package org.ibs.domain;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @ToString
@@ -12,9 +17,14 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Measurement {
+    @Id
+    @GeneratedValue
+    private long id;
     private Date dateOfMeasurement;
     private int data;
 
+
+    @ManyToOne
     private Exercise exercise;
 
     @Override
