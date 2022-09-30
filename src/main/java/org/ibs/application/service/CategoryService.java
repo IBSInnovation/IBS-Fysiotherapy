@@ -3,6 +3,7 @@ package org.ibs.application.service;
 import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.CategoryDTO;
+import org.ibs.application.dto.builder.CategoryDTOMapper;
 import org.ibs.data.CategoryRepository;
 import org.ibs.domain.Category;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 public class CategoryService implements ICategoryService {
+    private final CategoryDTOMapper categoryDTOMapper;
     private final CategoryRepository categoryRepository;
     @Override
     public Category getById(long id) throws Exception {
@@ -41,9 +43,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category persistCategory(CategoryDTO categoryDTO) throws Exception {
         try {
-//        categoryDTO to category by builder
-//        categoryRepository.save(category)
-            return null;
+            return categoryRepository.save(categoryDTOMapper.fromDTO(categoryDTO));
         } catch (Exception e) {
 //            misschien een Log library zoals log4j
             throw new Exception("Category was not persisted due to an error", e);
