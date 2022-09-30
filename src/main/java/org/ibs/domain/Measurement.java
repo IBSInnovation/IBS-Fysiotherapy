@@ -2,10 +2,7 @@ package org.ibs.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,10 +17,9 @@ public class Measurement {
     @Id
     @GeneratedValue
     private long id;
+    @Temporal(TemporalType.DATE)
     private Date dateOfMeasurement;
     private int data;
-
-
     @ManyToOne
     private Exercise exercise;
 

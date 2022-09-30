@@ -27,6 +27,10 @@ public class Physiotherapist {
     @OneToMany(mappedBy = "physiotherapist")
     private List<Patient> patients = new ArrayList<>();
 
+    public void addPatient(Patient patient) {
+        if (!patients.contains(patient)) patients.add(patient);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

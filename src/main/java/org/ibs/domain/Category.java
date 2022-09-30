@@ -27,6 +27,10 @@ import java.util.Objects;
     @OneToMany(mappedBy = "category")
     private List<Exercise> exercises = new ArrayList<>();
 
+    public void addExercise(Exercise exercise) {
+        if (!exercises.contains(exercise)) exercises.add(exercise);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

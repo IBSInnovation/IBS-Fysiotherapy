@@ -22,6 +22,7 @@ public class Patient {
     private String name;
     private String surName;
     private double weight;
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private double height;
     private String email;
@@ -31,6 +32,10 @@ public class Patient {
     @Builder.Default
     @OneToMany(mappedBy = "patient")
     private List<Exercise> exercises = new ArrayList<>();
+
+    public void addExercise(Exercise exercise) {
+        if (!exercises.contains(exercise)) exercises.add(exercise);
+    }
 
     @Override
     public boolean equals(Object o) {
