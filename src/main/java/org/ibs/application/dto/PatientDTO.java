@@ -3,8 +3,8 @@ package org.ibs.application.dto;
 import lombok.Builder;
 import org.ibs.utils.DTO;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 public class PatientDTO extends DTO {
@@ -15,5 +15,6 @@ public class PatientDTO extends DTO {
     public Date dateOfBirth;
     public double height;
     public String email;
-    public ArrayList<Long> exerciseIds;
+    public Long physiotherapistId;
+    public List<Long> exerciseIds;
 }
