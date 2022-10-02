@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class CategoryServiceTest {
@@ -31,7 +30,7 @@ public class CategoryServiceTest {
         Category category = Category.builder().id(1L).name("testname").build();
         when(mockCategoryRepository.findById(1L)).thenReturn(Optional.ofNullable(category));
         Category cat = categoryService.getById(1L);
-        verify(mockCategoryRepository, times(1)).findById(any());
+        verify(mockCategoryRepository, times(1)).findById(anyLong());
         assertEquals(1L, cat.getId());
         assertEquals("testname", cat.getName());
     }
@@ -67,5 +66,13 @@ public class CategoryServiceTest {
     }
 
 //    deletecategory
-    
+    @Test
+    public void deleteCategory() throws Exception {
+        Category category = Category.builder().id(1L).name("testname").build();
+        when(mockCategoryRepository.findById(anyLong())).thenReturn(Optional.ofNullable(category));
+        boolean boolreturn = categoryService.deleteCategory(1L);
+        verify(mockCategoryRepository, times(1)).findById(anyLong());
+        verify(mockCategoryRepository, times(1)).delete(any(Category.class));
+        assertTrue(boolreturn);
+    }
 }

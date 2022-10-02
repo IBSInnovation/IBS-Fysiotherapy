@@ -51,7 +51,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public boolean deleteCategory(long id) throws Exception {
         try {
-            categoryRepository.delete(categoryRepository.getById(id));
+            categoryRepository.delete(categoryRepository.findById(id).orElseThrow(Exception::new));
             return true;
         } catch (Exception e) {
             throw new Exception("Category could not be deleted due to an error", e);
