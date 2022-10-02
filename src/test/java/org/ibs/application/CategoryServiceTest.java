@@ -5,10 +5,14 @@ import org.ibs.data.CategoryRepository;
 import org.ibs.domain.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class CategoryServiceTest {
@@ -27,6 +31,7 @@ public class CategoryServiceTest {
         Category category = Category.builder().id(1L).name("testname").build();
         when(mockCategoryRepository.findById(1L)).thenReturn(Optional.ofNullable(category));
         Category cat = categoryService.getById(1L);
+        verify(mockCategoryRepository, times(1)).findById(any());
         assertEquals(1L, cat.getId());
         assertEquals("testname", cat.getName());
     }
@@ -37,8 +42,30 @@ public class CategoryServiceTest {
     }
 
 //    getall
+    @Test
+    public void getAllExisting() throws Exception {
+        Category category1 = Category.builder().id(1L).name("testname1").build();
+        Category category2 = Category.builder().id(2L).name("testname2").build();
+        Category category3 = Category.builder().id(3L).name("testname3").build();
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+        categories.add(category3);
+        when(mockCategoryRepository.findAll()).thenReturn(categories);
+        verify(mockCategoryRepository, times(1)).findAll();
+        assertEquals(categories, categoryService.getAll());
+    }
 
 //    persistcategory
+    @Test
+    public void persistCategory() throws Exception {
+        Category category = Category.builder().id(1L).name("testname").build();
+        when(mockCategoryRepository.save(Mockito.any(Category.class))).thenReturn(category);
+        Category returnedCategory = categoryService.persistCategory(category);
+        verify(mockCategoryRepository, times(1)).save(any(Category.class));
+        assertEquals(category, returnedCategory);
+    }
 
 //    deletecategory
+    
 }
