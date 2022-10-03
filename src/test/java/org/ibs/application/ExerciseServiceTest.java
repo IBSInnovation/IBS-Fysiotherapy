@@ -51,8 +51,8 @@ public class ExerciseServiceTest {
         exerciseList.add(exercise2);
         exerciseList.add(exercise3);
         when(mockExerciseRepository.findAll()).thenReturn(exerciseList);
-        verify(mockExerciseRepository, times(1)).findAll();
         assertEquals(exerciseList, exerciseService.getAll());
+        verify(mockExerciseRepository, times(1)).findAll();
     }
 
 //    persistexercise
