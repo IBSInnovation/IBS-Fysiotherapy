@@ -28,6 +28,10 @@ public class Exercise {
     @ManyToOne
     private Category category;
 
+    public void addMeasurement(Measurement measurement) {
+        if (!measurements.contains(measurement)) measurements.add(measurement);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,4 +39,5 @@ public class Exercise {
         Exercise exercise = (Exercise) o;
         return Objects.equals(name, exercise.name) && Objects.equals(patient, exercise.patient) && Objects.equals(measurements, exercise.measurements) && Objects.equals(category, exercise.category);
     }
+
 }
