@@ -2,10 +2,7 @@ package org.ibs.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +21,12 @@ import java.util.Objects;
     private String name;
 
     @Builder.Default
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Exercise> exercises = new ArrayList<>();
+
+    public void addExercise(Exercise exercise) {
+        if (!exercises.contains(exercise)) exercises.add(exercise);
+    }
 
     @Override
     public boolean equals(Object o) {
