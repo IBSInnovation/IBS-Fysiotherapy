@@ -9,6 +9,8 @@ import org.ibs.domain.Measurement;
 import org.ibs.utils.DTOMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,12 +30,17 @@ public class ExerciseDTOMapper implements DTOMapper<ExerciseDTO, Exercise> {
     }
 
     @Override
-    public Exercise fromDTO(ExerciseDTO o) {
+    public Exercise fromDTO(ExerciseDTO o) throws Exception {
+        List<Measurement> list = new ArrayList<>();
+        for (Long measurementId : o.measurementIds) {
+            Measurement byId = measurementService.getById(measurementId);
+            list.add(byId);
+        }
         return Exercise.builder()
                 .id(o.id)
                 .name(o.name)
                 .patient(patientService.getById(o.patientId))
-                .measurements(o.measurementIds.stream().map(measurementService::getById).collect(Collectors.toList()))
+                .measurements(list)
                 .build();
     }
 }

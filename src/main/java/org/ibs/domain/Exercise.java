@@ -39,4 +39,5 @@ public class Exercise {
         Exercise exercise = (Exercise) o;
         return Objects.equals(name, exercise.name) && Objects.equals(patient, exercise.patient) && Objects.equals(measurements, exercise.measurements) && Objects.equals(category, exercise.category);
     }
+
 }

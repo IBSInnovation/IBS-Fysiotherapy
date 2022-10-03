@@ -8,6 +8,8 @@ import org.ibs.domain.Exercise;
 import org.ibs.utils.DTOMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,11 +26,16 @@ public class CategoryDTOMapper implements DTOMapper<CategoryDTO, Category> {
     }
 
     @Override
-    public Category fromDTO(CategoryDTO o) {
+    public Category fromDTO(CategoryDTO o) throws Exception {
+        List<Exercise> list = new ArrayList<>();
+        for (Long exerciseId : o.exerciseIds) {
+            Exercise byId = exerciseService.getById(exerciseId);
+            list.add(byId);
+        }
         return Category.builder()
                 .id(o.id)
                 .name(o.name)
-                .exercises(o.exerciseIds.stream().map(exerciseService::getById).collect(Collectors.toList()))
+                .exercises(list)
                 .build();
     }
 }

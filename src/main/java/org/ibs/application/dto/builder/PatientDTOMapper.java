@@ -9,6 +9,8 @@ import org.ibs.domain.Patient;
 import org.ibs.utils.DTOMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,7 +34,12 @@ public class PatientDTOMapper implements DTOMapper<PatientDTO, Patient> {
     }
 
     @Override
-    public Patient fromDTO(PatientDTO o) {
+    public Patient fromDTO(PatientDTO o) throws Exception {
+        List<Exercise> list = new ArrayList<>();
+        for (Long exerciseId : o.exerciseIds) {
+            Exercise byId = exerciseService.getById(exerciseId);
+            list.add(byId);
+        }
         return Patient.builder()
                 .id(o.id)
                 .name(o.name)
@@ -42,7 +49,7 @@ public class PatientDTOMapper implements DTOMapper<PatientDTO, Patient> {
                 .height(o.height)
                 .email(o.email)
                 .physiotherapist(physiotherapistService.getById(o.physiotherapistId))
-                .exercises(o.exerciseIds.stream().map(exerciseService::getById).collect(Collectors.toList()))
+                .exercises(list)
                 .build();
     }
 }

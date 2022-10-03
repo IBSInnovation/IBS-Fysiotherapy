@@ -23,7 +23,7 @@ public class MeasurementDTOMapper implements DTOMapper<MeasurementDTO, Measureme
     }
 
     @Override
-    public Measurement fromDTO(MeasurementDTO o) {
+    public Measurement fromDTO(MeasurementDTO o) throws Exception {
         return Measurement.builder()
                 .id(o.id)
                 .dateOfMeasurement(o.dateOfMeasurement)

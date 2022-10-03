@@ -5,7 +5,6 @@ import org.ibs.data.CategoryRepository;
 import org.ibs.domain.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class CategoryServiceTest {
     @Test
     public void getByIdExistingCategory() throws Exception {
         Category category = Category.builder().id(1L).name("testname").build();
-        when(mockCategoryRepository.findById(1L)).thenReturn(Optional.ofNullable(category));
+        when(mockCategoryRepository.findById(anyLong())).thenReturn(Optional.ofNullable(category));
         Category cat = categoryService.getById(1L);
         verify(mockCategoryRepository, times(1)).findById(anyLong());
         assertEquals(1L, cat.getId());
@@ -59,7 +58,7 @@ public class CategoryServiceTest {
     @Test
     public void persistCategory() throws Exception {
         Category category = Category.builder().id(1L).name("testname").build();
-        when(mockCategoryRepository.save(Mockito.any(Category.class))).thenReturn(category);
+        when(mockCategoryRepository.save(any(Category.class))).thenReturn(category);
         Category returnedCategory = categoryService.persistCategory(category);
         verify(mockCategoryRepository, times(1)).save(any(Category.class));
         assertEquals(category, returnedCategory);
@@ -70,9 +69,9 @@ public class CategoryServiceTest {
     public void deleteCategory() throws Exception {
         Category category = Category.builder().id(1L).name("testname").build();
         when(mockCategoryRepository.findById(anyLong())).thenReturn(Optional.ofNullable(category));
-        boolean boolreturn = categoryService.deleteCategory(1L);
+        boolean boolReturn = categoryService.deleteCategory(1L);
         verify(mockCategoryRepository, times(1)).findById(anyLong());
         verify(mockCategoryRepository, times(1)).delete(any(Category.class));
-        assertTrue(boolreturn);
+        assertTrue(boolReturn);
     }
 }

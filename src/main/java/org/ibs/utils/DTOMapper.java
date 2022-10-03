@@ -1,5 +1,6 @@
 package org.ibs.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public interface DTOMapper<DTOO extends DTO, O> {
      * @param o DTO to convert
      * @return converted object
      */
-    public O fromDTO(DTOO o);
+    public O fromDTO(DTOO o) throws Exception;
 
     /**
      * Calls the toDTO method in a stream, calling it for every object in the given list
@@ -33,7 +34,12 @@ public interface DTOMapper<DTOO extends DTO, O> {
      * @param objects List of DTOs to convert to a list of objects
      * @return List of objects
      */
-    public default List<O> fromMultipleDTO(List<DTOO> objects) {
-        return objects.stream().map(this::fromDTO).collect(Collectors.toList());
+    public default List<O> fromMultipleDTO(List<DTOO> objects) throws Exception {
+        List<O> list = new ArrayList<>();
+        for (DTOO object : objects) {
+            O o = fromDTO(object);
+            list.add(o);
+        }
+        return list;
     }
 }

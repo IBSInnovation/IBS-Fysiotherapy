@@ -8,6 +8,8 @@ import org.ibs.domain.Physiotherapist;
 import org.ibs.utils.DTOMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,11 +27,16 @@ public class PhysiotherapistDTOMapper implements DTOMapper<PhysiotherapistDTO, P
     }
 
     @Override
-    public Physiotherapist fromDTO(PhysiotherapistDTO o) {
+    public Physiotherapist fromDTO(PhysiotherapistDTO o) throws Exception {
+        List<Patient> list = new ArrayList<>();
+        for (Long patient : o.patients) {
+            Patient byId = patientService.getById(patient);
+            list.add(byId);
+        }
         return Physiotherapist.builder()
                 .id(o.id)
                 .email(o.email)
-                .patients(o.patients.stream().map(patientService::getById).collect(Collectors.toList()))
+                .patients(list)
                 .build();
     }
 }
