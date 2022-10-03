@@ -50,8 +50,8 @@ public class CategoryServiceTest {
         categories.add(category2);
         categories.add(category3);
         when(mockCategoryRepository.findAll()).thenReturn(categories);
-        verify(mockCategoryRepository, times(1)).findAll();
         assertEquals(categories, categoryService.getAll());
+        verify(mockCategoryRepository, times(1)).findAll();
     }
 
 //    persistcategory
