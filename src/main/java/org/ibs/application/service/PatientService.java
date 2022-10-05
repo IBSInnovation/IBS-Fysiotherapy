@@ -1,9 +1,15 @@
 package org.ibs.application.service;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPatientService;
 import org.ibs.data.PatientRepository;
 import org.ibs.domain.Patient;
+import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,12 +28,22 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public Patient getById(long id) throws Exception {
+    public Patient getById(String id) throws Exception {
         try {
-            return patientRepository.findById(id).orElseThrow(Exception::new);
+            Firestore db = FirestoreClient.getFirestore();
+            DocumentReference documentReference = db.collection("patients").document(id);
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
+
+            Patient patient;
+            if (document.exists()) {
+                patient = document.toObject(Patient.class);
+                return patient;
+            }
         } catch (Exception e) {
             throw new Exception("Patient could not be found due to an error", e);
         }
+        return null;
     }
 
     /**
