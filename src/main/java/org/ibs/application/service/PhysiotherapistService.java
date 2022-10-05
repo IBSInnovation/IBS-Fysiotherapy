@@ -1,10 +1,7 @@
 package org.ibs.application.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
@@ -13,6 +10,7 @@ import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,7 +53,17 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public List<Physiotherapist> getAll() throws Exception {
         try {
-            return physiotherapistRepository.findAll();
+            Firestore db = FirestoreClient.getFirestore();
+
+            ApiFuture<QuerySnapshot> future = db.collection("fysio").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            List<Physiotherapist> physiotherapistsList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+               physiotherapistsList.add(document.toObject(Physiotherapist.class));
+            }
+
+            return physiotherapistsList;
         } catch (Exception e) {
             throw new Exception("Physiotherapists could not be found due to an error", e);
         }
