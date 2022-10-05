@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
@@ -69,7 +70,16 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception {
         try {
-            return physiotherapistRepository.save(physiotherapist);
+            Firestore db = FirestoreClient.getFirestore();
+
+            // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("fysio").document().set(physiotherapist);
+
+            // Comment naar Niels, nu returnen we het object dat je als parameter al meekrijgt en dat is beetje zinloos
+            // in de voorbeeldvideo die ik had gekeken returnde hij de tijd van opslaan. ff kiezen/ bespreken wat we willen doen
+            collectionsApiFuture.get().getUpdateTime().toString();
+            return physiotherapist;
+
         } catch (Exception e) {
             throw new Exception("Physiotherapist was not persisted due to an error", e);
         }
