@@ -8,5 +8,5 @@ public interface IPatientService {
     Patient getById(String id) throws Exception;
     List<Patient> getAll() throws Exception;
     Patient persistPatient(Patient patient) throws Exception;
-    boolean deletePatient(long id) throws Exception;
+    boolean deletePatient(String id) throws Exception;
 }

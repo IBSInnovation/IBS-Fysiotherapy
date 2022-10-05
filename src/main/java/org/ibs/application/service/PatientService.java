@@ -88,7 +88,7 @@ public class PatientService implements IPatientService {
             collectionsApiFuture.get().getUpdateTime().toString();
             return patient;
         } catch (Exception e) {
-            throw new Exception("Patient was not eprsisted due to an error", e);
+            throw new Exception("Patient was not persisted due to an error", e);
         }
     }
 
@@ -99,9 +99,11 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public boolean deletePatient(long id) throws Exception {
+    public boolean deletePatient(String id) throws Exception {
         try {
-            patientRepository.delete(patientRepository.findById(id).orElseThrow(Exception::new));
+            Firestore db = FirestoreClient.getFirestore();
+
+            ApiFuture<WriteResult> writeResult = db.collection("patients").document(id).delete();
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
