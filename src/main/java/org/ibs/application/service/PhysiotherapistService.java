@@ -72,7 +72,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         try {
             Firestore db = FirestoreClient.getFirestore();
 
-            // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word
+            // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word. Als we willen dat firebase het doet dan moet het met add() ipv set()
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("fysio").document().set(physiotherapist);
 
             // Comment naar Niels, nu returnen we het object dat je als parameter al meekrijgt en dat is beetje zinloos
@@ -92,9 +92,11 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public boolean deletePhysiotherapist(long id) throws Exception {
+    public boolean deletePhysiotherapist(String id) throws Exception {
         try {
-            physiotherapistRepository.delete(physiotherapistRepository.findById(id).orElseThrow(Exception::new));
+            Firestore db = FirestoreClient.getFirestore();
+
+            ApiFuture<WriteResult> writeResult = db.collection("fysio").document(id).delete();
             return true;
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);

@@ -8,5 +8,5 @@ public interface IPhysiotherapistService {
     Physiotherapist getById(String id) throws Exception;
     List<Physiotherapist> getAll() throws Exception;
     Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception;
-    boolean deletePhysiotherapist(long id) throws Exception;
+    boolean deletePhysiotherapist(String id) throws Exception;
 }
