@@ -78,7 +78,15 @@ public class PatientService implements IPatientService {
     @Override
     public Patient persistPatient(Patient patient) throws Exception {
         try {
-            return patientRepository.save(patient);
+            Firestore db = FirestoreClient.getFirestore();
+
+            // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word. Als we willen dat firebase het doet dan moet het met add() ipv set()
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("patients").document().set(patient);
+
+            // Comment naar Niels, nu returnen we het object dat je als parameter al meekrijgt en dat is beetje zinloos
+            // in de voorbeeldvideo die ik had gekeken returnde hij de tijd van opslaan. ff kiezen/ bespreken wat we willen doen
+            collectionsApiFuture.get().getUpdateTime().toString();
+            return patient;
         } catch (Exception e) {
             throw new Exception("Patient was not eprsisted due to an error", e);
         }
