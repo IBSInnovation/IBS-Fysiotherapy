@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @SpringBootApplication
@@ -32,7 +33,18 @@ public class IBSApplication
                 .build();
 
 
-        FirebaseApp.initializeApp(options);
+        FirebaseApp firebaseApp = null;
+        List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
+        if(firebaseApps != null && !firebaseApps.isEmpty()){
+            for(FirebaseApp app : firebaseApps){
+                if(app.getName().equals(FirebaseApp.DEFAULT_APP_NAME))
+                    firebaseApp = app;
+            }
+        }
+        else
+            firebaseApp = FirebaseApp.initializeApp(options);
+
+
 
         SpringApplication.run(IBSApplication.class, args);
     }
