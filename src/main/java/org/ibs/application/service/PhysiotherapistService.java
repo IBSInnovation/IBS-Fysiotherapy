@@ -84,10 +84,10 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public PhysiotherapistDTO persistPhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception {
+    public PhysiotherapistDTO savePhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception {
         try {
-            // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word. Als we willen dat firebase het doet dan moet het met add() ipv set()
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("fysio").document().set(physiotherapist);
+            // TODO: Deze manier generate die zelf een nieuw ID dus deze functie kan niet gebruikt worden voor update()
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(physiotherapist.id).set(physiotherapist);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
@@ -107,7 +107,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("fysio").document(id).delete();
+            ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
 
             // TODO: log dit
             writeResult.get().getUpdateTime().toString();

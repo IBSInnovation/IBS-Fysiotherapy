@@ -1,4 +1,4 @@
-package org.ibs.application.dto;
+package org.ibs.application.dto.Patient;
 
 import lombok.Builder;
 import org.ibs.utils.DTO;
@@ -16,5 +16,6 @@ public class PatientDTO extends DTO {
     public double height;
     public String email;
     public String physiotherapistId;
-    public List<String> exerciseIds;
+
+//    public List<String> exerciseIds;
 }

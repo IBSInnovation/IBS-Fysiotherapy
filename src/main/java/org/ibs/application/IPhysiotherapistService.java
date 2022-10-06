@@ -8,6 +8,6 @@ import java.util.List;
 public interface IPhysiotherapistService {
     Physiotherapist getById(String id) throws Exception;
     List<Physiotherapist> getAll() throws Exception;
-    PhysiotherapistDTO persistPhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception;
+    PhysiotherapistDTO savePhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception;
     boolean deletePhysiotherapist(String id) throws Exception;
 }

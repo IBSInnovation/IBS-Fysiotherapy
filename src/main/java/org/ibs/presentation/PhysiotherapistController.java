@@ -3,7 +3,6 @@ package org.ibs.presentation;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.Physiotherapist.PhysiotherapistDTO;
-import org.ibs.application.dto.builder.PhysiotherapistDTOMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +12,27 @@ import java.util.List;
 @AllArgsConstructor
 public class PhysiotherapistController {
     private final IPhysiotherapistService physiotherapistService;
-    private final PhysiotherapistDTOMapper physiotherapistDTOMapper;
+//    private final PhysiotherapistDTOMapper physiotherapistDTOMapper;
 
 //    TODO voeg meer error handling toe na de service laag
-    @GetMapping("/{id}")
-    public PhysiotherapistDTO getPhysiotherapistById(@PathVariable String id) throws Exception {
-        return physiotherapistDTOMapper.toDTO(physiotherapistService.getById(id));
-    }
-
-    @GetMapping
-    public List<PhysiotherapistDTO> getAllPatient() throws Exception {
-        return physiotherapistDTOMapper.toMultipleDTO(physiotherapistService.getAll());
-    }
+//    @GetMapping("/{id}")
+//    public PhysiotherapistDTO getPhysiotherapistById(@PathVariable String id) throws Exception {
+//        return physiotherapistDTOMapper.toDTO(physiotherapistService.getById(id));
+//    }
+//
+//    @GetMapping
+//    public List<PhysiotherapistDTO> getAllPatient() throws Exception {
+//        return physiotherapistDTOMapper.toMultipleDTO(physiotherapistService.getAll());
+//    }
 
     @PostMapping
     public PhysiotherapistDTO createPhysiotherapist(@RequestBody PhysiotherapistDTO physiotherapistDTO) throws Exception {
-        return physiotherapistService.persistPhysiotherapist(physiotherapistDTO);
+        return physiotherapistService.savePhysiotherapist(physiotherapistDTO);
     }
 
     @PatchMapping
     public PhysiotherapistDTO updatePatient(@RequestBody PhysiotherapistDTO physiotherapistDTO) throws Exception {
-        return physiotherapistService.persistPhysiotherapist(physiotherapistDTO);
+        return physiotherapistService.savePhysiotherapist(physiotherapistDTO);
     }
 
     @DeleteMapping("/{id}")
