@@ -2,12 +2,10 @@ package org.ibs.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
 @ToString
@@ -15,17 +13,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Exercise {
-    @Id
-    @GeneratedValue
-    private long id;
+    private String id;
     private String name;
-
-    @ManyToOne
     private Patient patient;
     @Builder.Default
-    @OneToMany(mappedBy = "exercise")
     private List<Measurement> measurements = new ArrayList<>();
-    @ManyToOne
     private Category category;
 
     public void addMeasurement(Measurement measurement) {

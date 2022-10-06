@@ -7,9 +7,9 @@ import java.util.List;
 
 @Builder
 public class ExerciseDTO extends DTO {
-    public Long id;
+    public String id;
     public String name;
-    public Long patientId;
-    public List<Long> measurementIds;
-    public Long categoryId;
+    public String patientId;
+    public List<String> measurementIds;
+    public String categoryId;
 }

@@ -36,7 +36,7 @@ public class PatientDTOMapper implements DTOMapper<PatientDTO, Patient> {
     @Override
     public Patient fromDTO(PatientDTO o) throws Exception {
         List<Exercise> list = new ArrayList<>();
-        for (Long exerciseId : o.exerciseIds) {
+        for (String exerciseId : o.exerciseIds) {
             Exercise byId = exerciseService.getById(exerciseId);
             list.add(byId);
         }

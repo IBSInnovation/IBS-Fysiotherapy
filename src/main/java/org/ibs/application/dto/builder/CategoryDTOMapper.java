@@ -28,7 +28,7 @@ public class CategoryDTOMapper implements DTOMapper<CategoryDTO, Category> {
     @Override
     public Category fromDTO(CategoryDTO o) throws Exception {
         List<Exercise> list = new ArrayList<>();
-        for (Long exerciseId : o.exerciseIds) {
+        for (String exerciseId : o.exerciseIds) {
             Exercise byId = exerciseService.getById(exerciseId);
             list.add(byId);
         }

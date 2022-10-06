@@ -2,12 +2,10 @@ package org.ibs.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
 @ToString
@@ -15,13 +13,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
     public class Category {
-    @Id
-    @GeneratedValue
-    private long id;
+    private String id;
     private String name;
-
     @Builder.Default
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Exercise> exercises = new ArrayList<>();
 
     public void addExercise(Exercise exercise) {

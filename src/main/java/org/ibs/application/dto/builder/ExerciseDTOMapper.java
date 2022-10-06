@@ -32,7 +32,7 @@ public class ExerciseDTOMapper implements DTOMapper<ExerciseDTO, Exercise> {
     @Override
     public Exercise fromDTO(ExerciseDTO o) throws Exception {
         List<Measurement> list = new ArrayList<>();
-        for (Long measurementId : o.measurementIds) {
+        for (String measurementId : o.measurementIds) {
             Measurement byId = measurementService.getById(measurementId);
             list.add(byId);
         }

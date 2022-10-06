@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 public class PhysiotherapistDTO extends DTO {
-    public Long id;
+    public String id;
     public String email;
-    public List<Long> patients;
+    public List<String> patients;
 }

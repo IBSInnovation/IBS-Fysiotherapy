@@ -7,9 +7,9 @@ import java.util.Date;
 
 @Builder
 public class MeasurementDTO extends DTO {
-    public Long id;
+    public String id;
     public Date dateOfMeasurement;
     public int data;
-    public Long exerciseId;
+    public String exerciseId;
 
 }

@@ -29,7 +29,7 @@ public class PhysiotherapistDTOMapper implements DTOMapper<PhysiotherapistDTO, P
     @Override
     public Physiotherapist fromDTO(PhysiotherapistDTO o) throws Exception {
         List<Patient> list = new ArrayList<>();
-        for (Long patient : o.patients) {
+        for (String patient : o.patients) {
             Patient byId = patientService.getById(patient);
             list.add(byId);
         }
