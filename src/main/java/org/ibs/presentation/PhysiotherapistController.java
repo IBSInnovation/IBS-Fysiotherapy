@@ -2,7 +2,7 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.PhysiotherapistDTO;
+import org.ibs.application.dto.Physiotherapist.PhysiotherapistDTO;
 import org.ibs.application.dto.builder.PhysiotherapistDTOMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class PhysiotherapistController {
 
 //    TODO voeg meer error handling toe na de service laag
     @GetMapping("/{id}")
-    public PhysiotherapistDTO getPatientById(@PathVariable long id) throws Exception {
+    public PhysiotherapistDTO getPhysiotherapistById(@PathVariable String id) throws Exception {
         return physiotherapistDTOMapper.toDTO(physiotherapistService.getById(id));
     }
 
@@ -27,17 +27,17 @@ public class PhysiotherapistController {
     }
 
     @PostMapping
-    public PhysiotherapistDTO createPatient(@RequestBody PhysiotherapistDTO physiotherapistDTO) throws Exception {
-        return physiotherapistDTOMapper.toDTO(physiotherapistService.persistPhysiotherapist(physiotherapistDTOMapper.fromDTO(physiotherapistDTO)));
+    public PhysiotherapistDTO createPhysiotherapist(@RequestBody PhysiotherapistDTO physiotherapistDTO) throws Exception {
+        return physiotherapistService.persistPhysiotherapist(physiotherapistDTO);
     }
 
     @PatchMapping
     public PhysiotherapistDTO updatePatient(@RequestBody PhysiotherapistDTO physiotherapistDTO) throws Exception {
-        return physiotherapistDTOMapper.toDTO(physiotherapistService.persistPhysiotherapist(physiotherapistDTOMapper.fromDTO(physiotherapistDTO)));
+        return physiotherapistService.persistPhysiotherapist(physiotherapistDTO);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deletePatient(@PathVariable long id) throws Exception {
+    public boolean deletePatient(@PathVariable String id) throws Exception {
         return physiotherapistService.deletePhysiotherapist(id);
     }
 }
