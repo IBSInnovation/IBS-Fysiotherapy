@@ -16,7 +16,7 @@ public class PatientController {
     private final PatientDTOMapper patientDTOMapper;
 
     @GetMapping("/{id}")
-    public PatientDTO getPatientById(@PathVariable long id) throws Exception {
+    public PatientDTO getPatientById(@PathVariable String id) throws Exception {
         return patientDTOMapper.toDTO(patientService.getById(id));
     }
 
@@ -36,7 +36,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deletePatient(@PathVariable long id) throws Exception {
+    public boolean deletePatient(@PathVariable String id) throws Exception {
         return patientService.deletePatient(id);
     }
 }
