@@ -5,6 +5,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
+import org.ibs.application.dto.Physiotherapist.PhysiotherapistDTO;
 import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +84,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception {
+    public PhysiotherapistDTO persistPhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception {
         try {
             // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word. Als we willen dat firebase het doet dan moet het met add() ipv set()
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("fysio").document().set(physiotherapist);
