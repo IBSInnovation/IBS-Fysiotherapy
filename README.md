@@ -29,3 +29,4 @@ This can cause unforseen bugs and errors, which is why the @Data tag is nog used
 
 To have a working connecion with firebase you need to add the serviceAccount credentials in the recources folder. This
 serviceAccount.json is located in the Firebase console under project settings > service accounts > generate new keys.
+add a serviceAccountKey.json file to the resource folder and paste in the json that you've got from your Firebase console.
