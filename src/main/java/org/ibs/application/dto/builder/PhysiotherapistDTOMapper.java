@@ -1,7 +1,7 @@
 package org.ibs.application.dto.builder;
 
 import lombok.AllArgsConstructor;
-import org.ibs.application.dto.PhysiotherapistDTO;
+import org.ibs.application.dto.Physiotherapist.PhysiotherapistDTO;
 import org.ibs.application.service.PatientService;
 import org.ibs.domain.Patient;
 import org.ibs.domain.Physiotherapist;
@@ -22,21 +22,14 @@ public class PhysiotherapistDTOMapper implements DTOMapper<PhysiotherapistDTO, P
         return PhysiotherapistDTO.builder()
                 .id(o.getId())
                 .email(o.getEmail())
-                .patients(o.getPatients().stream().map(Patient::getId).collect(Collectors.toList()))
                 .build();
     }
 
     @Override
     public Physiotherapist fromDTO(PhysiotherapistDTO o) throws Exception {
-        List<Patient> list = new ArrayList<>();
-        for (String patient : o.patients) {
-            Patient byId = patientService.getById(patient);
-            list.add(byId);
-        }
         return Physiotherapist.builder()
                 .id(o.id)
                 .email(o.email)
-                .patients(list)
                 .build();
     }
 }
