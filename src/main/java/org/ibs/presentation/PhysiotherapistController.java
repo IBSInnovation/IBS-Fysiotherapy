@@ -15,6 +15,7 @@ public class PhysiotherapistController {
     private final IPhysiotherapistService physiotherapistService;
     private final PhysiotherapistDTOMapper physiotherapistDTOMapper;
 
+//    TODO voeg meer error handling toe na de service laag
     @GetMapping("/{id}")
     public PhysiotherapistDTO getPatientById(@PathVariable long id) throws Exception {
         return physiotherapistDTOMapper.toDTO(physiotherapistService.getById(id));

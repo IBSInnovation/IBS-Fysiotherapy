@@ -5,7 +5,6 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.data.PhysiotherapistRepository;
 import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PhysiotherapistService implements IPhysiotherapistService {
 
-    private final PhysiotherapistRepository physiotherapistRepository;
+    private Firestore db;
+
+    public PhysiotherapistService() {
+        db = FirestoreClient.getFirestore();
+    }
 
     /**
      * Searches the database for a Physiotherapist with the given id and returns it if it exists.
@@ -29,7 +32,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public Physiotherapist getById(String id) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
             DocumentReference documentReference = db.collection("fysio").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
@@ -39,10 +41,14 @@ public class PhysiotherapistService implements IPhysiotherapistService {
                 physiotherapist = document.toObject(Physiotherapist.class);
                 return physiotherapist;
             }
+
+//            TODO add costum errors
+            else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be found due to an error", e);
         }
-        return null;
     }
 
     /**
@@ -53,8 +59,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public List<Physiotherapist> getAll() throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-
             ApiFuture<QuerySnapshot> future = db.collection("fysio").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
@@ -67,6 +71,9 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         } catch (Exception e) {
             throw new Exception("Physiotherapists could not be found due to an error", e);
         }
+//        catch (NullPointerException e) {
+//            throw new Exception("eigen message", e);
+//        }
     }
 
     /**
@@ -78,13 +85,10 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-
             // TODO: Checken hoe er hier met ID's om word gegaan, of die door firebase gegenerate word. Als we willen dat firebase het doet dan moet het met add() ipv set()
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("fysio").document().set(physiotherapist);
 
-            // Comment naar Niels, nu returnen we het object dat je als parameter al meekrijgt en dat is beetje zinloos
-            // in de voorbeeldvideo die ik had gekeken returnde hij de tijd van opslaan. ff kiezen/ bespreken wat we willen doen
+            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
             return physiotherapist;
 
@@ -102,9 +106,10 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-
             ApiFuture<WriteResult> writeResult = db.collection("fysio").document(id).delete();
+
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);
