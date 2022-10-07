@@ -78,8 +78,9 @@ public class PatientService implements IPatientService {
     public PatientDTO savePatient(PatientDTO patient) throws Exception {
         try {
             Firestore db = FirestoreClient.getFirestore();
+            DocumentReference documentReference = db.collection("fysio").document(patient.physiotherapistId);
 
-
+            patient.setPhysiotherapistReference(documentReference);
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.id).set(patient);
 
             // TODO: log dit
