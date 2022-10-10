@@ -2,18 +2,14 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
-import org.ibs.application.dto.CategoryDTO;
-import org.ibs.application.dto.mapper.CategoryDTOMapper;
+import org.ibs.application.dto.SaveCategory;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/controller")
 @AllArgsConstructor
 public class CategoryController {
     private final ICategoryService categoryService;
-    private final CategoryDTOMapper categoryDTOMapper;
 
 //    fix de throw errors samen met morris
 
@@ -28,17 +24,17 @@ public class CategoryController {
 //    }
 
     @PostMapping
-    public CategoryDTO createCategory(@RequestBody CategoryDTO categoryDTO) throws Exception {
-        return categoryDTOMapper.toDTO(categoryService.persistCategory(categoryDTOMapper.fromDTO(categoryDTO)));
+    public SaveCategory createCategory(@RequestBody SaveCategory saveCategory) throws Exception {
+        return categoryService.saveCategory(saveCategory);
     }
 
     @PatchMapping
-    public CategoryDTO updateCategory(@RequestBody CategoryDTO categoryDTO) throws Exception {
-        return categoryDTOMapper.toDTO(categoryService.persistCategory(categoryDTOMapper.fromDTO(categoryDTO)));
+    public SaveCategory updateCategory(@RequestBody SaveCategory saveCategory) throws Exception {
+        return categoryService.saveCategory(saveCategory);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteCategory(@PathVariable long id) throws Exception {
+    public boolean deleteCategory(@PathVariable String id) throws Exception {
         return categoryService.deleteCategory(id);
     }
 }
