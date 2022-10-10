@@ -105,7 +105,7 @@ public class ExerciseService implements IExerciseService {
     @Override
     public boolean deleteCategory(String id) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
+            ApiFuture<WriteResult> writeResult = db.collection("category").document(id).delete();
             // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;
