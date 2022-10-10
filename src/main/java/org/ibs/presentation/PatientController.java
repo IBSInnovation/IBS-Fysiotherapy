@@ -2,10 +2,8 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.Patient.PatientDTO;
+import org.ibs.application.dto.Patient.SavePatient;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/patient")
@@ -24,13 +22,13 @@ public class PatientController {
 //    }
 
     @PostMapping
-    public PatientDTO createPatient(@RequestBody PatientDTO patientDTO) throws Exception {
-        return patientService.savePatient(patientDTO);
+    public SavePatient createPatient(@RequestBody SavePatient savePatient) throws Exception {
+        return patientService.savePatient(savePatient);
     }
 
     @PatchMapping
-    public PatientDTO updatePatient(@RequestBody PatientDTO patientDTO) throws Exception {
-        return patientService.savePatient(patientDTO);
+    public SavePatient updatePatient(@RequestBody SavePatient savePatient) throws Exception {
+        return patientService.savePatient(savePatient);
     }
 
     @DeleteMapping("/{id}")

@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.Patient.PatientDTO;
+import org.ibs.application.dto.Patient.SavePatient;
 import org.ibs.data.PersistPatient;
 import org.ibs.domain.Patient;
 import org.springframework.stereotype.Service;
@@ -75,14 +75,14 @@ public class PatientService implements IPatientService {
     /**
      * Saves and updates the given Patient entity in the database
      *
-     * @param patientDTO
+     * @param savePatient
      * @return THe saved Patient entity
      * @throws Exception
      */
     @Override
-    public PatientDTO savePatient(PatientDTO patientDTO) throws Exception {
+    public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
-            PersistPatient patient = PersistPatient.toPersistPatient(patientDTO);
+            PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
 
             DocumentReference documentReference = db.collection("fysio").document(patient.getPhysiotherapistId());
             patient.setPhysiotherapistReference(documentReference);
@@ -91,7 +91,9 @@ public class PatientService implements IPatientService {
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
-            return patientDTO;
+
+//            TODO: misschien het nieuwe id in de dto zetten
+            return savePatient;
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
         }

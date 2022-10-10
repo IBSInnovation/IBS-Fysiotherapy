@@ -10,7 +10,7 @@ import java.util.Date;
 @Builder
 @Getter
 @Setter
-public class PatientDTO extends DTO {
+public class SavePatient extends DTO {
     public String id;
     public String name;
     public String surName;

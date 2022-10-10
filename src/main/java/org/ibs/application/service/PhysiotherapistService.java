@@ -3,9 +3,9 @@ package org.ibs.application.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.Physiotherapist.PhysiotherapistDTO;
+import org.ibs.application.dto.Physiotherapist.SavePhysiotherapist;
+import org.ibs.data.PersistPhysiotherapist;
 import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,9 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class PhysiotherapistService implements IPhysiotherapistService {
 
-    private Firestore db;
+    private final Firestore db;
 
     public PhysiotherapistService() {
         db = FirestoreClient.getFirestore();
@@ -37,10 +36,8 @@ public class PhysiotherapistService implements IPhysiotherapistService {
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
-            Physiotherapist physiotherapist;
             if (document.exists()) {
-                physiotherapist = document.toObject(Physiotherapist.class);
-                return physiotherapist;
+                return document.toObject(Physiotherapist.class);
             }
 
 //            TODO add costum errors
@@ -72,26 +69,26 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         } catch (Exception e) {
             throw new Exception("Physiotherapists could not be found due to an error", e);
         }
-//        catch (NullPointerException e) {
-//            throw new Exception("eigen message", e);
-//        }
     }
 
     /**
      * Saves and updates the given Physiotherapist entity in the database.
-     * @param physiotherapist
+     * @param savePhysiotherapist
      * @return The saved Physiotherapist entity
      * @throws Exception
      */
     @Override
-    public PhysiotherapistDTO savePhysiotherapist(PhysiotherapistDTO physiotherapist) throws Exception {
+    public SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
         try {
+            PersistPhysiotherapist persistPhysio = PersistPhysiotherapist.toPersistPhysio(savePhysiotherapist);
             // TODO: Deze manier generate die zelf een nieuw ID dus deze functie kan niet gebruikt worden voor update()
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(physiotherapist.id).set(physiotherapist);
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(persistPhysio.getId()).set(persistPhysio);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
-            return physiotherapist;
+
+            //TODO: misschien het nieuwe id in de dto zetten
+            return savePhysiotherapist;
 
         } catch (Exception e) {
             throw new Exception("Physiotherapist was not persisted due to an error", e);
@@ -108,7 +105,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
-
             // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;

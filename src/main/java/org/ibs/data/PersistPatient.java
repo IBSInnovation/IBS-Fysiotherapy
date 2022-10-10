@@ -4,7 +4,7 @@ import com.google.cloud.firestore.DocumentReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.ibs.application.dto.Patient.PatientDTO;
+import org.ibs.application.dto.Patient.SavePatient;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ public class PersistPatient {
     private String physiotherapistId;
     private DocumentReference physiotherapistReference;
 
-    public static PersistPatient toPersistPatient(PatientDTO dto) {
+    public static PersistPatient toPersistPatient(SavePatient dto) {
         return PersistPatient.builder()
                 .id(dto.getId())
                 .name(dto.getName())
