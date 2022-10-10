@@ -82,7 +82,8 @@ public class ExerciseService implements IExerciseService {
     public SaveExercise saveExercise(SaveExercise saveExercise) throws Exception {
         try {
             PersistExercise persistExercise = PersistExercise.toPersistExercise(saveExercise);
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("exercise").document(persistExercise.getId()).set(persistExercise);
+
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("category").document(saveExercise.categoryId).set(persistExercise);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
