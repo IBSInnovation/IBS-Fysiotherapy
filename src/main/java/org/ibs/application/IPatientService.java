@@ -1,5 +1,6 @@
 package org.ibs.application;
 
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 
@@ -10,4 +11,8 @@ public interface IPatientService {
     List<GetPatient> getAll() throws Exception;
     SavePatient savePatient(SavePatient patient) throws Exception;
     boolean deletePatient(String id) throws Exception;
+
+    SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
+
+    boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 }

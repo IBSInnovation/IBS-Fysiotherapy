@@ -5,23 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 @Builder
 @Getter
 @Setter
 public class PersistMeasurement {
-    private String id;
-    private Date dateOfMeasurement;
-    private int data;
-    private String exerciseId;
+    private ArrayList<Object> data;
 
     public static PersistMeasurement toPersistMeasurement(SaveMeasurement dto) {
         return PersistMeasurement.builder()
-                .id(dto.id)
-                .dateOfMeasurement(dto.dateOfMeasurement)
                 .data(dto.data)
-                .exerciseId(dto.exerciseId)
                 .build();
     }
 }
