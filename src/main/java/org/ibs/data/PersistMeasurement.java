@@ -16,7 +16,6 @@ public class PersistMeasurement {
     private Date dateOfMeasurement;
     private int data;
     private String exerciseId;
-    private DocumentReference exerciseReference;
 
     public static PersistMeasurement toPersistMeasurement(SaveMeasurement dto) {
         return PersistMeasurement.builder()
