@@ -1,10 +1,9 @@
 package org.ibs.data;
 
-import com.google.cloud.firestore.DocumentReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.ibs.application.dto.SaveMeasurement;
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 
 import java.util.Date;
 

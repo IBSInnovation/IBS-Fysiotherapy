@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.ibs.application.dto.SaveExercise;
+import org.ibs.application.dto.exercisedto.SaveExercise;
 
 import java.util.ArrayList;
 import java.util.List;

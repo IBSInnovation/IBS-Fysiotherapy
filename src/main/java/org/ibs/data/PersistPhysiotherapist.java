@@ -3,7 +3,7 @@ package org.ibs.data;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.ibs.application.dto.SavePhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 
 @Builder
 @Getter
