@@ -2,8 +2,11 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.application.dto.SaveExercise;
+import org.ibs.application.dto.exercisedto.GetExercise;
+import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/exercise")
@@ -11,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class ExerciseController {
     private final IExerciseService exerciseService;
 
-//    @GetMapping("/{id}")
-//    public ExerciseDTO getExerciseById(@PathVariable long id) throws Exception {
-//        return exerciseDTOMapper.toDTO(exerciseService.getById(id));
-//    }
-//
-//    @GetMapping
-//    public List<ExerciseDTO> getAllExercises() throws Exception {
-//        return exerciseDTOMapper.toMultipleDTO(exerciseService.getAll());
-//    }
+    @GetMapping("/{id}")
+    public GetExercise getExerciseById(@PathVariable String id) throws Exception {
+        return exerciseService.getById(id);
+    }
+
+    @GetMapping
+    public List<GetExercise> getAllExercises() throws Exception {
+        return exerciseService.getAll();
+    }
 
     @PostMapping
     public SaveExercise createExercise(@RequestBody SaveExercise saveExercise) throws Exception {

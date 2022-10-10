@@ -2,26 +2,28 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.SavePhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/physiotherapist")
 @AllArgsConstructor
 public class PhysiotherapistController {
     private final IPhysiotherapistService physiotherapistService;
-//    private final PhysiotherapistDTOMapper physiotherapistDTOMapper;
 
 //    TODO voeg meer error handling toe na de service laag
-//    @GetMapping("/{id}")
-//    public PhysiotherapistDTO getPhysiotherapistById(@PathVariable String id) throws Exception {
-//        return physiotherapistDTOMapper.toDTO(physiotherapistService.getById(id));
-//    }
-//
-//    @GetMapping
-//    public List<PhysiotherapistDTO> getAllPatient() throws Exception {
-//        return physiotherapistDTOMapper.toMultipleDTO(physiotherapistService.getAll());
-//    }
+    @GetMapping("/{id}")
+    public GetPhysiotherapist getPhysiotherapistById(@PathVariable String id) throws Exception {
+        return physiotherapistService.getById(id);
+    }
+
+    @GetMapping
+    public List<GetPhysiotherapist> getAllPatient() throws Exception {
+        return physiotherapistService.getAll();
+    }
 
     @PostMapping
     public SavePhysiotherapist createPhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {

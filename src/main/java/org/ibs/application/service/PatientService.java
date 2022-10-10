@@ -4,9 +4,9 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.SavePatient;
+import org.ibs.application.dto.patientdto.GetPatient;
+import org.ibs.application.dto.patientdto.SavePatient;
 import org.ibs.data.PersistPatient;
-import org.ibs.domain.Patient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,14 +31,14 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public Patient getById(String id) throws Exception {
+    public GetPatient getById(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("patients").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(Patient.class);
+                return document.toObject(GetPatient.class);
             }
 //            TODO add costum errors
             else {
@@ -56,14 +56,14 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public List<Patient> getAll() throws Exception {
+    public List<GetPatient> getAll() throws Exception {
         try {
             ApiFuture<QuerySnapshot> future = db.collection("patients").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-            List<Patient> patientList = new ArrayList<>();
+            List<GetPatient> patientList = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
-                patientList.add(document.toObject(Patient.class));
+                patientList.add(document.toObject(GetPatient.class));
             }
 
             return patientList;

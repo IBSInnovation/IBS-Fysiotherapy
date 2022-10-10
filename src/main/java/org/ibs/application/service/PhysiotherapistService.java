@@ -4,9 +4,9 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.SavePhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.ibs.data.PersistPhysiotherapist;
-import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 @Transactional
 public class PhysiotherapistService implements IPhysiotherapistService {
+
+//    TODO: getter dtos fixen
 
     private final Firestore db;
 
@@ -30,14 +32,14 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public Physiotherapist getById(String id) throws Exception {
+    public GetPhysiotherapist getById(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("fysio").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(Physiotherapist.class);
+                return document.toObject(GetPhysiotherapist.class);
             }
 
 //            TODO add costum errors
@@ -55,14 +57,14 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public List<Physiotherapist> getAll() throws Exception {
+    public List<GetPhysiotherapist> getAll() throws Exception {
         try {
             ApiFuture<QuerySnapshot> future = db.collection("fysio").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-            List<Physiotherapist> physiotherapistsList = new ArrayList<>();
+            List<GetPhysiotherapist> physiotherapistsList = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
-               physiotherapistsList.add(document.toObject(Physiotherapist.class));
+               physiotherapistsList.add(document.toObject(GetPhysiotherapist.class));
             }
 
             return physiotherapistsList;

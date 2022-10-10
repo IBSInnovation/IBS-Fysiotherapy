@@ -2,7 +2,7 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IMeasurementService;
-import org.ibs.application.dto.SaveMeasurement;
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

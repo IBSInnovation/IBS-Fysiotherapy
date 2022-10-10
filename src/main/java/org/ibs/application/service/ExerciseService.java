@@ -5,9 +5,9 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.application.dto.SaveExercise;
+import org.ibs.application.dto.exercisedto.GetExercise;
+import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.ibs.data.PersistExercise;
-import org.ibs.domain.Exercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,14 +31,14 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public Exercise getById(String id) throws Exception {
+    public GetExercise getById(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("exercise").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(Exercise.class);
+                return document.toObject(GetExercise.class);
             }
 
 //            TODO add costum errors
@@ -56,14 +56,14 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public List<Exercise> getAll() throws Exception {
+    public List<GetExercise> getAll() throws Exception {
         try {
             ApiFuture<QuerySnapshot> future = db.collection("exercise").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-            List<Exercise> exerciseList = new ArrayList<>();
+            List<GetExercise> exerciseList = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
-                exerciseList.add(document.toObject(Exercise.class));
+                exerciseList.add(document.toObject(GetExercise.class));
             }
 
             return exerciseList;

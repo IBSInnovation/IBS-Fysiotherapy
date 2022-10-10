@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IMeasurementService;
-import org.ibs.application.dto.SaveMeasurement;
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.data.PersistMeasurement;
 import org.ibs.domain.Measurement;
 import org.springframework.stereotype.Service;

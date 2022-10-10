@@ -2,8 +2,11 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
-import org.ibs.application.dto.SaveCategory;
+import org.ibs.application.dto.categorydto.GetCategory;
+import org.ibs.application.dto.categorydto.SaveCategory;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/controller")
@@ -11,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     private final ICategoryService categoryService;
 
-//    fix de throw errors samen met morris
+//   TODO: fix de throw errors samen met morris
 
-//    @GetMapping("/{id}")
-//    public CategoryDTO getCategoryById(@PathVariable long id) throws Exception {
-//        return categoryDTOMapper.toDTO(categoryService.getById(id));
-//    }
-//
-//    @GetMapping
-//    public List<CategoryDTO> getAllCategories() throws Exception {
-//        return categoryDTOMapper.toMultipleDTO(categoryService.getAll());
-//    }
+    @GetMapping("/{id}")
+    public GetCategory getCategoryById(@PathVariable String id) throws Exception {
+        return categoryService.getById(id);
+    }
+
+    @GetMapping
+    public List<GetCategory> getAllCategories() throws Exception {
+        return categoryService.getAll();
+    }
 
     @PostMapping
     public SaveCategory createCategory(@RequestBody SaveCategory saveCategory) throws Exception {

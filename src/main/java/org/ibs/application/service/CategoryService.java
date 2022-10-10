@@ -4,9 +4,9 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.ICategoryService;
-import org.ibs.application.dto.SaveCategory;
+import org.ibs.application.dto.categorydto.GetCategory;
+import org.ibs.application.dto.categorydto.SaveCategory;
 import org.ibs.data.PersistCategory;
-import org.ibs.domain.Category;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,14 +29,14 @@ public class CategoryService implements ICategoryService {
      * @throws Exception
      */
     @Override
-    public Category getById(String id) throws Exception {
+    public GetCategory getById(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("category").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(Category.class);
+                return document.toObject(GetCategory.class);
             }
 
 //            TODO add costum errors
@@ -56,14 +56,14 @@ public class CategoryService implements ICategoryService {
      * @throws Exception
      */
     @Override
-    public List<Category> getAll() throws Exception {
+    public List<GetCategory> getAll() throws Exception {
         try {
             ApiFuture<QuerySnapshot> future = db.collection("category").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-            List<Category> categoryList = new ArrayList<>();
+            List<GetCategory> categoryList = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
-                categoryList.add(document.toObject(Category.class));
+                categoryList.add(document.toObject(GetCategory.class));
             }
 
             return categoryList;

@@ -1,6 +1,6 @@
 package org.ibs.application;
 
-import org.ibs.application.dto.SaveMeasurement;
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.domain.Measurement;
 
 import java.util.List;
