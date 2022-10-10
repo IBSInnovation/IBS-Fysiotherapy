@@ -4,7 +4,7 @@ import com.google.cloud.firestore.DocumentReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.ibs.application.dto.Patient.SavePatient;
+import org.ibs.application.dto.SavePatient;
 
 import java.util.Date;
 

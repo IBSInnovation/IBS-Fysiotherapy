@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.Patient.SavePatient;
+import org.ibs.application.dto.SavePatient;
 import org.ibs.data.PersistPatient;
 import org.ibs.domain.Patient;
 import org.springframework.stereotype.Service;

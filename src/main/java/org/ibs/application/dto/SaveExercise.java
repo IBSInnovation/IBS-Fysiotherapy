@@ -6,7 +6,7 @@ import org.ibs.utils.DTO;
 import java.util.List;
 
 @Builder
-public class ExerciseDTO extends DTO {
+public class SaveExercise extends DTO {
     public String id;
     public String name;
     public String patientId;

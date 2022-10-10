@@ -2,7 +2,7 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.Patient.SavePatient;
+import org.ibs.application.dto.SavePatient;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -2,7 +2,7 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.Physiotherapist.SavePhysiotherapist;
+import org.ibs.application.dto.SavePhysiotherapist;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

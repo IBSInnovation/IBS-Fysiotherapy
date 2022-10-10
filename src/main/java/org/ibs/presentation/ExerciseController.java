@@ -2,18 +2,14 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.application.dto.ExerciseDTO;
-import org.ibs.application.dto.mapper.ExerciseDTOMapper;
+import org.ibs.application.dto.SaveExercise;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/exercise")
 @AllArgsConstructor
 public class ExerciseController {
     private final IExerciseService exerciseService;
-    private final ExerciseDTOMapper exerciseDTOMapper;
 
 //    @GetMapping("/{id}")
 //    public ExerciseDTO getExerciseById(@PathVariable long id) throws Exception {
@@ -26,17 +22,17 @@ public class ExerciseController {
 //    }
 
     @PostMapping
-    public ExerciseDTO createExercise(@RequestBody ExerciseDTO exerciseDTO) throws Exception {
-        return exerciseDTOMapper.toDTO(exerciseService.persistExercise(exerciseDTOMapper.fromDTO(exerciseDTO)));
+    public SaveExercise createExercise(@RequestBody SaveExercise saveExercise) throws Exception {
+        return exerciseService.saveExercise(saveExercise);
     }
 
     @PatchMapping
-    public ExerciseDTO updateExercise(@RequestBody ExerciseDTO exerciseDTO) throws Exception {
-        return exerciseDTOMapper.toDTO(exerciseService.persistExercise(exerciseDTOMapper.fromDTO(exerciseDTO)));
+    public SaveExercise updateExercise(@RequestBody SaveExercise saveExercise) throws Exception {
+        return exerciseService.saveExercise(saveExercise);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteExercise(@PathVariable long id) throws Exception {
+    public boolean deleteExercise(@PathVariable String id) throws Exception {
         return exerciseService.deleteCategory(id);
     }
 }

@@ -1,19 +1,28 @@
 package org.ibs.application.service;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
+import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.data.ExerciseRepository;
+import org.ibs.application.dto.SaveExercise;
+import org.ibs.data.PersistExercise;
 import org.ibs.domain.Exercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class ExerciseService implements IExerciseService {
-    private final ExerciseRepository exerciseRepository;
+    private final Firestore db;
+
+    public ExerciseService() {
+        this.db = FirestoreClient.getFirestore();
+    }
 
     /**
      * Seraches the database for an Exercise entity with the given id and returns it if it exists.
@@ -22,9 +31,20 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public Exercise getById(long id) throws Exception {
+    public Exercise getById(String id) throws Exception {
         try {
-            return exerciseRepository.findById(id).orElseThrow(Exception::new);
+            DocumentReference documentReference = db.collection("exercise").document(id);
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
+
+            if (document.exists()) {
+                return document.toObject(Exercise.class);
+            }
+
+//            TODO add costum errors
+            else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             throw new Exception("Exercise could not be found due to an error", e);
         }
@@ -38,7 +58,15 @@ public class ExerciseService implements IExerciseService {
     @Override
     public List<Exercise> getAll() throws Exception {
         try {
-            return exerciseRepository.findAll();
+            ApiFuture<QuerySnapshot> future = db.collection("exercise").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            List<Exercise> exerciseList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+                exerciseList.add(document.toObject(Exercise.class));
+            }
+
+            return exerciseList;
         } catch (Exception e) {
             throw new Exception("Exercises could not be found due to an error", e);
         }
@@ -46,14 +74,22 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Saves and updates the given Exercise entity in the database.
-     * @param exercise
+     * @param saveExercise
      * @return The saved Exercise entity
      * @throws Exception
      */
     @Override
-    public Exercise persistExercise(Exercise exercise) throws Exception {
+    public SaveExercise saveExercise(SaveExercise saveExercise) throws Exception {
         try {
-            return exerciseRepository.save(exercise);
+            PersistExercise persistExercise = PersistExercise.toPersistExercise(saveExercise);
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("exercise").document(persistExercise.getId()).set(persistExercise);
+
+            // TODO: log dit
+            collectionsApiFuture.get().getUpdateTime().toString();
+
+            //TODO: misschien het nieuwe id in de dto zetten
+            return saveExercise;
+
         } catch (Exception e) {
             throw new Exception("Exercise was not persisted due to an error", e);
         }
@@ -66,9 +102,11 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public boolean deleteCategory(long id) throws Exception {
+    public boolean deleteCategory(String id) throws Exception {
         try {
-            exerciseRepository.delete(exerciseRepository.findById(id).orElseThrow(Exception::new));
+            ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Exercise could not be deleted due to an error", e);

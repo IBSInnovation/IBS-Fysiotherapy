@@ -1,6 +1,6 @@
 package org.ibs.application;
 
-import org.ibs.application.dto.Physiotherapist.SavePhysiotherapist;
+import org.ibs.application.dto.SavePhysiotherapist;
 import org.ibs.domain.Physiotherapist;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.ibs.application.dto.Physiotherapist;
+package org.ibs.application.dto;
 
 import lombok.Builder;
 import org.ibs.utils.DTO;

@@ -1,6 +1,6 @@
 package org.ibs.application;
 
-import org.ibs.application.dto.Patient.SavePatient;
+import org.ibs.application.dto.SavePatient;
 import org.ibs.domain.Patient;
 
 import java.util.List;

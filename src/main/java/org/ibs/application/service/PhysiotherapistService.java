@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.Physiotherapist.SavePhysiotherapist;
+import org.ibs.application.dto.SavePhysiotherapist;
 import org.ibs.data.PersistPhysiotherapist;
 import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
