@@ -3,7 +3,7 @@ package org.ibs.presentation;
 import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.CategoryDTO;
-import org.ibs.application.dto.builder.CategoryDTOMapper;
+import org.ibs.application.dto.mapper.CategoryDTOMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

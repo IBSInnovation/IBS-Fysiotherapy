@@ -3,7 +3,7 @@ package org.ibs.presentation;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
 import org.ibs.application.dto.ExerciseDTO;
-import org.ibs.application.dto.builder.ExerciseDTOMapper;
+import org.ibs.application.dto.mapper.ExerciseDTOMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

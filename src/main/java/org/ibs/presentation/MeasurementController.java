@@ -3,7 +3,7 @@ package org.ibs.presentation;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IMeasurementService;
 import org.ibs.application.dto.MeasurementDTO;
-import org.ibs.application.dto.builder.MeasurementDTOMapper;
+import org.ibs.application.dto.mapper.MeasurementDTOMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +27,12 @@ public class MeasurementController {
 
     @PostMapping
     public MeasurementDTO createMeasurement(@RequestBody MeasurementDTO measurementDTO) throws Exception {
-        return measurementDTOMapper.toDTO(measurementService.persistMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
+        return measurementDTOMapper.toDTO(measurementService.saveMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
     }
 
     @PatchMapping
     public MeasurementDTO updateMeasurement(@RequestBody MeasurementDTO measurementDTO) throws Exception {
-        return measurementDTOMapper.toDTO(measurementService.persistMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
+        return measurementDTOMapper.toDTO(measurementService.saveMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
     }
 
     @DeleteMapping("/{id}")

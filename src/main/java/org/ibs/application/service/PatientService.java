@@ -3,11 +3,10 @@ package org.ibs.application.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import lombok.AllArgsConstructor;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.Patient.PatientDTO;
+import org.ibs.data.PersistPatient;
 import org.ibs.domain.Patient;
-import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,11 +15,17 @@ import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class PatientService implements IPatientService {
+
+    private final Firestore db;
+
+    public PatientService() {
+        db = FirestoreClient.getFirestore();
+    }
 
     /**
      * Searches the database for a Patient entity with the given id and returns it if it exists.
+     *
      * @param id
      * @return Patient of given id
      * @throws Exception
@@ -28,32 +33,31 @@ public class PatientService implements IPatientService {
     @Override
     public Patient getById(String id) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
             DocumentReference documentReference = db.collection("patients").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
-            Patient patient;
             if (document.exists()) {
-                patient = document.toObject(Patient.class);
-                return patient;
+                return document.toObject(Patient.class);
+            }
+//            TODO add costum errors
+            else {
+                throw new Exception();
             }
         } catch (Exception e) {
             throw new Exception("Patient could not be found due to an error", e);
         }
-        return null;
     }
 
     /**
      * Searches the database for all Patient entities and returns them.
+     *
      * @return List of Patient entities
      * @throws Exception
      */
     @Override
     public List<Patient> getAll() throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-
             ApiFuture<QuerySnapshot> future = db.collection("patients").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
@@ -70,22 +74,24 @@ public class PatientService implements IPatientService {
 
     /**
      * Saves and updates the given Patient entity in the database
-     * @param patient
+     *
+     * @param patientDTO
      * @return THe saved Patient entity
      * @throws Exception
      */
     @Override
-    public PatientDTO savePatient(PatientDTO patient) throws Exception {
+    public PatientDTO savePatient(PatientDTO patientDTO) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-            DocumentReference documentReference = db.collection("fysio").document(patient.physiotherapistId);
+            PersistPatient patient = PersistPatient.toPersistPatient(patientDTO);
 
+            DocumentReference documentReference = db.collection("fysio").document(patient.getPhysiotherapistId());
             patient.setPhysiotherapistReference(documentReference);
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.id).set(patient);
+
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.getId()).set(patient);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
-            return patient;
+            return patientDTO;
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
         }
@@ -93,6 +99,7 @@ public class PatientService implements IPatientService {
 
     /**
      * Deletes the Patient entity with the given id.
+     *
      * @param id
      * @return true if the operation succeeded
      * @throws Exception
@@ -100,9 +107,9 @@ public class PatientService implements IPatientService {
     @Override
     public boolean deletePatient(String id) throws Exception {
         try {
-            Firestore db = FirestoreClient.getFirestore();
-
             ApiFuture<WriteResult> writeResult = db.collection("patient").document(id).delete();
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
