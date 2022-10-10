@@ -80,9 +80,6 @@ public class MeasurementService implements IMeasurementService {
         try {
             PersistMeasurement measurement = PersistMeasurement.toPersistMeasurement(saveMeasurement);
 
-            DocumentReference documentReference = db.collection("measurement").document(measurement.getExerciseId());
-            measurement.setExerciseReference(documentReference);
-
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("measurement").document(measurement.getId()).set(measurement);
 
             // TODO: log dit
