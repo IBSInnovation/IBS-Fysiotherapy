@@ -167,4 +167,38 @@ public class PatientService implements IPatientService {
         }
     }
 
+    /**
+     * Searches the database for all Measurement entities and returns them.
+     * @return List of Measurement entities
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<Object> getAllMeasurments(SaveMeasurement saveMeasurement) throws Exception {
+        try {
+
+            DocumentReference documentReference = db.collection("patient").document(saveMeasurement.patientId)
+                    .collection("category").document("doc")
+                    .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
+
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
+
+            PersistMeasurement measurement;
+            if (document.exists()) {
+                measurement = document.toObject(PersistMeasurement.class);
+                if (measurement != null) {
+                    return measurement.getData();
+                } else {
+                    throw new Exception();
+                }
+
+            } else {
+                throw new Exception();
+            }
+
+        } catch (Exception e) {
+            throw new Exception("Measurements could not be found due to an error", e);
+        }
+    }
+
 }

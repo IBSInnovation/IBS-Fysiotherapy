@@ -9,4 +9,5 @@ public interface IMeasurementService {
     Measurement getById(String id) throws Exception;
     List<Measurement> getAll() throws Exception;
     SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
+    boolean deleteMeasurement(String id) throws Exception;
 }

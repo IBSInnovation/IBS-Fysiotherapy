@@ -80,10 +80,29 @@ public class MeasurementService implements IMeasurementService {
         try {
             PersistMeasurement measurement = PersistMeasurement.toPersistMeasurement(saveMeasurement);
 
+
+
             return saveMeasurement;
         } catch (Exception e) {
             throw new Exception("Measurement was not persisted due to an error", e);
         }
     }
 
+    /**
+     * Deletes the Measurement entity with the given id.
+     * @param id
+     * @return true if the operation succeeded
+     * @throws Exception
+     */
+    @Override
+    public boolean deleteMeasurement(String id) throws Exception {
+        try {
+            ApiFuture<WriteResult> writeResult = db.collection("measurement").document(id).delete();
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
+            return true;
+        } catch (Exception e) {
+            throw new Exception("Measurement could not be deleted due to an error", e);
+        }
+    }
 }
