@@ -86,7 +86,7 @@ public class PatientService implements IPatientService {
         try {
             PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
 
-            DocumentReference documentReference = db.collection("fysio").document(patient.getPhysiotherapistId());
+            DocumentReference documentReference = db.collection("physiotherapist").document(patient.getPhysiotherapistId());
             patient.setPhysiotherapistReference(documentReference);
 
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.getId()).set(patient);

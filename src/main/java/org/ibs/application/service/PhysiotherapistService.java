@@ -34,7 +34,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public GetPhysiotherapist getById(String id) throws Exception {
         try {
-            DocumentReference documentReference = db.collection("fysio").document(id);
+            DocumentReference documentReference = db.collection("physiotherapist").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
@@ -59,7 +59,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public List<GetPhysiotherapist> getAll() throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("fysio").get();
+            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
             List<GetPhysiotherapist> physiotherapistsList = new ArrayList<>();
@@ -83,13 +83,14 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     public SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
         try {
             PersistPhysiotherapist persistPhysio = PersistPhysiotherapist.toPersistPhysio(savePhysiotherapist);
+
             // TODO: Deze manier generate die zelf een nieuw ID dus deze functie kan niet gebruikt worden voor update()
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(persistPhysio.getId()).set(persistPhysio);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
 
-            //TODO: misschien het nieuwe id in de dto zetten
+            // TODO: misschien het nieuwe id in de dto zetten
             return savePhysiotherapist;
 
         } catch (Exception e) {
