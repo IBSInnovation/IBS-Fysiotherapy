@@ -83,7 +83,9 @@ public class CategoryService implements ICategoryService {
         try {
             PersistCategory category = PersistCategory.toPersistCategory(saveCategory);
 
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("collection").document(category.getId()).set(category);
+
+            // TODO: kijken of dit de beste oplossing is, category is namelijk leeg
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("category").document(saveCategory.name).set(category);
 
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
