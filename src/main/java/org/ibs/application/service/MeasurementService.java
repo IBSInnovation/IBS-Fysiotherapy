@@ -28,6 +28,7 @@ public class MeasurementService implements IMeasurementService {
      * @return Measurement of given id
      * @throws Exception
      */
+    // TODO: Deze functie nog verplaatsen naar patientenService, en even kijken hoe dat aangepakt word
     @Override
     public Measurement getById(String id) throws Exception {
         try {
