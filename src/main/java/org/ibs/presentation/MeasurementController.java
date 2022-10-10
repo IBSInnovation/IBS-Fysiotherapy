@@ -2,41 +2,37 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IMeasurementService;
-import org.ibs.application.dto.MeasurementDTO;
-import org.ibs.application.dto.mapper.MeasurementDTOMapper;
+import org.ibs.application.dto.SaveMeasurement;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/measurement")
 @AllArgsConstructor
 public class MeasurementController {
     private final IMeasurementService measurementService;
-    private final MeasurementDTOMapper measurementDTOMapper;
 
-    @GetMapping("/{id}")
-    public MeasurementDTO getMeasurementById(@PathVariable long id) throws Exception {
-        return measurementDTOMapper.toDTO(measurementService.getById(id));
-    }
-
-    @GetMapping
-    public List<MeasurementDTO> getAllMeasurements() throws Exception {
-        return measurementDTOMapper.toMultipleDTO(measurementService.getAll());
-    }
+//    @GetMapping("/{id}")
+//    public SaveMeasurement getMeasurementById(@PathVariable long id) throws Exception {
+//        return measurementService.getById(id);
+//    }
+//
+//    @GetMapping
+//    public List<SaveMeasurement> getAllMeasurements() throws Exception {
+//        return measurementService.getAll();
+//    }
 
     @PostMapping
-    public MeasurementDTO createMeasurement(@RequestBody MeasurementDTO measurementDTO) throws Exception {
-        return measurementDTOMapper.toDTO(measurementService.saveMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
+    public SaveMeasurement saveMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
+        return measurementService.saveMeasurement(saveMeasurement);
     }
 
     @PatchMapping
-    public MeasurementDTO updateMeasurement(@RequestBody MeasurementDTO measurementDTO) throws Exception {
-        return measurementDTOMapper.toDTO(measurementService.saveMeasurement(measurementDTOMapper.fromDTO(measurementDTO)));
+    public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
+        return measurementService.saveMeasurement(saveMeasurement);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteMeasurement(@PathVariable long id) throws Exception {
+    public boolean deleteMeasurement(@PathVariable String id) throws Exception {
         return measurementService.deleteMeasurement(id);
     }
 }

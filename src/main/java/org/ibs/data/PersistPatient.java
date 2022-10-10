@@ -24,14 +24,14 @@ public class PersistPatient {
 
     public static PersistPatient toPersistPatient(SavePatient dto) {
         return PersistPatient.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .surName(dto.getSurName())
-                .weight(dto.getWeight())
-                .dateOfBirth(dto.getDateOfBirth())
-                .height(dto.getHeight())
-                .email(dto.getEmail())
-                .physiotherapistId(dto.getPhysiotherapistId())
+                .id(dto.id)
+                .name(dto.name)
+                .surName(dto.surName)
+                .weight(dto.weight)
+                .dateOfBirth(dto.dateOfBirth)
+                .height(dto.height)
+                .email(dto.email)
+                .physiotherapistId(dto.physiotherapistId)
                 .build();
     }
 }

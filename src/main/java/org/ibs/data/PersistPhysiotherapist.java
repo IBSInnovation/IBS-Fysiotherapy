@@ -14,8 +14,8 @@ public class PersistPhysiotherapist {
 
     public static PersistPhysiotherapist toPersistPhysio(SavePhysiotherapist dto) {
         return PersistPhysiotherapist.builder()
-                .id(dto.getId())
-                .email(dto.getEmail())
+                .id(dto.id)
+                .email(dto.email)
                 .build();
     }
 }

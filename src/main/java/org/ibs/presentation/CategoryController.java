@@ -17,15 +17,15 @@ public class CategoryController {
 
 //    fix de throw errors samen met morris
 
-    @GetMapping("/{id}")
-    public CategoryDTO getCategoryById(@PathVariable long id) throws Exception {
-        return categoryDTOMapper.toDTO(categoryService.getById(id));
-    }
-
-    @GetMapping
-    public List<CategoryDTO> getAllCategories() throws Exception {
-        return categoryDTOMapper.toMultipleDTO(categoryService.getAll());
-    }
+//    @GetMapping("/{id}")
+//    public CategoryDTO getCategoryById(@PathVariable long id) throws Exception {
+//        return categoryDTOMapper.toDTO(categoryService.getById(id));
+//    }
+//
+//    @GetMapping
+//    public List<CategoryDTO> getAllCategories() throws Exception {
+//        return categoryDTOMapper.toMultipleDTO(categoryService.getAll());
+//    }
 
     @PostMapping
     public CategoryDTO createCategory(@RequestBody CategoryDTO categoryDTO) throws Exception {

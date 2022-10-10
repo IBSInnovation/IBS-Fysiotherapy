@@ -15,15 +15,15 @@ public class ExerciseController {
     private final IExerciseService exerciseService;
     private final ExerciseDTOMapper exerciseDTOMapper;
 
-    @GetMapping("/{id}")
-    public ExerciseDTO getExerciseById(@PathVariable long id) throws Exception {
-        return exerciseDTOMapper.toDTO(exerciseService.getById(id));
-    }
-
-    @GetMapping
-    public List<ExerciseDTO> getAllExercises() throws Exception {
-        return exerciseDTOMapper.toMultipleDTO(exerciseService.getAll());
-    }
+//    @GetMapping("/{id}")
+//    public ExerciseDTO getExerciseById(@PathVariable long id) throws Exception {
+//        return exerciseDTOMapper.toDTO(exerciseService.getById(id));
+//    }
+//
+//    @GetMapping
+//    public List<ExerciseDTO> getAllExercises() throws Exception {
+//        return exerciseDTOMapper.toMultipleDTO(exerciseService.getAll());
+//    }
 
     @PostMapping
     public ExerciseDTO createExercise(@RequestBody ExerciseDTO exerciseDTO) throws Exception {
