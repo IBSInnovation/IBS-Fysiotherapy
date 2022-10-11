@@ -31,12 +31,12 @@ public class PhysiotherapistController {
     }
 
     @PatchMapping
-    public SavePhysiotherapist updatePatient(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
+    public SavePhysiotherapist updatePhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
         return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deletePatient(@PathVariable String id) throws Exception {
+    public boolean deletePhysiotherapist(@PathVariable String id) throws Exception {
         return physiotherapistService.deletePhysiotherapist(id);
     }
 }
