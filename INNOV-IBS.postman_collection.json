@@ -1,0 +1,621 @@
+{
+	"info": {
+		"_postman_id": "e7ba75a4-2b57-4a55-8f4d-57268d075353",
+		"name": "INNOV-IBS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15827760"
+	},
+	"item": [
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Get Patient",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/patient/Test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"Test1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Patients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/patient",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create patient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"Test1\",\r\n    \"name\" : \"Damian\",\r\n    \"surName\" : \"Gans\",\r\n    \"weight\" : 80.0,\r\n    \"dateOfBirth\" : \"2002\",\r\n    \"height\" : 1.90,\r\n    \"email\" : \"Test@email\",\r\n    \"physiotherapistId\" : \"JJ101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Patient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"Test1\",\r\n    \"name\" : \"Damian\",\r\n    \"surName\" : \"Swans\",\r\n    \"weight\" : 80.0,\r\n    \"dateOfBirth\" : \"1999\",\r\n    \"height\" : 1.85,\r\n    \"email\" : \"Test@email\",\r\n    \"physiotherapistId\" : \"JJ101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Patient",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/patient/Test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"Test1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Physiotherapist",
+			"item": [
+				{
+					"name": "Get Physiotherapist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/physiotherapist/JJ101",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"physiotherapist",
+								"JJ101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Physiotherapists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/physiotherapist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"physiotherapist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Physiotherapist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"NR202\",\r\n    \"email\" : \"Niels.Kriebeldoos@test.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/physiotherapist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"physiotherapist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Physiotherapist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"JJ101\",\r\n    \"email\" : \"Jaap.Jansen@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/physiotherapist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"physiotherapist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Physiotherapist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/physiotherapist/NR202",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"physiotherapist",
+								"NR202"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Measurment",
+			"item": [
+				{
+					"name": "Get All Measurement",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"patientId\" : \"Test1\",\r\n    \"categoryId\" : \"knie\",\r\n    \"exerciseId\" : \"flexie-links\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient/measurement",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"measurement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save measurement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"patientId\" : \"Test1\",\r\n    \"categoryId\" : \"knie\",\r\n    \"exerciseId\" : \"flexie-links\",\r\n    \"data\" : [1, 2, 3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient/measurement",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"measurement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Measurement",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"patientId\" : \"Test1\",\r\n    \"categoryId\" : \"knie\",\r\n    \"exerciseId\" : \"flexie-links\",\r\n    \"data\" : [1, 2, 3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient/measurement",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"measurement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete measurement",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 0,\r\n    \"patientId\" : \"Test1\",\r\n    \"categoryId\" : \"knie\",\r\n    \"exerciseId\" : \"flexie-links\",\r\n    \"data\" : [1, 2, 3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/patient/measurement",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"patient",
+								"measurement"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"bleb\",\r\n    \"name\": \"knie en been\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exercise",
+			"item": [
+				{
+					"name": "get exercise",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"blebs\",\r\n    \"categoryId\": knie\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/exercise",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exercise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"knie\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/exercise/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exercise",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create exercise",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"blebs\",\r\n    \"name\": \"testknieding\",\r\n    \"description\": [\"knie oefening lol\"],\r\n    \"categoryId\": \"knie\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/exercise",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exercise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update exercise",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"blebs\",\r\n    \"name\": \"testknieding\",\r\n    \"description\": [\"knie oefening lol get fucked\"],\r\n    \"categoryId\": \"knie\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/exercise",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exercise"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "delete exercise",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"blebs\",\r\n    \"categoryId\": \"knie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/exercise",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"exercise"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
