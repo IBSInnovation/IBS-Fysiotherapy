@@ -161,6 +161,8 @@ public class PatientService implements IPatientService {
                     .collection("category").document("doc")
                     .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
 
+
+            // TODO: Hier nader naar kijken hoe dit werkt, want op het moment nog niet functioneel
             ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayRemove(measurement));
             // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
