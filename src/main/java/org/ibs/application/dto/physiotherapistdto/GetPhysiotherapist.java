@@ -1,7 +1,6 @@
 package org.ibs.application.dto.physiotherapistdto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.ibs.utils.DTO;
 

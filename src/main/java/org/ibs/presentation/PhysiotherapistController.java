@@ -20,7 +20,7 @@ public class PhysiotherapistController {
     }
 
     @GetMapping
-    public List<GetPhysiotherapist> getAllPatient() throws Exception {
+    public List<GetPhysiotherapist> getAllPhysiotherapists() throws Exception {
         return physiotherapistService.getAll();
     }
 

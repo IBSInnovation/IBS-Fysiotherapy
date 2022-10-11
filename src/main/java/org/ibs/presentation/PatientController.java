@@ -28,7 +28,12 @@ public class PatientController {
     }
 
     @PostMapping
-    public SavePatient persistPatient(@RequestBody SavePatient savePatient) throws Exception {
+    public SavePatient savePatient(@RequestBody SavePatient savePatient) throws Exception {
+        return patientService.savePatient(savePatient);
+    }
+
+    @PatchMapping
+    public SavePatient updatePatient(@RequestBody SavePatient savePatient) throws Exception {
         return patientService.savePatient(savePatient);
     }
 
@@ -44,7 +49,12 @@ public class PatientController {
     }
 
     @PostMapping("/measurement")
-    public SaveMeasurement persistMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
+    public SaveMeasurement saveMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
+        return patientService.saveMeasurement(saveMeasurement);
+    }
+
+    @PatchMapping("/measurement")
+    public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
         return patientService.saveMeasurement(saveMeasurement);
     }
 
