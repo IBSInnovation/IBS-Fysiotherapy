@@ -5,6 +5,8 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
+import org.ibs.application.dto.exercisedto.AskAllExercise;
+import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.ibs.data.PersistExercise;
@@ -26,14 +28,17 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Seraches the database for an Exercise entity with the given id and returns it if it exists.
-     * @param id
+     * @param askExercise
      * @return Exercise of given id
      * @throws Exception
      */
     @Override
-    public GetExercise getById(String id) throws Exception {
+    public GetExercise getById(AskExercise askExercise) throws Exception {
         try {
-            DocumentReference documentReference = db.collection("exercise").document(id);
+            DocumentReference documentReference = db
+                    .collection("category").document(askExercise.categoryId)
+                    .collection("exercises").document(askExercise.id);
+
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
@@ -43,7 +48,7 @@ public class ExerciseService implements IExerciseService {
 
 //            TODO add costum errors
             else {
-                throw new Exception();
+                throw new Exception("Document doesn't exist");
             }
         } catch (Exception e) {
             throw new Exception("Exercise could not be found due to an error", e);
@@ -56,9 +61,12 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public List<GetExercise> getAll() throws Exception {
+    public List<GetExercise> getAll(AskAllExercise askAllExercise) throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("exercise").get();
+            ApiFuture<QuerySnapshot> future = db
+                    .collection("category").document(askAllExercise.categoryId)
+                    .collection("exercises").get();
+
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
             List<GetExercise> exerciseList = new ArrayList<>();
@@ -83,10 +91,13 @@ public class ExerciseService implements IExerciseService {
         try {
             PersistExercise persistExercise = PersistExercise.toPersistExercise(saveExercise);
 
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("category").document(saveExercise.categoryId).set(persistExercise);
+            ApiFuture<WriteResult> exerciseResult = db
+                    .collection("category").document(saveExercise.categoryId)
+                    .collection("exercises").document(saveExercise.id).set(persistExercise);
+
 
             // TODO: log dit
-            collectionsApiFuture.get().getUpdateTime().toString();
+            exerciseResult.get().getUpdateTime().toString();
 
             //TODO: misschien het nieuwe id in de dto zetten
             return saveExercise;
@@ -98,14 +109,16 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Deletes the Exercise entity with the given id.
-     * @param id
+     * @param askExercise
      * @return true if the operation succeeded
      * @throws Exception
      */
     @Override
-    public boolean deleteCategory(String id) throws Exception {
+    public boolean deleteExercise(AskExercise askExercise) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("category").document(id).delete();
+            ApiFuture<WriteResult> writeResult = db
+                    .collection("category").document(askExercise.categoryId)
+                    .collection("exercises").document(askExercise.id).delete();
             // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;

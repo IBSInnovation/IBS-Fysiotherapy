@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.ibs.utils.DTO;
 
 @NoArgsConstructor
-@AllArgsConstructor
 public class GetPhysiotherapist extends DTO {
     public String id;
     public String email;
