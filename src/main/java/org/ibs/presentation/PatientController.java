@@ -9,7 +9,6 @@ import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,17 +39,12 @@ public class PatientController {
 
 //    TODO: misschien patientid in pathvariable?
     @GetMapping("/measurement")
-    public ArrayList<GetMeasurement> getMeasurementsOfExercise(@RequestBody AskMeasurement askMeasurement) throws Exception {
+    public GetMeasurement getMeasurementsOfExercise(@RequestBody AskMeasurement askMeasurement) throws Exception {
         return patientService.getAllMeasurements(askMeasurement);
     }
 
     @PostMapping("/measurement")
-    public SaveMeasurement saveMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-        return patientService.saveMeasurement(saveMeasurement);
-    }
-
-    @PatchMapping("/measurement")
-    public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
+    public SaveMeasurement persistMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
         return patientService.saveMeasurement(saveMeasurement);
     }
 

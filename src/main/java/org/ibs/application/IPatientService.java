@@ -6,7 +6,6 @@ import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IPatientService {
@@ -19,5 +18,5 @@ public interface IPatientService {
 
     boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 
-    ArrayList<GetMeasurement> getAllMeasurements(AskMeasurement askMeasurement) throws Exception;
+    GetMeasurement getAllMeasurements(AskMeasurement askMeasurement) throws Exception;
 }

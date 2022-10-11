@@ -175,7 +175,7 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public ArrayList<GetMeasurement> getAllMeasurements(AskMeasurement askMeasurement) throws Exception {
+    public GetMeasurement getAllMeasurements(AskMeasurement askMeasurement) throws Exception {
         try {
 
             DocumentReference documentReference = db.collection("patient").document(askMeasurement.patientId)
@@ -185,12 +185,11 @@ public class PatientService implements IPatientService {
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
-            PersistMeasurement measurement;
+            GetMeasurement getMeasurement;
             if (document.exists()) {
-                measurement = document.toObject(PersistMeasurement.class);
-                if (measurement != null) {
-                    return null;
-//                    return measurement.getData();
+                getMeasurement = document.toObject(GetMeasurement.class);
+                if (getMeasurement != null) {
+                    return getMeasurement;
                 } else {
                     throw new Exception("Measurement is null");
                 }
