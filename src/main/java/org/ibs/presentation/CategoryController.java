@@ -14,8 +14,6 @@ import java.util.List;
 public class CategoryController {
     private final ICategoryService categoryService;
 
-//   TODO: fix de throw errors samen met morris
-
     @GetMapping("/{id}")
     public GetCategory getCategoryById(@PathVariable String id) throws Exception {
         return categoryService.getById(id);

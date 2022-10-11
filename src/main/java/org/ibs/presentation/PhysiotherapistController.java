@@ -14,7 +14,6 @@ import java.util.List;
 public class PhysiotherapistController {
     private final IPhysiotherapistService physiotherapistService;
 
-//    TODO voeg meer error handling toe na de service laag
     @GetMapping("/{id}")
     public GetPhysiotherapist getPhysiotherapistById(@PathVariable String id) throws Exception {
         return physiotherapistService.getById(id);

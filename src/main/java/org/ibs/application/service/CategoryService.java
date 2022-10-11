@@ -38,10 +38,8 @@ public class CategoryService implements ICategoryService {
             if (document.exists()) {
                 return document.toObject(GetCategory.class);
             }
-
-//            TODO add costum errors
             else {
-                throw new Exception();
+                throw new Exception("DocumentSnapshot does not exist");
             }
         } catch (Exception e) {
 //            misschien een LOG library zoals log4j

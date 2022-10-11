@@ -4,6 +4,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
+import org.ibs.application.dto.measurementdto.AskMeasurement;
+import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
@@ -173,12 +175,12 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public ArrayList<Object> getAllMeasurments(SaveMeasurement saveMeasurement) throws Exception {
+    public ArrayList<GetMeasurement> getAllMeasurements(AskMeasurement askMeasurement) throws Exception {
         try {
 
-            DocumentReference documentReference = db.collection("patient").document(saveMeasurement.patientId)
+            DocumentReference documentReference = db.collection("patient").document(askMeasurement.patientId)
                     .collection("category").document("doc")
-                    .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
+                    .collection(askMeasurement.categoryId).document(askMeasurement.exerciseId);
 
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
@@ -187,13 +189,14 @@ public class PatientService implements IPatientService {
             if (document.exists()) {
                 measurement = document.toObject(PersistMeasurement.class);
                 if (measurement != null) {
-                    return measurement.getData();
+                    return null;
+//                    return measurement.getData();
                 } else {
-                    throw new Exception();
+                    throw new Exception("Measurement is null");
                 }
 
             } else {
-                throw new Exception();
+                throw new Exception("Document does not exist");
             }
 
         } catch (Exception e) {

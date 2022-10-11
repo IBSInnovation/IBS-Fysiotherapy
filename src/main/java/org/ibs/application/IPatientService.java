@@ -1,9 +1,10 @@
 package org.ibs.application;
 
+import org.ibs.application.dto.measurementdto.AskMeasurement;
+import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
-import org.ibs.domain.Measurement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,5 +19,5 @@ public interface IPatientService {
 
     boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 
-    ArrayList<Object> getAllMeasurments(SaveMeasurement saveMeasurement) throws Exception;
+    ArrayList<GetMeasurement> getAllMeasurements(AskMeasurement askMeasurement) throws Exception;
 }
