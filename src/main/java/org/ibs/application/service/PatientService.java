@@ -35,7 +35,7 @@ public class PatientService implements IPatientService {
     @Override
     public GetPatient getById(String id) throws Exception {
         try {
-            DocumentReference documentReference = db.collection("patients").document(id);
+            DocumentReference documentReference = db.collection("patient").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
@@ -60,7 +60,7 @@ public class PatientService implements IPatientService {
     @Override
     public List<GetPatient> getAll() throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("patients").get();
+            ApiFuture<QuerySnapshot> future = db.collection("patient").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
             List<GetPatient> patientList = new ArrayList<>();
