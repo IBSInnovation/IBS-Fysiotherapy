@@ -54,6 +54,7 @@ public class PatientController {
     }
 
     @PatchMapping("/measurement")
+    // TODO: Updaten van een measurement is irrelevant je zou dat nooit doen. Dus wss overbodig
     public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
         return patientService.saveMeasurement(saveMeasurement);
     }

@@ -133,6 +133,7 @@ public class PatientService implements IPatientService {
                     .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
 
 
+            // TODO: Als er nog geen map met measurements is wil hij ook niks toevoegen door update(), oplossing voor bedenken. Wss bij het maken van patient meteen een lege measurements list aanmaken
             ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayUnion(measurement));
 
             // TODO: log dit
