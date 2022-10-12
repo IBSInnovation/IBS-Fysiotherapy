@@ -1,12 +1,14 @@
 package org.ibs.application;
 
+import org.ibs.application.dto.categorydto.GetCategory;
+import org.ibs.application.dto.categorydto.SaveCategory;
 import org.ibs.domain.Category;
 
 import java.util.List;
 
 public interface ICategoryService {
-    Category getById(long id) throws Exception;
-    List<Category> getAll() throws Exception;
-    Category persistCategory(Category category) throws Exception;
-    boolean deleteCategory(long id) throws Exception;
+    GetCategory getById(String id) throws Exception;
+    List<GetCategory> getAll() throws Exception;
+    SaveCategory saveCategory(SaveCategory saveCategory) throws Exception;
+    boolean deleteCategory(String id) throws Exception;
 }

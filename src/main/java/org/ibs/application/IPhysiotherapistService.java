@@ -1,12 +1,13 @@
 package org.ibs.application;
 
-import org.ibs.domain.Physiotherapist;
+import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 
 import java.util.List;
 
 public interface IPhysiotherapistService {
-    Physiotherapist getById(long id) throws Exception;
-    List<Physiotherapist> getAll() throws Exception;
-    Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception;
-    boolean deletePhysiotherapist(long id) throws Exception;
+    GetPhysiotherapist getById(String id) throws Exception;
+    List<GetPhysiotherapist> getAll() throws Exception;
+    SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist physiotherapist) throws Exception;
+    boolean deletePhysiotherapist(String id) throws Exception;
 }

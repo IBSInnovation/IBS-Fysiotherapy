@@ -1,19 +1,29 @@
 package org.ibs.application.service;
 
-import lombok.AllArgsConstructor;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
+import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.data.PhysiotherapistRepository;
-import org.ibs.domain.Physiotherapist;
+import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
+import org.ibs.data.PersistPhysiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class PhysiotherapistService implements IPhysiotherapistService {
-    private final PhysiotherapistRepository physiotherapistRepository;
+
+//    TODO: getter dtos fixen
+
+    private final Firestore db;
+
+    public PhysiotherapistService() {
+        db = FirestoreClient.getFirestore();
+    }
 
     /**
      * Searches the database for a Physiotherapist with the given id and returns it if it exists.
@@ -22,9 +32,20 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public Physiotherapist getById(long id) throws Exception {
+    public GetPhysiotherapist getById(String id) throws Exception {
         try {
-            return physiotherapistRepository.findById(id).orElseThrow(Exception::new);
+            DocumentReference documentReference = db.collection("physiotherapist").document(id);
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
+
+            if (document.exists()) {
+                return document.toObject(GetPhysiotherapist.class);
+            }
+
+//            TODO add costum errors
+            else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be found due to an error", e);
         }
@@ -36,9 +57,17 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public List<Physiotherapist> getAll() throws Exception {
+    public List<GetPhysiotherapist> getAll() throws Exception {
         try {
-            return physiotherapistRepository.findAll();
+            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            List<GetPhysiotherapist> physiotherapistsList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+               physiotherapistsList.add(document.toObject(GetPhysiotherapist.class));
+            }
+
+            return physiotherapistsList;
         } catch (Exception e) {
             throw new Exception("Physiotherapists could not be found due to an error", e);
         }
@@ -46,14 +75,24 @@ public class PhysiotherapistService implements IPhysiotherapistService {
 
     /**
      * Saves and updates the given Physiotherapist entity in the database.
-     * @param physiotherapist
+     * @param savePhysiotherapist
      * @return The saved Physiotherapist entity
      * @throws Exception
      */
     @Override
-    public Physiotherapist persistPhysiotherapist(Physiotherapist physiotherapist) throws Exception {
+    public SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
         try {
-            return physiotherapistRepository.save(physiotherapist);
+            PersistPhysiotherapist persistPhysio = PersistPhysiotherapist.toPersistPhysio(savePhysiotherapist);
+
+            // TODO: Deze manier generate die zelf een nieuw ID dus deze functie kan niet gebruikt worden voor update()
+            ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(persistPhysio.getId()).set(persistPhysio);
+
+            // TODO: log dit
+            collectionsApiFuture.get().getUpdateTime().toString();
+
+            // TODO: misschien het nieuwe id in de dto zetten
+            return savePhysiotherapist;
+
         } catch (Exception e) {
             throw new Exception("Physiotherapist was not persisted due to an error", e);
         }
@@ -66,9 +105,11 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public boolean deletePhysiotherapist(long id) throws Exception {
+    public boolean deletePhysiotherapist(String id) throws Exception {
         try {
-            physiotherapistRepository.delete(physiotherapistRepository.findById(id).orElseThrow(Exception::new));
+            ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);

@@ -2,13 +2,11 @@ package org.ibs.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
 @ToString
@@ -16,21 +14,15 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
-    @Id
-    @GeneratedValue
-    private long id;
+    private String id;
     private String name;
     private String surName;
     private double weight;
-    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private double height;
     private String email;
-
-    @ManyToOne
     private Physiotherapist physiotherapist;
     @Builder.Default
-    @OneToMany(mappedBy = "patient")
     private List<Exercise> exercises = new ArrayList<>();
 
     public void addExercise(Exercise exercise) {

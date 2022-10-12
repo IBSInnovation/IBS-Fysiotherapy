@@ -1,30 +1,55 @@
 package org.ibs.application.service;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
+import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.data.ExerciseRepository;
-import org.ibs.domain.Exercise;
+import org.ibs.application.dto.exercisedto.AskAllExercise;
+import org.ibs.application.dto.exercisedto.AskExercise;
+import org.ibs.application.dto.exercisedto.GetExercise;
+import org.ibs.application.dto.exercisedto.SaveExercise;
+import org.ibs.data.PersistExercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class ExerciseService implements IExerciseService {
-    private final ExerciseRepository exerciseRepository;
+    private final Firestore db;
+
+    public ExerciseService() {
+        this.db = FirestoreClient.getFirestore();
+    }
 
     /**
      * Seraches the database for an Exercise entity with the given id and returns it if it exists.
-     * @param id
+     * @param askExercise
      * @return Exercise of given id
      * @throws Exception
      */
     @Override
-    public Exercise getById(long id) throws Exception {
+    public GetExercise getById(AskExercise askExercise) throws Exception {
         try {
-            return exerciseRepository.findById(id).orElseThrow(Exception::new);
+            DocumentReference documentReference = db
+                    .collection("category").document(askExercise.categoryId)
+                    .collection("exercises").document(askExercise.id);
+
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
+
+            if (document.exists()) {
+                return document.toObject(GetExercise.class);
+            }
+
+//            TODO add costum errors
+            else {
+                throw new Exception("Document doesn't exist");
+            }
         } catch (Exception e) {
             throw new Exception("Exercise could not be found due to an error", e);
         }
@@ -36,9 +61,20 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public List<Exercise> getAll() throws Exception {
+    public List<GetExercise> getAll(AskAllExercise askAllExercise) throws Exception {
         try {
-            return exerciseRepository.findAll();
+            ApiFuture<QuerySnapshot> future = db
+                    .collection("category").document(askAllExercise.categoryId)
+                    .collection("exercises").get();
+
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            List<GetExercise> exerciseList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+                exerciseList.add(document.toObject(GetExercise.class));
+            }
+
+            return exerciseList;
         } catch (Exception e) {
             throw new Exception("Exercises could not be found due to an error", e);
         }
@@ -46,14 +82,26 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Saves and updates the given Exercise entity in the database.
-     * @param exercise
+     * @param saveExercise
      * @return The saved Exercise entity
      * @throws Exception
      */
     @Override
-    public Exercise persistExercise(Exercise exercise) throws Exception {
+    public SaveExercise saveExercise(SaveExercise saveExercise) throws Exception {
         try {
-            return exerciseRepository.save(exercise);
+            PersistExercise persistExercise = PersistExercise.toPersistExercise(saveExercise);
+
+            ApiFuture<WriteResult> exerciseResult = db
+                    .collection("category").document(saveExercise.categoryId)
+                    .collection("exercises").document(saveExercise.id).set(persistExercise);
+
+
+            // TODO: log dit
+            exerciseResult.get().getUpdateTime().toString();
+
+            //TODO: misschien het nieuwe id in de dto zetten
+            return saveExercise;
+
         } catch (Exception e) {
             throw new Exception("Exercise was not persisted due to an error", e);
         }
@@ -61,14 +109,18 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Deletes the Exercise entity with the given id.
-     * @param id
+     * @param askExercise
      * @return true if the operation succeeded
      * @throws Exception
      */
     @Override
-    public boolean deleteCategory(long id) throws Exception {
+    public boolean deleteExercise(AskExercise askExercise) throws Exception {
         try {
-            exerciseRepository.delete(exerciseRepository.findById(id).orElseThrow(Exception::new));
+            ApiFuture<WriteResult> writeResult = db
+                    .collection("category").document(askExercise.categoryId)
+                    .collection("exercises").document(askExercise.id).delete();
+            // TODO: log dit
+            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Exercise could not be deleted due to an error", e);
