@@ -46,7 +46,6 @@ public class ExerciseService implements IExerciseService {
                 return document.toObject(GetExercise.class);
             }
 
-//            TODO add costum errors
             else {
                 throw new Exception("Document doesn't exist");
             }
@@ -60,6 +59,7 @@ public class ExerciseService implements IExerciseService {
      * @return List of Exercise entities
      * @throws Exception
      */
+//    TODO: kan verwijderd worden
     @Override
     public List<GetExercise> getAll(AskAllExercise askAllExercise) throws Exception {
         try {
@@ -86,6 +86,7 @@ public class ExerciseService implements IExerciseService {
      * @return The saved Exercise entity
      * @throws Exception
      */
+//    TODO: zorg ervoor dat het ook in category word geupdate
     @Override
     public SaveExercise saveExercise(SaveExercise saveExercise) throws Exception {
         try {
@@ -96,10 +97,8 @@ public class ExerciseService implements IExerciseService {
                     .collection("exercises").document(saveExercise.id).set(persistExercise);
 
 
-            // TODO: log dit
             exerciseResult.get().getUpdateTime().toString();
 
-            //TODO: misschien het nieuwe id in de dto zetten
             return saveExercise;
 
         } catch (Exception e) {
@@ -113,13 +112,13 @@ public class ExerciseService implements IExerciseService {
      * @return true if the operation succeeded
      * @throws Exception
      */
+//    TODO: zorg ervoor dat het ook bij exercise verwijderd word.
     @Override
     public boolean deleteExercise(AskExercise askExercise) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db
                     .collection("category").document(askExercise.categoryId)
                     .collection("exercises").document(askExercise.id).delete();
-            // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {

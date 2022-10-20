@@ -44,7 +44,6 @@ public class PatientService implements IPatientService {
             if (document.exists()) {
                 return document.toObject(GetPatient.class);
             }
-//            TODO add costum errors
             else {
                 throw new Exception();
             }
@@ -59,6 +58,7 @@ public class PatientService implements IPatientService {
      * @return List of Patient entities
      * @throws Exception
      */
+//    TODO: kan verwijderd worden
     @Override
     public List<GetPatient> getAll() throws Exception {
         try {
@@ -83,6 +83,9 @@ public class PatientService implements IPatientService {
      * @return THe saved Patient entity
      * @throws Exception
      */
+//    TODO: zorg ervoor dat een measurement lijst word meegemaakt
+//    TODO: zorg ervoor dat de physiotherapeut ook de patient krijgt
+//    TODO: bij update, update het bij de physiotherapeut ook
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
@@ -93,10 +96,8 @@ public class PatientService implements IPatientService {
 
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.getId()).set(patient);
 
-            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
 
-//            TODO: misschien het nieuwe id in de dto zetten
             return savePatient;
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
@@ -110,17 +111,19 @@ public class PatientService implements IPatientService {
      * @return true if the operation succeeded
      * @throws Exception
      */
+//    TODO: zorg ervoor dat het bij de physiotherapeut ook word verwijderd
     @Override
     public boolean deletePatient(String id) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db.collection("patient").document(id).delete();
-            // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
         }
     }
+
+//    TODO: eigen service voor measurements
 
     @Override
     public SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception {
@@ -133,10 +136,8 @@ public class PatientService implements IPatientService {
                     .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
 
 
-            // TODO: Als er nog geen map met measurements is wil hij ook niks toevoegen door update(), oplossing voor bedenken. Wss bij het maken van patient meteen een lege measurements list aanmaken
             ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayUnion(measurement));
 
-            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
 
             return saveMeasurement;
@@ -162,9 +163,7 @@ public class PatientService implements IPatientService {
                     .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
 
 
-            // TODO: Hier nader naar kijken hoe dit werkt, want op het moment nog niet functioneel
             ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayRemove(measurement));
-            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {

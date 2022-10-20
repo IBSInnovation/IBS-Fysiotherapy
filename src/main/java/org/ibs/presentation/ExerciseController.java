@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://127.0.0.1:5500/")
 @RestController
 @RequestMapping("/exercise")
 @AllArgsConstructor
@@ -21,6 +22,7 @@ public class ExerciseController {
         return exerciseService.getById(askExercise);
     }
 
+//    TODO: kan verwijderd worden
     @GetMapping("/all")
     public List<GetExercise> getAllExercisesFromCategory(@RequestBody AskAllExercise askAllExercise) throws Exception {
         return exerciseService.getAll(askAllExercise);

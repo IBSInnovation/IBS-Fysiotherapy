@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://127.0.0.1:5500/")
 @RestController
 @RequestMapping("/patient")
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class PatientController {
         return patientService.getById(id);
     }
 
+//    TODO kan verwijderd worden
     @GetMapping
     public List<GetPatient> getAllPatient() throws Exception {
         return patientService.getAll();
@@ -42,7 +44,7 @@ public class PatientController {
         return patientService.deletePatient(id);
     }
 
-//    TODO: misschien patientid in pathvariable?
+//    TODO: eigen controller voor emasurements
     @GetMapping("/measurement")
     public GetMeasurement getMeasurementsOfExercise(@RequestBody AskMeasurement askMeasurement) throws Exception {
         return patientService.getAllMeasurements(askMeasurement);
@@ -54,7 +56,6 @@ public class PatientController {
     }
 
     @PatchMapping("/measurement")
-    // TODO: Updaten van een measurement is irrelevant je zou dat nooit doen. Dus wss overbodig
     public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
         return patientService.saveMeasurement(saveMeasurement);
     }

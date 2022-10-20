@@ -15,6 +15,7 @@ import java.util.Objects;
 public class Physiotherapist {
     private String id;
     private String email;
+    private String name;
     @Builder.Default
     private List<Patient> patients = new ArrayList<>();
 

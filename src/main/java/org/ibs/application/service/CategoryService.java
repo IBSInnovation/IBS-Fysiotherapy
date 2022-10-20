@@ -28,6 +28,7 @@ public class CategoryService implements ICategoryService {
      * @return Category of given id
      * @throws Exception
      */
+//    TODO: kan verwijderd worden, zal niet meer gebruikt worden
     @Override
     public GetCategory getById(String id) throws Exception {
         try {
@@ -53,6 +54,7 @@ public class CategoryService implements ICategoryService {
      * @return List of Category entities
      * @throws Exception
      */
+//    TODO: zorg ervoor dat de juiste dingen worden terug gegeven
     @Override
     public List<GetCategory> getAll() throws Exception {
         try {
@@ -76,19 +78,16 @@ public class CategoryService implements ICategoryService {
      * @return The saved Category entity
      * @throws Exception
      */
+//    TODO: zorg ervoor dat er altijd een lege lisjt word meegegeven wanneer een category word aangemaakt
     @Override
     public SaveCategory saveCategory(SaveCategory saveCategory) throws Exception {
         try {
             PersistCategory category = PersistCategory.toPersistCategory(saveCategory);
 
-
-            // TODO: kijken of dit de beste oplossing is, category is namelijk leeg
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("category").document(saveCategory.name).set(category);
 
-            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
 
-            //TODO: misschien het nieuwe id in de dto zetten
             return saveCategory;
         } catch (Exception e) {
 //            misschien een Log library zoals log4j
@@ -102,11 +101,11 @@ public class CategoryService implements ICategoryService {
      * @return true if the operation succeeded
      * @throws Exception
      */
+//    TODO: zorg ervoor dat alle exercises van deze category ook worden verwijderd
     @Override
     public boolean deleteCategory(String id) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db.collection("category").document(id).delete();
-            // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {

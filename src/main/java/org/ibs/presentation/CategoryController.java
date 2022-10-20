@@ -14,11 +14,13 @@ import java.util.List;
 public class CategoryController {
     private final ICategoryService categoryService;
 
+//    TODO: zal niet meer gebruikt worden
     @GetMapping("/{id}")
     public GetCategory getCategoryById(@PathVariable String id) throws Exception {
         return categoryService.getById(id);
     }
 
+//    TODO: verander de return waarde naar de juiste attributen
     @GetMapping
     public List<GetCategory> getAllCategories() throws Exception {
         return categoryService.getAll();
@@ -29,6 +31,7 @@ public class CategoryController {
         return categoryService.saveCategory(saveCategory);
     }
 
+//    TODO: kan verwijderd worden. alle updates worden eigenlijk op de exercises gedaan, dus dat kan geregeld worden in de service laag
     @PatchMapping
     public SaveCategory updateCategory(@RequestBody SaveCategory saveCategory) throws Exception {
         return categoryService.saveCategory(saveCategory);

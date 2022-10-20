@@ -19,6 +19,7 @@ public class PhysiotherapistController {
         return physiotherapistService.getById(id);
     }
 
+//    TODO: kan verwijderd worden
     @GetMapping
     public List<GetPhysiotherapist> getAllPhysiotherapists() throws Exception {
         return physiotherapistService.getAll();

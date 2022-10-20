@@ -17,7 +17,6 @@ import java.util.List;
 @Transactional
 public class PhysiotherapistService implements IPhysiotherapistService {
 
-//    TODO: getter dtos fixen
 
     private final Firestore db;
 
@@ -42,7 +41,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
                 return document.toObject(GetPhysiotherapist.class);
             }
 
-//            TODO add costum errors
             else {
                 throw new Exception();
             }
@@ -56,6 +54,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return List of Physiotherapist entities
      * @throws Exception
      */
+//    TODO: kan verwijderd worden
     @Override
     public List<GetPhysiotherapist> getAll() throws Exception {
         try {
@@ -84,13 +83,10 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         try {
             PersistPhysiotherapist persistPhysio = PersistPhysiotherapist.toPersistPhysio(savePhysiotherapist);
 
-            // TODO: Deze manier generate die zelf een nieuw ID dus deze functie kan niet gebruikt worden voor update()
             ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(persistPhysio.getId()).set(persistPhysio);
 
-            // TODO: log dit
             collectionsApiFuture.get().getUpdateTime().toString();
 
-            // TODO: misschien het nieuwe id in de dto zetten
             return savePhysiotherapist;
 
         } catch (Exception e) {
@@ -104,11 +100,11 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return true if the operation succeeded
      * @throws Exception
      */
+//    TODO: verwijder alle patienten van de physiotherapeut
     @Override
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
-            // TODO: log dit
             writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
