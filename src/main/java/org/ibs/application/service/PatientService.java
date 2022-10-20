@@ -85,7 +85,6 @@ public class PatientService implements IPatientService {
      */
 //    TODO: zorg ervoor dat een measurement lijst word meegemaakt
 //    TODO: zorg ervoor dat de physiotherapeut ook de patient krijgt
-//    TODO: bij update, update het bij de physiotherapeut ook
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {

@@ -2,6 +2,7 @@ package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
+import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,11 @@ public class PhysiotherapistController {
     @DeleteMapping("/{id}")
     public boolean deletePhysiotherapist(@PathVariable String id) throws Exception {
         return physiotherapistService.deletePhysiotherapist(id);
+    }
+
+    @GetMapping("/{id}")
+    public PlaceholderDTO getDataAfterLogin(@PathVariable String id) {
+//        vraag aan pageloader om home pagina data te halen
+        return null;
     }
 }
