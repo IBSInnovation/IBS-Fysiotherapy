@@ -8,11 +8,8 @@ import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import java.util.List;
 
 public interface IPhysiotherapistService {
-    GetPhysiotherapist getById(String id) throws Exception;
-
+    GetPhysiotherapist getPhysioData(String id) throws Exception;
     List<GetPhysioPatient> getPhysioPatientData(String id) throws Exception;
-
-    List<GetPhysiotherapist> getAll() throws Exception;
     SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist physiotherapist) throws Exception;
     boolean deletePhysiotherapist(String id) throws Exception;
 

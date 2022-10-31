@@ -18,7 +18,7 @@ public class PageLoaderService implements IPageLoaderService {
 
     @Override
     public HomePageData getDataForHomePage(String physioId) throws Exception {
-        GetPhysiotherapist physioDTO = physiotherapistService.getById(physioId);
+        GetPhysiotherapist physioDTO = physiotherapistService.getPhysioData(physioId);
         List<GetPhysioPatient> patientDTO = physiotherapistService.getPhysioPatientData(physioId);
         return new HomePageData(physioDTO.id, physioDTO.email, physioDTO.name, patientDTO);
     }

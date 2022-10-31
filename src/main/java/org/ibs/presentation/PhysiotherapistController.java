@@ -17,7 +17,7 @@ public class PhysiotherapistController {
 
     @GetMapping("/{id}")
     public GetPhysiotherapist getPhysiotherapistById(@PathVariable String id) throws Exception {
-        return physiotherapistService.getById(id);
+        return physiotherapistService.getPhysioData(id);
     }
 
 //    TODO: kan verwijderd worden

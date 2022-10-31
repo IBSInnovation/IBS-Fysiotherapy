@@ -33,7 +33,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @throws Exception
      */
     @Override
-    public GetPhysiotherapist getById(String id) throws Exception {
+    public GetPhysiotherapist getPhysioData(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("physiotherapist").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
@@ -73,29 +73,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
 
         } catch (Exception e) {
             throw new Exception("Physiotherapists patients could not be found due to an error", e);
-        }
-    }
-
-    /**
-     * Searches the database for all Physiotherapist entities and returns them.
-     * @return List of Physiotherapist entities
-     * @throws Exception
-     */
-//    TODO: kan verwijderd worden
-    @Override
-    public List<GetPhysiotherapist> getAll() throws Exception {
-        try {
-            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").get();
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-            List<GetPhysiotherapist> physiotherapistsList = new ArrayList<>();
-            for (QueryDocumentSnapshot document : documents) {
-               physiotherapistsList.add(document.toObject(GetPhysiotherapist.class));
-            }
-
-            return physiotherapistsList;
-        } catch (Exception e) {
-            throw new Exception("Physiotherapists could not be found due to an error", e);
         }
     }
 
