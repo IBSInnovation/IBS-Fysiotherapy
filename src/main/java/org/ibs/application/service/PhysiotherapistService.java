@@ -5,6 +5,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.PlaceholderDTO;
+import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.ibs.data.PersistPhysiotherapist;
@@ -39,7 +40,9 @@ public class PhysiotherapistService implements IPhysiotherapistService {
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(GetPhysiotherapist.class);
+                GetPhysiotherapist dto = document.toObject(GetPhysiotherapist.class);
+                dto.id = id;
+                return dto;
             }
 
             else {
@@ -47,6 +50,23 @@ public class PhysiotherapistService implements IPhysiotherapistService {
             }
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be found due to an error", e);
+        }
+    }
+
+    public List<GetPhysioPatient> getPhysioPatientData(String id) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").document(id).collection("patients").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            List<GetPhysioPatient> dtoList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+                dtoList.add(document.toObject(GetPhysioPatient.class));
+            }
+
+            return dtoList;
+
+        } catch (Exception e) {
+            throw new Exception("Physiotherapists patients could not be found due to an error", e);
         }
     }
 
@@ -111,5 +131,10 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);
         }
+    }
+
+    @Override
+    public PlaceholderDTO getDataAfterLogin(String id) {
+        return null;
     }
 }

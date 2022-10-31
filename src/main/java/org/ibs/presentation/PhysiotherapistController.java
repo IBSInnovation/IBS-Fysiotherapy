@@ -41,7 +41,7 @@ public class PhysiotherapistController {
         return physiotherapistService.deletePhysiotherapist(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/data/{id}")
     public PlaceholderDTO getDataAfterLogin(@PathVariable String id) {
 //        vraag aan pageloader om home pagina data te halen
         return null;
