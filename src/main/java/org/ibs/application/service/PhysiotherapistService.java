@@ -52,7 +52,13 @@ public class PhysiotherapistService implements IPhysiotherapistService {
             throw new Exception("Physiotherapist could not be found due to an error", e);
         }
     }
-
+    /**
+     * Searches the database for a Physiotherapist with the given id and returns its patients if it exists.
+     * @param id
+     * @return Physiotherapist's patients of given id
+     * @throws Exception
+     */
+    @Override
     public List<GetPhysioPatient> getPhysioPatientData(String id) throws Exception {
         try {
             ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").document(id).collection("patients").get();

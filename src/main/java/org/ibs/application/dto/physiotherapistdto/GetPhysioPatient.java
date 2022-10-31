@@ -4,7 +4,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class GetPhysioPatient {
-    public String email;
     public String id;
+    public String email;
     public String name;
 }
