@@ -2,12 +2,15 @@ package org.ibs.application.service;
 
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IMeasurementService;
 import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
+import org.ibs.application.dto.patientdto.SaveMeasurementPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -41,6 +44,22 @@ public class MeasurementService implements IMeasurementService {
                     saveMeasurement.exerciseId);
         } catch (Exception e) {
             throw new Exception("Measurement was not persisted due to an error", e);
+        }
+    }
+
+    @Override
+    public SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) throws Exception {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("exercise", saveMeasurementPatient.exerciseId);
+            data.put("measurement", saveMeasurementPatient.measurementId);
+            db.collection("patient")
+                    .document(saveMeasurementPatient.patientId)
+                    .collection("measurements")
+                    .document(saveMeasurementPatient.measurementId).set(data);
+            return saveMeasurementPatient;
+        } catch (Exception e) {
+            throw new Exception("Patient was not persisted due to an error", e);
         }
     }
 

@@ -7,7 +7,6 @@ import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.categorydto.GetCategory;
 import org.ibs.application.dto.categorydto.GetCategoryMeasurement;
 import org.ibs.application.dto.categorydto.SaveCategory;
-import org.ibs.application.dto.categorydto.SaveCategoryExercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -114,21 +113,7 @@ public class CategoryService implements ICategoryService {
             }
         }
 
-        @Override
-        public SaveCategoryExercise saveExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
-            try {
-                Map<String, Object> data = new HashMap<>();
-                data.put("exercise", saveCategoryExercise.exerciseId);
-                data.put("name", saveCategoryExercise.name);
-                db.collection("category")
-                        .document(saveCategoryExercise.categoryId)
-                        .collection("exercises")
-                        .document(saveCategoryExercise.exerciseId).set(data);
-                return saveCategoryExercise;
-            } catch (Exception e) {
-                throw new Exception("Exercise was not persisted to category due to an error", e);
-            }
-        }
+
 
         @Override
         public GetCategory updateCategory(GetCategory getCategory) throws Exception {
@@ -140,24 +125,6 @@ public class CategoryService implements ICategoryService {
                 return getCategory;
             } catch (Exception e) {
                 throw new Exception("Category was not updated due to an error", e);
-            }
-        }
-
-        @Override
-        public SaveCategoryExercise updateExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
-            try {
-                DocumentReference docRef = db
-                        .collection("category")
-                        .document(saveCategoryExercise.categoryId)
-                        .collection("exercises")
-                        .document(saveCategoryExercise.exerciseId);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("name", saveCategoryExercise.name);
-                docRef.update(data);
-                return saveCategoryExercise;
-            } catch (Exception e) {
-                throw new Exception("Exercise was not updated to category due to an error", e);
             }
         }
 

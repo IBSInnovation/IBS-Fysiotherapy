@@ -6,8 +6,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
-import org.ibs.application.dto.patientdto.SaveMeasurementPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
+import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -98,21 +98,26 @@ public class PatientService implements IPatientService {
         }
     }
 
+    /**
+     * Saves the basic patient data in the physiotherapist object.
+     *
+     * @param savePhysioPatient
+     * @return The saved patient data
+     */
     @Override
-    public SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) throws Exception {
+    public SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient) throws Exception {
         try {
             Map<String, Object> data = new HashMap<>();
-            data.put("exercise", saveMeasurementPatient.exerciseId);
-            data.put("measurement", saveMeasurementPatient.measurementId);
-
-            db.collection("patient")
-                    .document(saveMeasurementPatient.patientId)
-                    .collection("measurements")
-                    .document(saveMeasurementPatient.measurementId).set(data);
-
-            return saveMeasurementPatient;
+            data.put("email", savePhysioPatient.email);
+            data.put("id", savePhysioPatient.patientId);
+            data.put("name", savePhysioPatient.name);
+            db.collection("physiotherapist")
+                    .document(savePhysioPatient.physioId)
+                    .collection("patients")
+                    .document(savePhysioPatient.patientId).set(data);
+            return savePhysioPatient;
         } catch (Exception e) {
-            throw new Exception("Patient was not persisted due to an error", e);
+            throw new Exception("Patient was not persisted in Physiotherapist due to an error", e);
         }
     }
 
@@ -137,6 +142,26 @@ public class PatientService implements IPatientService {
             return getPatient;
         } catch (Exception e) {
             throw new Exception("Could not update Patient due to an error", e);
+        }
+    }
+
+    @Override
+    public SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient) throws Exception {
+        try {
+            DocumentReference docRef = db
+                    .collection("physiotherapist")
+                    .document(savePhysioPatient.physioId)
+                    .collection("patients").document(savePhysioPatient.patientId);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("email", savePhysioPatient.email);
+            data.put("name", savePhysioPatient.name);
+
+            docRef.update(data);
+
+            return savePhysioPatient;
+        } catch (Exception e) {
+            throw new Exception("Could not update Patient from Physiotherapist due to an error", e);
         }
     }
 

@@ -1,22 +1,18 @@
 package org.ibs.application.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.api.services.storage.Storage;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
-import org.ibs.application.dto.exercisedto.AskAllExercise;
+import org.ibs.application.dto.categorydto.SaveCategoryExercise;
 import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
-import org.ibs.application.dto.patientdto.GetPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -93,6 +89,40 @@ public class ExerciseService implements IExerciseService {
         }
     }
 
+    @Override
+    public SaveCategoryExercise saveExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("exercise", saveCategoryExercise.exerciseId);
+            data.put("name", saveCategoryExercise.name);
+            db.collection("category")
+                    .document(saveCategoryExercise.categoryId)
+                    .collection("exercises")
+                    .document(saveCategoryExercise.exerciseId).set(data);
+            return saveCategoryExercise;
+        } catch (Exception e) {
+            throw new Exception("Exercise was not persisted to category due to an error", e);
+        }
+    }
+
+    @Override
+    public SaveCategoryExercise updateExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
+        try {
+            DocumentReference docRef = db
+                    .collection("category")
+                    .document(saveCategoryExercise.categoryId)
+                    .collection("exercises")
+                    .document(saveCategoryExercise.exerciseId);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", saveCategoryExercise.name);
+            docRef.update(data);
+            return saveCategoryExercise;
+        } catch (Exception e) {
+            throw new Exception("Exercise was not updated to category due to an error", e);
+        }
+    }
+
     /**
      * Deletes the Exercise entity with the given id.
      * @param askExercise
@@ -107,12 +137,12 @@ public class ExerciseService implements IExerciseService {
                     .document(askExercise.id)
                     .delete();
 
-            ApiFuture<WriteResult> writeResult2 = db
-                    .collection("category")
-                    .document(askExercise.categoryId)
-                    .collection("exercises")
-                    .document(askExercise.id)
-                    .delete();
+//            ApiFuture<WriteResult> writeResult2 = db
+//                    .collection("category")
+//                    .document(askExercise.categoryId)
+//                    .collection("exercises")
+//                    .document(askExercise.id)
+//                    .delete();
 
             writeResult.get().getUpdateTime().toString();
             return true;
@@ -120,4 +150,6 @@ public class ExerciseService implements IExerciseService {
             throw new Exception("Exercise could not be deleted due to an error", e);
         }
     }
+
+//    remove exercise from category
 }
