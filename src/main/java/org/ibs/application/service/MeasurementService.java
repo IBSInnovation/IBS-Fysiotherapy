@@ -8,10 +8,12 @@ import org.ibs.application.IMeasurementService;
 import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
-import org.ibs.data.PersistMeasurement;
+import org.ibs.application.dto.patientdto.GetPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -24,21 +26,21 @@ public class MeasurementService implements IMeasurementService {
     }
 
     @Override
-    public SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception {
+    public GetMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception {
         try {
-            PersistMeasurement measurement = PersistMeasurement.toPersistMeasurement(saveMeasurement);
+            Map<String, Object> data = new HashMap<>();
+            data.put("data", saveMeasurement.data);
+            data.put("dateOfMeasurement", saveMeasurement.dateOfMeasurement);
+            data.put("exercise", saveMeasurement.exerciseId);
 
-            DocumentReference measurementRef = db
-                    .collection("patient").document(saveMeasurement.patientId)
-                    .collection("category").document("doc")
-                    .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
+            ApiFuture<DocumentReference> addedDocRef = db.collection("measurements").add(data);
 
-
-            ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayUnion(measurement));
-
-            collectionsApiFuture.get().getUpdateTime().toString();
-
-            return saveMeasurement;
+            return new GetMeasurement(
+                    addedDocRef.get().getId(),
+                    saveMeasurement.dateOfMeasurement,
+                    saveMeasurement.data,
+                    saveMeasurement.exerciseId
+            );
         } catch (Exception e) {
             throw new Exception("Measurement was not persisted due to an error", e);
         }
