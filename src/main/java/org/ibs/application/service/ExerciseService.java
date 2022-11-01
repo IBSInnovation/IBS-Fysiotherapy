@@ -36,11 +36,11 @@ public class ExerciseService implements IExerciseService {
      * @throws Exception
      */
     @Override
-    public GetExercise getById(AskExercise askExercise) throws Exception {
+    public GetExercise getById(String id) throws Exception {
         try {
             DocumentReference documentReference = db
                     .collection("exercises")
-                    .document(askExercise.categoryId);
+                    .document(id);
 
             DocumentSnapshot document = documentReference.get().get();
 

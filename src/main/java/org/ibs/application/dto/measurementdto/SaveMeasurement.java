@@ -5,10 +5,8 @@ import java.util.Date;
 
 public class SaveMeasurement {
     public String id;
-    public String patientId;
     public Date dateOfMeasurement;
     public ArrayList<Object> data;
     public String exerciseId;
-    public String categoryId;
 
 }

@@ -8,7 +8,7 @@ import org.ibs.application.dto.exercisedto.SaveExercise;
 import java.util.List;
 
 public interface IExerciseService {
-    GetExercise getById(AskExercise askExercise) throws Exception;
+    GetExercise getById(String id) throws Exception;
     GetExercise saveExercise(SaveExercise saveExercise) throws Exception;
     boolean deleteExercise(AskExercise askExercise) throws Exception;
 }

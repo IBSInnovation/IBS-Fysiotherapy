@@ -5,10 +5,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IMeasurementService;
-import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
-import org.ibs.application.dto.patientdto.GetPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
