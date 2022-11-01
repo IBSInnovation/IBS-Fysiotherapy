@@ -13,7 +13,7 @@ public interface IPhysiotherapistService {
     List<GetPhysioPatient> getPhysioPatientData(String id) throws Exception;
     GetPhysiotherapist savePhysiotherapist(SavePhysiotherapist physiotherapist) throws Exception;
 
-    SavePhysioPatient persistPatientToPhysio(SavePhysioPatient savePhysioPatient);
+    SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient);
 
     boolean deletePhysiotherapist(String id) throws Exception;
 
