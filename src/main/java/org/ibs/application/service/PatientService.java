@@ -58,6 +58,7 @@ public class PatientService implements IPatientService {
      * @return List of Patient entities
      * @throws Exception
      */
+
 //    TODO: kan verwijderd worden
     @Override
     public List<GetPatient> getAll() throws Exception {

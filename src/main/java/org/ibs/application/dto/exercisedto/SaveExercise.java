@@ -1,10 +1,8 @@
 package org.ibs.application.dto.exercisedto;
 
-import org.ibs.utils.DTO;
-
 import java.util.ArrayList;
 
-public class SaveExercise extends DTO {
+public class SaveExercise {
     public String id;
     public String name;
     public ArrayList<String> description;
