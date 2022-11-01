@@ -27,30 +27,23 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Searches the database for an Exercise entity with the given id and returns it if it exists.
-     * @param askExercise
+     *
+     * @param id
      * @return Exercise of given id
      * @throws Exception
      */
     @Override
-    public GetExercise getById(String id) throws Exception {
+    public GetExercise getExerciseData(String id) throws Exception {
         try {
-            DocumentReference documentReference = db
-                    .collection("exercises")
-                    .document(id);
-
-            DocumentSnapshot document = documentReference.get().get();
+            DocumentReference documentReference = db.collection("exercises").document(id);
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+            DocumentSnapshot document = future.get();
 
             if (document.exists()) {
                 GetExercise dto = document.toObject(GetExercise.class);
-
-                // TODO: hier kijken naar hoe er met Id vanuit firestore omgegaan word
-                dto.id = document.getId();
-
-
+                dto.id = id;
                 return dto;
-            }
-
-            else {
+            } else {
                 throw new Exception("Document doesn't exist");
             }
         } catch (Exception e) {
@@ -61,11 +54,11 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Saves and updates the given Exercise entity in the database.
+     *
      * @param saveExercise
      * @return The saved Exercise entity
      * @throws Exception
      */
-//    TODO: zorg ervoor dat het ook in category word geupdate
     @Override
     public GetExercise saveExercise(SaveExercise saveExercise) throws Exception {
         try {
@@ -106,6 +99,19 @@ public class ExerciseService implements IExerciseService {
     }
 
     @Override
+    public GetExercise updateExercise(GetExercise getExercise) throws Exception {
+        try {
+            DocumentReference docRef =db.collection("exercises").document(getExercise.id);
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", getExercise.name);
+            docRef.update(data);
+            return getExercise;
+        } catch (Exception e) {
+            throw new Exception("Exercise was not updated due to an error", e);
+        }
+    }
+
+    @Override
     public SaveCategoryExercise updateExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
         try {
             DocumentReference docRef = db
@@ -125,6 +131,7 @@ public class ExerciseService implements IExerciseService {
 
     /**
      * Deletes the Exercise entity with the given id.
+     *
      * @param askExercise
      * @return true if the operation succeeded
      * @throws Exception
@@ -136,20 +143,23 @@ public class ExerciseService implements IExerciseService {
                     .collection("exercises")
                     .document(askExercise.id)
                     .delete();
-
-//            ApiFuture<WriteResult> writeResult2 = db
-//                    .collection("category")
-//                    .document(askExercise.categoryId)
-//                    .collection("exercises")
-//                    .document(askExercise.id)
-//                    .delete();
-
-            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Exercise could not be deleted due to an error", e);
         }
     }
 
-//    remove exercise from category
+    @Override
+    public boolean removeExerciseFromCategory(String exerciseId, String categoryId) throws Exception {
+        try {
+            db.collection("category")
+                    .document(categoryId)
+                    .collection("exercises")
+                    .document(exerciseId)
+                    .delete();
+            return true;
+        } catch (Exception e) {
+            throw new Exception("exercise could not be deleted due to an error", e);
+        }
+    }
 }

@@ -16,7 +16,7 @@ public class ExerciseController {
 
     @GetMapping
     public GetExercise getExerciseById(@RequestBody AskExercise askExercise) throws Exception {
-        return exerciseService.getById(askExercise);
+        return exerciseService.getExerciseData(askExercise);
     }
 
     @PostMapping

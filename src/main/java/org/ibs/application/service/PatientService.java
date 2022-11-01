@@ -192,7 +192,6 @@ public class PatientService implements IPatientService {
                     .collection("patients")
                     .document(patientId)
                     .delete();
-
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
