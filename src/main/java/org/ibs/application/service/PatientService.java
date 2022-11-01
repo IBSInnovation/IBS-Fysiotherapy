@@ -14,7 +14,9 @@ import org.ibs.data.PersistPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -78,8 +80,27 @@ public class PatientService implements IPatientService {
             throw new Exception("Patient was not persisted due to an error", e);
         }
     }
+    
 
-//    update patient
+    /**
+     *
+     * @param getPatient
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public GetPatient updatePatient(GetPatient getPatient) throws Exception {
+        DocumentReference docRef = db.collection("patient").document(getPatient.id);
+        Map<String, Object> data = new HashMap<>();
+        data.put("dateofBirth", getPatient.dateOfBirth);
+        data.put("email", getPatient.email);
+        data.put("name", getPatient.name);
+        data.put("surname", getPatient.surName);
+        data.put("weight", getPatient.weight);
+
+        docRef.update(data);
+        return getPatient;
+    }
 
 //    update measurement in patient (kijk naar updatePatientToPhysio voor idee
 
