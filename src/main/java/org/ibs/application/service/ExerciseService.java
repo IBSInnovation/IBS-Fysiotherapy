@@ -139,8 +139,7 @@ public class ExerciseService implements IExerciseService {
     @Override
     public boolean deleteExercise(AskExercise askExercise) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db
-                    .collection("exercises")
+            db.collection("exercises")
                     .document(askExercise.id)
                     .delete();
             return true;

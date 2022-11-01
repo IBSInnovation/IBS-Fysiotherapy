@@ -34,7 +34,6 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public GetPhysiotherapist getPhysioData(String id) throws Exception {
         try {
-            System.out.println(id);
             DocumentReference documentReference = db.collection("physiotherapist").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
