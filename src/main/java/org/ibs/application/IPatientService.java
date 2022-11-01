@@ -14,6 +14,9 @@ public interface IPatientService {
     SavePatient savePatient(SavePatient patient) throws Exception;
     boolean deletePatient(String patientId, String physioId) throws Exception;
 
+    //    TODO: zorg ervoor dat het bij de physiotherapeut ook word verwijderd
+    boolean deletePatient(String patientId, String physioId) throws Exception;
+
     SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 
     boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
