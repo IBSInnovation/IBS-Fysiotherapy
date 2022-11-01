@@ -4,12 +4,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
-import org.ibs.application.dto.measurementdto.AskMeasurement;
-import org.ibs.application.dto.measurementdto.GetMeasurement;
-import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
-import org.ibs.data.PersistMeasurement;
 import org.ibs.data.PersistPatient;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +16,7 @@ import java.util.List;
 @Service
 @Transactional
 public class PatientService implements IPatientService {
-
+//test
     private final Firestore db;
 
     public PatientService() {
