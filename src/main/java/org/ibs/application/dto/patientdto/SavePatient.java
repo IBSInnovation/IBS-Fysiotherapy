@@ -10,7 +10,5 @@ public class SavePatient extends DTO {
     public String surName;
     public double weight;
     public Date dateOfBirth;
-    public double height;
     public String email;
-    public String physiotherapistId;
 }
