@@ -99,13 +99,21 @@ public class ExerciseService implements IExerciseService {
      * @return true if the operation succeeded
      * @throws Exception
      */
-//    TODO: zorg ervoor dat het ook bij exercise verwijderd word.
     @Override
     public boolean deleteExercise(AskExercise askExercise) throws Exception {
         try {
             ApiFuture<WriteResult> writeResult = db
-                    .collection("category").document(askExercise.categoryId)
-                    .collection("exercises").document(askExercise.id).delete();
+                    .collection("exercises")
+                    .document(askExercise.id)
+                    .delete();
+
+            ApiFuture<WriteResult> writeResult2 = db
+                    .collection("category")
+                    .document(askExercise.categoryId)
+                    .collection("exercises")
+                    .document(askExercise.id)
+                    .delete();
+
             writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
