@@ -1,16 +1,19 @@
 package org.ibs.application.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.patientdto.GetPatient;
+import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
 import org.ibs.application.dto.patientdto.SavePatient;
 import org.ibs.data.PersistPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,14 +34,16 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public GetPatient getById(String id) throws Exception {
+    public GetPatient getPatientData(String id) throws Exception {
         try {
             DocumentReference documentReference = db.collection("patient").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
 
             if (document.exists()) {
-                return document.toObject(GetPatient.class);
+                GetPatient dto = document.toObject(GetPatient.class);
+                dto.id = id;
+                return dto;
             }
             else {
                 throw new Exception();
@@ -48,29 +53,9 @@ public class PatientService implements IPatientService {
         }
     }
 
-    /**
-     * Searches the database for all Patient entities and returns them.
-     *
-     * @return List of Patient entities
-     * @throws Exception
-     */
-
-//    TODO: kan verwijderd worden
-    @Override
-    public List<GetPatient> getAll() throws Exception {
-        try {
-            ApiFuture<QuerySnapshot> future = db.collection("patient").get();
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-            List<GetPatient> patientList = new ArrayList<>();
-            for (QueryDocumentSnapshot document : documents) {
-                patientList.add(document.toObject(GetPatient.class));
-            }
-
-            return patientList;
-        } catch (Exception e) {
-            throw new Exception("Patients could not be found due to an error", e);
-        }
+    public List<GetPatientMeasurementData> getPatientMeasurementData(String id) {
+//        haal patient/id/measurements op en return de lijst die je krijgt
+        return null;
     }
 
     /**
@@ -83,6 +68,7 @@ public class PatientService implements IPatientService {
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
+//            kijk naar hoe savePhysio eruit ziet
             PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
 
             ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(patient);
@@ -92,6 +78,10 @@ public class PatientService implements IPatientService {
             throw new Exception("Patient was not persisted due to an error", e);
         }
     }
+
+//    update patient
+
+//    update measurement in patient (kijk naar updatePatientToPhysio voor idee
 
     /**
      * Deletes the Patient entity with the given id.
@@ -118,7 +108,4 @@ public class PatientService implements IPatientService {
             throw new Exception("Patient could not be deleted due to an error", e);
         }
     }
-
-//    TODO: eigen service voor measurements
-
 }

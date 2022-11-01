@@ -1,6 +1,5 @@
 package org.ibs.application;
 
-import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
@@ -20,6 +19,4 @@ public interface IPhysiotherapistService {
     SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient);
 
     boolean deletePhysiotherapist(String id) throws Exception;
-
-    PlaceholderDTO getDataAfterLogin(String id);
 }

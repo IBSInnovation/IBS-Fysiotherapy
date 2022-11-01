@@ -162,9 +162,4 @@ public class PhysiotherapistService implements IPhysiotherapistService {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);
         }
     }
-
-    @Override
-    public PlaceholderDTO getDataAfterLogin(String id) {
-        return null;
-    }
 }

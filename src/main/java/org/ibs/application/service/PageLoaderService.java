@@ -28,7 +28,9 @@ public class PageLoaderService implements IPageLoaderService {
 //        haal patient gegevens op
 //        haal alle oefeningen namen van de patient op
 //        haal alle meting ids van de oefeningen op
+
 //        haal algemene progressie data op
+
 //        return gegevens
         return null;
     }

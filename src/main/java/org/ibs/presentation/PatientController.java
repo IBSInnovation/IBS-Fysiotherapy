@@ -20,7 +20,7 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public GetPatient getPatientById(@PathVariable String id) throws Exception {
-        return patientService.getById(id);
+        return patientService.getPatientData(id);
     }
 
 //    TODO kan verwijderd worden
