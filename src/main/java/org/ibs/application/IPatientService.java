@@ -13,10 +13,4 @@ public interface IPatientService {
     List<GetPatient> getAll() throws Exception;
     SavePatient savePatient(SavePatient patient) throws Exception;
     boolean deletePatient(String patientId, String physioId) throws Exception;
-
-    SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
-
-    boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
-
-    GetMeasurement getAllMeasurements(AskMeasurement askMeasurement) throws Exception;
 }
