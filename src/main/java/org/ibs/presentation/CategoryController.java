@@ -17,7 +17,7 @@ public class CategoryController {
 //    TODO: zal niet meer gebruikt worden
     @GetMapping("/{id}")
     public GetCategory getCategoryById(@PathVariable String id) throws Exception {
-        return categoryService.getById(id);
+        return categoryService.getCategoryData(id);
     }
 
 //    TODO: verander de return waarde naar de juiste attributen
