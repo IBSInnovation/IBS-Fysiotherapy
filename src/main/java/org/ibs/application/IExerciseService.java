@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface IExerciseService {
     GetExercise getById(AskExercise askExercise) throws Exception;
-    List<GetExercise> getAll(AskAllExercise askAllExercise) throws Exception;
-    SaveExercise saveExercise(SaveExercise saveExercise) throws Exception;
+    GetExercise saveExercise(SaveExercise saveExercise) throws Exception;
     boolean deleteExercise(AskExercise askExercise) throws Exception;
 }
