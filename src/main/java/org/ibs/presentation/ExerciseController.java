@@ -29,12 +29,12 @@ public class ExerciseController {
     }
 
     @PostMapping
-    public SaveExercise createExercise(@RequestBody SaveExercise saveExercise) throws Exception {
+    public GetExercise createExercise(@RequestBody SaveExercise saveExercise) throws Exception {
         return exerciseService.saveExercise(saveExercise);
     }
 
     @PatchMapping
-    public SaveExercise updateExercise(@RequestBody SaveExercise saveExercise) throws Exception {
+    public GetExercise updateExercise(@RequestBody SaveExercise saveExercise) throws Exception {
         return exerciseService.saveExercise(saveExercise);
     }
 
