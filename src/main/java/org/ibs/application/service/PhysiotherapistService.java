@@ -109,39 +109,56 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return The saved patient data
      */
     @Override
-    public SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("email", savePhysioPatient.email);
-        data.put("id", savePhysioPatient.patientId);
-        data.put("name", savePhysioPatient.name);
-        db.collection("physiotherapist")
-                .document(savePhysioPatient.physioId)
-                .collection("patients")
-                .document(savePhysioPatient.patientId).set(data);
-        return savePhysioPatient;
+    public SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient) throws Exception {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("email", savePhysioPatient.email);
+            data.put("id", savePhysioPatient.patientId);
+            data.put("name", savePhysioPatient.name);
+            db.collection("physiotherapist")
+                    .document(savePhysioPatient.physioId)
+                    .collection("patients")
+                    .document(savePhysioPatient.patientId).set(data);
+            return savePhysioPatient;
+        } catch (Exception e) {
+            throw new Exception("Patient was not persisted in Physiotherapist due to an error", e);
+        }
+
     }
 
 
     @Override
-    public GetPhysiotherapist updatePhysiotherapist(GetPhysiotherapist getPhysiotherapist) {
-        DocumentReference docRef = db.collection("physiotherapist").document(getPhysiotherapist.id);
-        Map<String, Object> data = new HashMap<>();
-        data.put("email", getPhysiotherapist.email);
-        data.put("name", getPhysiotherapist.name);
-        docRef.update(data);
-        return getPhysiotherapist;
+    public GetPhysiotherapist updatePhysiotherapist(GetPhysiotherapist getPhysiotherapist) throws Exception {
+        try {
+            DocumentReference docRef = db.collection("physiotherapist").document(getPhysiotherapist.id);
+            Map<String, Object> data = new HashMap<>();
+            data.put("email", getPhysiotherapist.email);
+            data.put("name", getPhysiotherapist.name);
+            docRef.update(data);
+            return getPhysiotherapist;
+        } catch (Exception e) {
+            throw new Exception("Could not update Physiotherapist due to an error", e);
+        }
     }
 
     @Override
-    public SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient) {
-        DocumentReference docRef = db.collection("physiotherapist")
+    public SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient) throws Exception {
+        try {
+        DocumentReference docRef = db
+                .collection("physiotherapist")
                 .document(savePhysioPatient.physioId)
                 .collection("patients").document(savePhysioPatient.patientId);
+
         Map<String, Object> data = new HashMap<>();
         data.put("email", savePhysioPatient.email);
         data.put("name", savePhysioPatient.name);
+
         docRef.update(data);
+
         return savePhysioPatient;
+        } catch (Exception e) {
+            throw new Exception("Could not update Patient from Physiotherapist due to an error", e);
+        }
     }
 
     /**
