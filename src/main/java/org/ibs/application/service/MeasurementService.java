@@ -5,6 +5,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IMeasurementService;
+import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.springframework.stereotype.Service;
@@ -45,17 +46,24 @@ public class MeasurementService implements IMeasurementService {
 
     /**
      * Deletes the Measurement entity with the given id.
-     * @param saveMeasurement
+     * @param askMeasurement
      * @return true if the operation succeeded
      * @throws Exception
      */
     @Override
-    public boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception {
+    public boolean deleteMeasurement(AskMeasurement askMeasurement) throws Exception {
         try {
-
             ApiFuture<WriteResult> writeResult = db
                     .collection("measurements")
-                    .document(saveMeasurement.id).delete();
+                    .document(askMeasurement.id)
+                    .delete();
+
+            ApiFuture<WriteResult> writeResult2 = db
+                    .collection("patient")
+                    .document(askMeasurement.patientId)
+                    .collection("measurements")
+                    .document(askMeasurement.id)
+                    .delete();
 
             return true;
         } catch (Exception e) {
