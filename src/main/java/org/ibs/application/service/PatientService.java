@@ -95,9 +95,20 @@ public class PatientService implements IPatientService {
         }
     }
 
-    public SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) {
-        Map<String, Object> data = new HashMap<>();
-        
+    @Override
+    public SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) throws Exception {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("exercise", saveMeasurementPatient.exerciseId);
+            data.put("measurement", saveMeasurementPatient.measurementId);
+            db.collection("patient")
+                    .document(saveMeasurementPatient.patientId)
+                    .collection("measurements")
+                    .document(saveMeasurementPatient.measurementId).set(data);
+            return saveMeasurementPatient;
+        } catch (Exception e) {
+            throw new Exception("Patient was not persisted due to an error", e);
+        }
     }
 
 

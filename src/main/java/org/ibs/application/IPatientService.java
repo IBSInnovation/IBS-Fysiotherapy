@@ -2,6 +2,7 @@ package org.ibs.application;
 
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
+import org.ibs.application.dto.patientdto.SaveMeasurementPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface IPatientService {
     List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws ExecutionException, InterruptedException;
 
     GetPatient savePatient(SavePatient patient) throws Exception;
+
+    SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) throws Exception;
 
     GetPatient updatePatient(GetPatient getPatient) throws Exception;
 
