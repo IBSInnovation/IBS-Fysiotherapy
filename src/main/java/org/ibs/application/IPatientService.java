@@ -12,7 +12,7 @@ public interface IPatientService {
 
     List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws ExecutionException, InterruptedException;
 
-    SavePatient savePatient(SavePatient patient) throws Exception;
+    GetPatient savePatient(SavePatient patient) throws Exception;
 
     GetPatient updatePatient(GetPatient getPatient) throws Exception;
 

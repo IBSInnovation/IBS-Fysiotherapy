@@ -6,6 +6,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
+import org.ibs.application.dto.patientdto.SaveMeasurementPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Transactional
 public class PatientService implements IPatientService {
-    //test
     private final Firestore db;
 
     public PatientService() {
@@ -72,18 +72,32 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public SavePatient savePatient(SavePatient savePatient) throws Exception {
+    public GetPatient savePatient(SavePatient savePatient) throws Exception {
         try {
-////            kijk naar hoe savePhysio eruit ziet
-//            PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
-//
-//            ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(patient);
-//
-//            return savePatient;
+            Map<String, Object> data = new HashMap<>();
+            data.put("dateOfBirth", savePatient.dateOfBirth);
+            data.put("email", savePatient.email);
+            data.put("name", savePatient.name);
+            data.put("surName", savePatient.surName);
+            data.put("weight", savePatient.weight);
+            ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(data);
 
+            return new GetPatient(
+                    addedDocRef.get().getId(),
+                    savePatient.name,
+                    savePatient.surName,
+                    savePatient.weight,
+                    savePatient.dateOfBirth,
+                    savePatient.email
+            );
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
         }
+    }
+
+    public SaveMeasurementPatient saveMeasurementToPatient(SaveMeasurementPatient saveMeasurementPatient) {
+        Map<String, Object> data = new HashMap<>();
+        
     }
 
 
@@ -105,9 +119,6 @@ public class PatientService implements IPatientService {
         docRef.update(data);
         return getPatient;
     }
-
-//    update patient in physio
-
 
     /**
      * Deletes the Patient entity with the given id.
