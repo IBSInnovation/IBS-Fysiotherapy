@@ -62,16 +62,15 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public List<GetPhysioPatient> getPhysioPatientData(String id) throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist").document(id).collection("patients").get();
+            ApiFuture<QuerySnapshot> future = db.collection("physiotherapist")
+                    .document(id).collection("patients").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
             List<GetPhysioPatient> dtoList = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
                 dtoList.add(document.toObject(GetPhysioPatient.class));
             }
-
             return dtoList;
-
         } catch (Exception e) {
             throw new Exception("Physiotherapists patients could not be found due to an error", e);
         }
@@ -168,15 +167,31 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return true if the operation succeeded
      * @throws Exception
      */
-//    TODO: verwijder alle patienten van de physiotherapeut
     @Override
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
+            deleteSubCollections(db.collection("physiotherapist").document(id).collection("patient"), 10);
             ApiFuture<WriteResult> writeResult = db.collection("physiotherapist").document(id).delete();
-            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be deleted due to an error", e);
+        }
+    }
+
+    public void deleteSubCollections(CollectionReference collection, int batchSize) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = collection.limit(batchSize).get();
+            int deleted = 0;
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                document.getReference().delete();
+                ++deleted;
+            }
+            if (deleted >= 10) {
+                deleteSubCollections(collection, batchSize);
+            }
+        } catch (Exception e) {
+            throw new Exception("Subcollection was not deleted due to an error", e);
         }
     }
 }

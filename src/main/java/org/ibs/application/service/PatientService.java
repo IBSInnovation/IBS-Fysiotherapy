@@ -150,6 +150,7 @@ public class PatientService implements IPatientService {
     @Override
     public boolean deletePatient(String patientId) throws Exception {
         try {
+            deleteSubCollections(db.collection("patient").document(patientId).collection("measurements"), 10);
             db.collection("patient").document(patientId).delete();
 
             return true;
@@ -170,6 +171,23 @@ public class PatientService implements IPatientService {
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
+        }
+    }
+
+    public void deleteSubCollections(CollectionReference collection, int batchSize) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = collection.limit(batchSize).get();
+            int deleted = 0;
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                document.getReference().delete();
+                ++deleted;
+            }
+            if (deleted >= 10) {
+                deleteSubCollections(collection, batchSize);
+            }
+        } catch (Exception e) {
+            throw new Exception("Subcollection was not deleted due to an error", e);
         }
     }
 }

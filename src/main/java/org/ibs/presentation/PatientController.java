@@ -19,13 +19,13 @@ public class PatientController {
     }
 
     @PostMapping
-    public SavePatient savePatient(@RequestBody SavePatient savePatient) throws Exception {
+    public GetPatient savePatient(@RequestBody SavePatient savePatient) throws Exception {
         return patientService.savePatient(savePatient);
     }
 
     @PatchMapping
-    public SavePatient updatePatient(@RequestBody SavePatient savePatient) throws Exception {
-        return patientService.savePatient(savePatient);
+    public GetPatient updatePatient(@RequestBody GetPatient getPatient) throws Exception {
+        return patientService.updatePatient(getPatient);
     }
 
     @DeleteMapping("/{id}")
