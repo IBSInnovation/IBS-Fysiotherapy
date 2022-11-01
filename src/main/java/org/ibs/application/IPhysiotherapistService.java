@@ -15,6 +15,10 @@ public interface IPhysiotherapistService {
 
     SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient);
 
+    GetPhysiotherapist updatePhysiotherapist(GetPhysiotherapist getPhysiotherapist);
+
+    SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient);
+
     boolean deletePhysiotherapist(String id) throws Exception;
 
     PlaceholderDTO getDataAfterLogin(String id);
