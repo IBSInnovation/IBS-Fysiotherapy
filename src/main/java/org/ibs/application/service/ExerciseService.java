@@ -26,7 +26,7 @@ public class ExerciseService implements IExerciseService {
     }
 
     /**
-     * Searches the database for an Exercise entity with the given id and returns it if it exists.
+     * Searches the database for an Exercise with the given id and returns it if it exists.
      *
      * @param id
      * @return Exercise of given id
@@ -44,16 +44,15 @@ public class ExerciseService implements IExerciseService {
                 dto.id = id;
                 return dto;
             } else {
-                throw new Exception("Document doesn't exist");
+                throw new Exception("Document reference did not return a result");
             }
         } catch (Exception e) {
             throw new Exception("Exercise could not be found due to an error", e);
         }
     }
 
-
     /**
-     * Saves and updates the given Exercise entity in the database.
+     * Saves the given Exercise in the database.
      *
      * @param saveExercise
      * @return The saved Exercise entity
@@ -68,8 +67,6 @@ public class ExerciseService implements IExerciseService {
             data.put("category", saveExercise.categoryId);
 
             ApiFuture<DocumentReference> addedDocRef = db.collection("exercises").add(data);
-
-
             return new GetExercise(
                     addedDocRef.get().getId(),
                     saveExercise.name,
@@ -82,6 +79,12 @@ public class ExerciseService implements IExerciseService {
         }
     }
 
+    /**
+     * Saves the Exercise collection to the given category.
+     * @param saveCategoryExercise
+     * @return
+     * @throws Exception
+     */
     @Override
     public SaveCategoryExercise saveExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
         try {
@@ -94,14 +97,14 @@ public class ExerciseService implements IExerciseService {
                     .document(saveCategoryExercise.exerciseId).set(data);
             return saveCategoryExercise;
         } catch (Exception e) {
-            throw new Exception("Exercise was not persisted to category due to an error", e);
+            throw new Exception("Exercise was not persisted in category due to an error", e);
         }
     }
 
     @Override
     public GetExercise updateExercise(GetExercise getExercise) throws Exception {
         try {
-            DocumentReference docRef =db.collection("exercises").document(getExercise.id);
+            DocumentReference docRef = db.collection("exercises").document(getExercise.id);
             Map<String, Object> data = new HashMap<>();
             data.put("name", getExercise.name);
             docRef.update(data);
@@ -125,7 +128,7 @@ public class ExerciseService implements IExerciseService {
             docRef.update(data);
             return saveCategoryExercise;
         } catch (Exception e) {
-            throw new Exception("Exercise was not updated to category due to an error", e);
+            throw new Exception("Exercise was not updated in category due to an error", e);
         }
     }
 
@@ -158,7 +161,7 @@ public class ExerciseService implements IExerciseService {
                     .delete();
             return true;
         } catch (Exception e) {
-            throw new Exception("exercise could not be deleted due to an error", e);
+            throw new Exception("exercise could not be removed from category due to an error", e);
         }
     }
 }

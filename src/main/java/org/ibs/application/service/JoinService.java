@@ -1,5 +1,9 @@
 package org.ibs.application.service;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPageLoaderService;
 import org.ibs.application.IPhysiotherapistService;
@@ -13,7 +17,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class PageLoaderService implements IPageLoaderService {
+public class JoinService implements IPageLoaderService {
     private final IPhysiotherapistService physiotherapistService;
 
     @Override
@@ -47,5 +51,22 @@ public class PageLoaderService implements IPageLoaderService {
     @Override
     public PlaceholderDTO getDataForStartExercisePage() {
         return null;
+    }
+
+    public static void deleteSubCollections(CollectionReference collection, int batchSize) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = collection.limit(batchSize).get();
+            int deleted = 0;
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                document.getReference().delete();
+                ++deleted;
+            }
+            if (deleted >= 10) {
+                deleteSubCollections(collection, batchSize);
+            }
+        } catch (Exception e) {
+            throw new Exception("Subcollection was not deleted due to an error", e);
+        }
     }
 }

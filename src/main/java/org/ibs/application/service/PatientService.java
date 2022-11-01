@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.ibs.application.service.JoinService.deleteSubCollections;
+
 @Service
 @Transactional
 public class PatientService implements IPatientService {
@@ -44,7 +46,7 @@ public class PatientService implements IPatientService {
                 dto.id = id;
                 return dto;
             } else {
-                throw new Exception();
+                throw new Exception("Document reference did not return a result");
             }
         } catch (Exception e) {
             throw new Exception("Patient could not be found due to an error", e);
@@ -62,8 +64,8 @@ public class PatientService implements IPatientService {
                 dataList.add(document.toObject(GetPatientMeasurementData.class));
             }
             return dataList;
-        }catch (Exception e) {
-            throw new Exception("Patient was not persisted due to an error", e);
+        } catch (Exception e) {
+            throw new Exception("The measurement data from this patient was not found due to an error", e);
         }
     }
 
@@ -161,7 +163,7 @@ public class PatientService implements IPatientService {
 
             return savePhysioPatient;
         } catch (Exception e) {
-            throw new Exception("Could not update Patient from Physiotherapist due to an error", e);
+            throw new Exception("Could not update Patient in Physiotherapist due to an error", e);
         }
     }
 
@@ -195,23 +197,6 @@ public class PatientService implements IPatientService {
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
-        }
-    }
-
-    public void deleteSubCollections(CollectionReference collection, int batchSize) throws Exception {
-        try {
-            ApiFuture<QuerySnapshot> future = collection.limit(batchSize).get();
-            int deleted = 0;
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-            for (QueryDocumentSnapshot document : documents) {
-                document.getReference().delete();
-                ++deleted;
-            }
-            if (deleted >= 10) {
-                deleteSubCollections(collection, batchSize);
-            }
-        } catch (Exception e) {
-            throw new Exception("Subcollection was not deleted due to an error", e);
         }
     }
 }

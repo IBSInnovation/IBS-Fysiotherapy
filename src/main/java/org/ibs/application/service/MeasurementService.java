@@ -20,7 +20,7 @@ import java.util.Map;
 @Transactional
 public class MeasurementService implements IMeasurementService {
     private final Firestore db;
-    
+
     public MeasurementService() {
         db = FirestoreClient.getFirestore();
     }
@@ -37,9 +37,9 @@ public class MeasurementService implements IMeasurementService {
                 dto.id = id;
                 return dto;
             } else {
-                throw new Exception();
+                throw new Exception("Document reference did not return a result");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception("Measurement could not be found due to an error", e);
         }
     }
@@ -76,7 +76,7 @@ public class MeasurementService implements IMeasurementService {
                     .document(saveMeasurementPatient.measurementId).set(data);
             return saveMeasurementPatient;
         } catch (Exception e) {
-            throw new Exception("Patient was not persisted due to an error", e);
+            throw new Exception("Measurement was not persisted in patient due to an error", e);
         }
     }
 
