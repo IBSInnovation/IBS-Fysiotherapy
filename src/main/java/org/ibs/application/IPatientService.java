@@ -12,7 +12,7 @@ public interface IPatientService {
     GetPatient getById(String id) throws Exception;
     List<GetPatient> getAll() throws Exception;
     SavePatient savePatient(SavePatient patient) throws Exception;
-    boolean deletePatient(String id) throws Exception;
+    boolean deletePatient(String patientId, String physioId) throws Exception;
 
     SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 
