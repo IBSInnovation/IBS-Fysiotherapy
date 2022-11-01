@@ -83,19 +83,12 @@ public class PatientService implements IPatientService {
      * @return THe saved Patient entity
      * @throws Exception
      */
-//    TODO: zorg ervoor dat een measurement lijst word meegemaakt
-//    TODO: zorg ervoor dat de physiotherapeut ook de patient krijgt
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
             PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
 
-            DocumentReference documentReference = db.collection("physiotherapist").document(savePatient.physiotherapistId);
-            patient.setPhysiotherapistReference(documentReference);
-
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.getId()).set(patient);
-
-            collectionsApiFuture.get().getUpdateTime().toString();
+            ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(patient);
 
             return savePatient;
         } catch (Exception e) {
@@ -106,16 +99,24 @@ public class PatientService implements IPatientService {
     /**
      * Deletes the Patient entity with the given id.
      *
-     * @param id
+     * @param patientId physioId
      * @return true if the operation succeeded
      * @throws Exception
      */
 //    TODO: zorg ervoor dat het bij de physiotherapeut ook word verwijderd
     @Override
-    public boolean deletePatient(String id) throws Exception {
+    public boolean deletePatient(String patientId, String physioId) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("patient").document(id).delete();
-            writeResult.get().getUpdateTime().toString();
+            ApiFuture<WriteResult> writeResult = db.collection("patient").document(patientId).delete();
+
+            ApiFuture<WriteResult> writeResult2 = db
+                    .collection("physiotherapist")
+                    .document(physioId)
+                    .collection("patients")
+                    .document(patientId)
+                    .delete();
+
+//            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
