@@ -1,10 +1,9 @@
 package org.ibs.application.dto.measurementdto;
 
 import lombok.NoArgsConstructor;
-import org.ibs.utils.DTO;
 
 @NoArgsConstructor
-public class AskMeasurement extends DTO {
+public class AskMeasurement {
     public String id;
     public String patientId;
     public String categoryId;

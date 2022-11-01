@@ -7,19 +7,19 @@ import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
-import org.ibs.data.PersistPhysiotherapist;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 public class PhysiotherapistService implements IPhysiotherapistService {
-
-
     private final Firestore db;
 
     public PhysiotherapistService() {
@@ -28,6 +28,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
 
     /**
      * Searches the database for a Physiotherapist with the given id and returns it if it exists.
+     *
      * @param id
      * @return Physiotherapist of given id
      * @throws Exception
@@ -43,17 +44,17 @@ public class PhysiotherapistService implements IPhysiotherapistService {
                 GetPhysiotherapist dto = document.toObject(GetPhysiotherapist.class);
                 dto.id = id;
                 return dto;
-            }
-
-            else {
+            } else {
                 throw new Exception();
             }
         } catch (Exception e) {
             throw new Exception("Physiotherapist could not be found due to an error", e);
         }
     }
+
     /**
      * Searches the database for a Physiotherapist with the given id and returns its patients if it exists.
+     *
      * @param id
      * @return Physiotherapist's patients of given id
      * @throws Exception
@@ -78,28 +79,51 @@ public class PhysiotherapistService implements IPhysiotherapistService {
 
     /**
      * Saves and updates the given Physiotherapist entity in the database.
+     *
      * @param savePhysiotherapist
      * @return The saved Physiotherapist entity
      * @throws Exception
      */
     @Override
-    public SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
+    public GetPhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
         try {
-            PersistPhysiotherapist persistPhysio = PersistPhysiotherapist.toPersistPhysio(savePhysiotherapist);
+            Map<String, Object> data = new HashMap<>();
+            data.put("email", savePhysiotherapist.email);
+            data.put("name", savePhysiotherapist.name);
+            ApiFuture<DocumentReference> addedDocRef = db.collection("physiotherapist").add(data);
 
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("physiotherapist").document(persistPhysio.getId()).set(persistPhysio);
-
-            collectionsApiFuture.get().getUpdateTime().toString();
-
-            return savePhysiotherapist;
-
+            return new GetPhysiotherapist(
+                    addedDocRef.get().getId(),
+                    savePhysiotherapist.email,
+                    savePhysiotherapist.name
+            );
         } catch (Exception e) {
             throw new Exception("Physiotherapist was not persisted due to an error", e);
         }
     }
 
     /**
+     * Saves the basic patient data in the physiotherapist object.
+     *
+     * @param savePhysioPatient
+     * @return The saved patient data
+     */
+    @Override
+    public SavePhysioPatient persistPatientToPhysio(SavePhysioPatient savePhysioPatient) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", savePhysioPatient.email);
+        data.put("id", savePhysioPatient.patientId);
+        data.put("name", savePhysioPatient.name);
+        db.collection("physiotherapist")
+                .document(savePhysioPatient.physioId)
+                .collection("patients")
+                .document(savePhysioPatient.patientId).set(data);
+        return savePhysioPatient;
+    }
+
+    /**
      * Deletes the Physiotherapist entity with the given id.
+     *
      * @param id
      * @return true if the operation succeeded
      * @throws Exception
