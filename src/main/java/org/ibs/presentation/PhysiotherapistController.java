@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/physiotherapist")
@@ -20,20 +19,20 @@ public class PhysiotherapistController {
         return physiotherapistService.getPhysioData(id);
     }
 
-//    TODO: kan verwijderd worden
-    @GetMapping
-    public List<GetPhysiotherapist> getAllPhysiotherapists() throws Exception {
-        return physiotherapistService.getAll();
+    @PostMapping
+    public GetPhysiotherapist createPhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
+        return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
     }
 
-    @PostMapping
-    public SavePhysiotherapist createPhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
-        return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
+//    fix naamgeving enzo
+    @PostMapping("/patient")
+    public SavePhysioPatient blalba(@RequestBody SavePhysioPatient savePhysioPatient) {
+        return physiotherapistService.savePatientToPhysio(savePhysioPatient);
     }
 
     @PatchMapping
-    public SavePhysiotherapist updatePhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
-        return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
+    public GetPhysiotherapist updatePhysiotherapist(@RequestBody GetPhysiotherapist getPhysiotherapist) throws Exception {
+        return physiotherapistService.updatePhysiotherapist(getPhysiotherapist);
     }
 
     @DeleteMapping("/{id}")

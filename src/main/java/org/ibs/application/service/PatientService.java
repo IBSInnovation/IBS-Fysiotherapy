@@ -7,7 +7,6 @@ import org.ibs.application.IPatientService;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
 import org.ibs.application.dto.patientdto.SavePatient;
-import org.ibs.data.PersistPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Transactional
 public class PatientService implements IPatientService {
-//test
+    //test
     private final Firestore db;
 
     public PatientService() {
@@ -45,8 +44,7 @@ public class PatientService implements IPatientService {
                 GetPatient dto = document.toObject(GetPatient.class);
                 dto.id = id;
                 return dto;
-            }
-            else {
+            } else {
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -63,7 +61,6 @@ public class PatientService implements IPatientService {
         for (QueryDocumentSnapshot document : documents) {
             dataList.add(document.toObject(GetPatientMeasurementData.class));
         }
-//        haal patient/id/measurements op en return de lijst die je krijgt
         return dataList;
     }
 
@@ -77,12 +74,13 @@ public class PatientService implements IPatientService {
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
-//            kijk naar hoe savePhysio eruit ziet
-            PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
+////            kijk naar hoe savePhysio eruit ziet
+//            PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
+//
+//            ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(patient);
+//
+//            return savePatient;
 
-            ApiFuture<DocumentReference> addedDocRef = db.collection("patient").add(patient);
-
-            return savePatient;
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
         }
@@ -90,7 +88,6 @@ public class PatientService implements IPatientService {
 
 
     /**
-     *
      * @param getPatient
      * @return
      * @throws Exception
@@ -109,6 +106,8 @@ public class PatientService implements IPatientService {
         return getPatient;
     }
 
+//    update patient in physio
+
 
     /**
      * Deletes the Patient entity with the given id.
@@ -118,18 +117,23 @@ public class PatientService implements IPatientService {
      * @throws Exception
      */
     @Override
-    public boolean deletePatient(String patientId, String physioId) throws Exception {
+    public boolean deletePatient(String patientId) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("patient").document(patientId).delete();
+            db.collection("patient").document(patientId).delete();
+            return true;
+        } catch (Exception e) {
+            throw new Exception("Patient could not be deleted due to an error", e);
+        }
+    }
 
-            ApiFuture<WriteResult> writeResult2 = db
-                    .collection("physiotherapist")
+    @Override
+    public boolean removePatientFromPhysio(String patientId, String physioId) throws Exception {
+        try {
+            db.collection("physiotherapist")
                     .document(physioId)
                     .collection("patients")
                     .document(patientId)
                     .delete();
-
-//            writeResult.get().getUpdateTime().toString();
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);

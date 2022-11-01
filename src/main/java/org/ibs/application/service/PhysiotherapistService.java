@@ -4,7 +4,6 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPhysiotherapistService;
-import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
@@ -36,6 +35,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
     @Override
     public GetPhysiotherapist getPhysioData(String id) throws Exception {
         try {
+            System.out.println(id);
             DocumentReference documentReference = db.collection("physiotherapist").document(id);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
             DocumentSnapshot document = future.get();
