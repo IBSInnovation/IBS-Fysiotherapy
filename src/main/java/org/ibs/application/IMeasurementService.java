@@ -8,6 +8,4 @@ public interface IMeasurementService {
     GetMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception;
 
     boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception;
-
-    GetMeasurement getAllMeasurements(AskMeasurement askMeasurement) throws Exception;
 }

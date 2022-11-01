@@ -104,10 +104,12 @@ public class PatientService implements IPatientService {
             Map<String, Object> data = new HashMap<>();
             data.put("exercise", saveMeasurementPatient.exerciseId);
             data.put("measurement", saveMeasurementPatient.measurementId);
+
             db.collection("patient")
                     .document(saveMeasurementPatient.patientId)
                     .collection("measurements")
                     .document(saveMeasurementPatient.measurementId).set(data);
+
             return saveMeasurementPatient;
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
@@ -149,6 +151,7 @@ public class PatientService implements IPatientService {
     public boolean deletePatient(String patientId) throws Exception {
         try {
             db.collection("patient").document(patientId).delete();
+
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
@@ -163,6 +166,7 @@ public class PatientService implements IPatientService {
                     .collection("patients")
                     .document(patientId)
                     .delete();
+
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
