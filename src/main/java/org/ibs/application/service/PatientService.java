@@ -119,16 +119,20 @@ public class PatientService implements IPatientService {
      */
     @Override
     public GetPatient updatePatient(GetPatient getPatient) throws Exception {
-        DocumentReference docRef = db.collection("patient").document(getPatient.id);
-        Map<String, Object> data = new HashMap<>();
-        data.put("dateofBirth", getPatient.dateOfBirth);
-        data.put("email", getPatient.email);
-        data.put("name", getPatient.name);
-        data.put("surname", getPatient.surName);
-        data.put("weight", getPatient.weight);
+        try {
+            DocumentReference docRef = db.collection("patient").document(getPatient.id);
+            Map<String, Object> data = new HashMap<>();
+            data.put("dateofBirth", getPatient.dateOfBirth);
+            data.put("email", getPatient.email);
+            data.put("name", getPatient.name);
+            data.put("surname", getPatient.surName);
+            data.put("weight", getPatient.weight);
 
-        docRef.update(data);
-        return getPatient;
+            docRef.update(data);
+            return getPatient;
+        } catch (Exception e) {
+            throw new Exception("Could not update Patient due to an error", e);
+        }
     }
 
     /**
