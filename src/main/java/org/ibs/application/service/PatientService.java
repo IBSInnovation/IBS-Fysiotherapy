@@ -1,10 +1,7 @@
 package org.ibs.application.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.patientdto.GetPatient;
@@ -14,9 +11,11 @@ import org.ibs.data.PersistPatient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
@@ -55,9 +54,17 @@ public class PatientService implements IPatientService {
         }
     }
 
-    public List<GetPatientMeasurementData> getPatientMeasurementData(String id) {
+    @Override
+    public List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = db.collection("patient").document(id).collection("measurements").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        List<GetPatientMeasurementData> dataList = new ArrayList<>();
+        for (QueryDocumentSnapshot document : documents) {
+            dataList.add(document.toObject(GetPatientMeasurementData.class));
+        }
 //        haal patient/id/measurements op en return de lijst die je krijgt
-        return null;
+        return dataList;
     }
 
     /**
@@ -80,7 +87,7 @@ public class PatientService implements IPatientService {
             throw new Exception("Patient was not persisted due to an error", e);
         }
     }
-    
+
 
     /**
      *
@@ -102,7 +109,6 @@ public class PatientService implements IPatientService {
         return getPatient;
     }
 
-//    update measurement in patient (kijk naar updatePatientToPhysio voor idee
 
     /**
      * Deletes the Patient entity with the given id.
