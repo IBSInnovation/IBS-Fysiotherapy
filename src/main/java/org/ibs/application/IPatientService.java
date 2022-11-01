@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public interface IPatientService {
     GetPatient getPatientData(String id) throws Exception;
 
-    List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws ExecutionException, InterruptedException;
+    List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws Exception;
 
     GetPatient savePatient(SavePatient patient) throws Exception;
 

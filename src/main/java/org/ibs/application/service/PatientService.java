@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
@@ -53,15 +52,19 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> future = db.collection("patient").document(id).collection("measurements").get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+    public List<GetPatientMeasurementData> getPatientMeasurementData(String id) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = db.collection("patient").document(id).collection("measurements").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-        List<GetPatientMeasurementData> dataList = new ArrayList<>();
-        for (QueryDocumentSnapshot document : documents) {
-            dataList.add(document.toObject(GetPatientMeasurementData.class));
+            List<GetPatientMeasurementData> dataList = new ArrayList<>();
+            for (QueryDocumentSnapshot document : documents) {
+                dataList.add(document.toObject(GetPatientMeasurementData.class));
+            }
+            return dataList;
+        }catch (Exception e) {
+            throw new Exception("Patient was not persisted due to an error", e);
         }
-        return dataList;
     }
 
     /**
