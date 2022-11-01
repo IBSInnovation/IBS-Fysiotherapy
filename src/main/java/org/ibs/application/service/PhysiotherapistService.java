@@ -102,6 +102,17 @@ public class PhysiotherapistService implements IPhysiotherapistService {
         }
     }
 
+
+    public GetPhysiotherapist updatePhysiotherapist(GetPhysiotherapist getPhysiotherapist) {
+        DocumentReference docRef = db.collection("physiotherapist").document(getPhysiotherapist.id);
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", getPhysiotherapist.email);
+        data.put("name", getPhysiotherapist.name);
+        docRef.update(data);
+        return getPhysiotherapist;
+    }
+    
+
     /**
      * Saves the basic patient data in the physiotherapist object.
      *
@@ -109,7 +120,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return The saved patient data
      */
     @Override
-    public SavePhysioPatient persistPatientToPhysio(SavePhysioPatient savePhysioPatient) {
+    public SavePhysioPatient savePatientToPhysio(SavePhysioPatient savePhysioPatient) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", savePhysioPatient.email);
         data.put("id", savePhysioPatient.patientId);
