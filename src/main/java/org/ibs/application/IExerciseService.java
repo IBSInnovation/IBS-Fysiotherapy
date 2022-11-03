@@ -1,7 +1,6 @@
 package org.ibs.application;
 
 import org.ibs.application.dto.categorydto.SaveCategoryExercise;
-import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
 
@@ -15,7 +14,7 @@ public interface IExerciseService {
 
     SaveCategoryExercise updateExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception;
 
-    boolean deleteExercise(AskExercise askExercise) throws Exception;
+    boolean deleteExercise(String id) throws Exception;
 
     boolean removeExerciseFromCategory(String exerciseId, String categoryId) throws Exception;
 }

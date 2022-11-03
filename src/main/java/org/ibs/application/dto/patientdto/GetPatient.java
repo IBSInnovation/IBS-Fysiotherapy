@@ -14,5 +14,5 @@ public class GetPatient {
     public double weight;
     public Date dateOfBirth;
     public String email;
-
+    public String physio;
 }

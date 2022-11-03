@@ -6,7 +6,6 @@ import com.google.firebase.cloud.FirestoreClient;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
 import org.ibs.application.dto.categorydto.SaveCategoryExercise;
-import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.springframework.stereotype.Service;
@@ -147,15 +146,15 @@ public class ExerciseService implements IExerciseService {
     /**
      * Deletes the Exercise entity with the given id.
      *
-     * @param askExercise
+     * @param id
      * @return true if the operation succeeded
      * @throws Exception
      */
     @Override
-    public boolean deleteExercise(AskExercise askExercise) throws Exception {
+    public boolean deleteExercise(String id) throws Exception {
         try {
             db.collection("exercises")
-                    .document(askExercise.id)
+                    .document(id)
                     .delete();
             return true;
         } catch (Exception e) {

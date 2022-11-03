@@ -1,7 +1,9 @@
 package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
+import org.ibs.application.IJoinService;
 import org.ibs.application.IPatientService;
+import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class PatientController {
     private final IPatientService patientService;
+    private final IJoinService joinService;
 
     @GetMapping("/{id}")
     public GetPatient getPatientById(@PathVariable String id) throws Exception {
@@ -24,33 +27,12 @@ public class PatientController {
     }
 
     @PatchMapping
-    public GetPatient updatePatient(@RequestBody GetPatient getPatient) throws Exception {
-        return patientService.updatePatient(getPatient);
+    public PlaceholderDTO updatePatient(@RequestBody GetPatient getPatient) {
+        return joinService.updatePatient(getPatient);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deletePatient(@PathVariable String id) throws Exception {
-        return patientService.deletePatient(id);
+    public boolean deletePatient(@PathVariable String id) {
+        return joinService.deletePatientAndSubcollections(id);
     }
-
-////    TODO: eigen controller voor emasurements
-//    @GetMapping("/measurement")
-//    public GetMeasurement getMeasurementsOfExercise(@RequestBody AskMeasurement askMeasurement) throws Exception {
-//        return patientService.getAllMeasurements(askMeasurement);
-//    }
-//
-//    @PostMapping("/measurement")
-//    public SaveMeasurement saveMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-//        return patientService.saveMeasurement(saveMeasurement);
-//    }
-//
-//    @PatchMapping("/measurement")
-//    public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-//        return patientService.saveMeasurement(saveMeasurement);
-//    }
-//
-//    @DeleteMapping("/measurement")
-//    public boolean deleteMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-//        return patientService.deleteMeasurement(saveMeasurement);
-//    }
 }

@@ -93,7 +93,8 @@ public class PatientService implements IPatientService {
                     savePatient.surName,
                     savePatient.weight,
                     savePatient.dateOfBirth,
-                    savePatient.email
+                    savePatient.email,
+                    savePatient.physio
             );
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
@@ -139,6 +140,7 @@ public class PatientService implements IPatientService {
             data.put("name", getPatient.name);
             data.put("surname", getPatient.surName);
             data.put("weight", getPatient.weight);
+            data.put("physio", getPatient.physio);
 
             docRef.update(data);
             return getPatient;
