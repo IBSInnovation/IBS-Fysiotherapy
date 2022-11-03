@@ -1,4 +1,4 @@
-package org.ibs.application.dto.pageloaderdto;
+package org.ibs.application.dto.joindto;
 
 import lombok.AllArgsConstructor;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;

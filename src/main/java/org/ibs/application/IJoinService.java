@@ -1,14 +1,16 @@
 package org.ibs.application;
 
 import org.ibs.application.dto.PlaceholderDTO;
-import org.ibs.application.dto.pageloaderdto.HomePageData;
+import org.ibs.application.dto.joindto.ExerciseAndMeasurementData;
+import org.ibs.application.dto.joindto.HomePageData;
+import org.ibs.application.dto.joindto.PatientPageData;
 
 public interface IJoinService {
     HomePageData getDataForHomePage(String physioId) throws Exception;
 
-    PlaceholderDTO getDataForPatientPage(String patientId);
+    PatientPageData getDataForPatientPage(String patientId) throws Exception;
 
-    PlaceholderDTO getDataForExercisePage(String measurementId);
+    ExerciseAndMeasurementData getDataForExercise(String measurementId) throws Exception;
 
     PlaceholderDTO getDataForStartExercisePage();
 }

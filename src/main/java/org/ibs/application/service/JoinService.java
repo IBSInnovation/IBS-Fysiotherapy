@@ -5,10 +5,15 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import lombok.AllArgsConstructor;
-import org.ibs.application.IJoinService;
-import org.ibs.application.IPhysiotherapistService;
+import org.ibs.application.*;
 import org.ibs.application.dto.PlaceholderDTO;
-import org.ibs.application.dto.pageloaderdto.HomePageData;
+import org.ibs.application.dto.exercisedto.GetExercise;
+import org.ibs.application.dto.joindto.ExerciseAndMeasurementData;
+import org.ibs.application.dto.joindto.HomePageData;
+import org.ibs.application.dto.joindto.PatientPageData;
+import org.ibs.application.dto.measurementdto.GetMeasurement;
+import org.ibs.application.dto.patientdto.GetPatient;
+import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,9 @@ import java.util.List;
 @AllArgsConstructor
 public class JoinService implements IJoinService {
     private final IPhysiotherapistService physiotherapistService;
+    private final IPatientService patientService;
+    private final IMeasurementService measurementService;
+    private final IExerciseService exerciseService;
 
     @Override
     public HomePageData getDataForHomePage(String physioId) throws Exception {
@@ -28,24 +36,30 @@ public class JoinService implements IJoinService {
     }
 
     @Override
-    public PlaceholderDTO getDataForPatientPage(String patientId) {
-//        haal patient gegevens op
-//        haal alle oefeningen namen van de patient op
-//        haal alle meting ids van de oefeningen op
-
-//        haal algemene progressie data op
-
-//        return gegevens
-        return null;
+    public PatientPageData getDataForPatientPage(String patientId) throws Exception {
+        GetPatient patientDTO = patientService.getPatientData(patientId);
+        List<GetPatientMeasurementData> measurementIdDTO = patientService.getPatientMeasurementData(patientId);
+//        TODO: haal algemene progressie data op
+        return new PatientPageData(patientDTO.id,
+                patientDTO.name,
+                patientDTO.surName,
+                patientDTO.weight,
+                patientDTO.dateOfBirth,
+                patientDTO.email,
+                measurementIdDTO);
     }
 
     @Override
-    public PlaceholderDTO getDataForExercisePage(String measurementId) {
-//        haal gemeten data op
-//        haal datum van meting op
-//        haal oefening gegevens op
-//        return gegevens
-        return null;
+    public ExerciseAndMeasurementData getDataForExercise(String measurementId) throws Exception {
+        GetMeasurement measurementDTO = measurementService.getMeasurementData(measurementId);
+        GetExercise exerciseDTO = exerciseService.getExerciseData(measurementDTO.exercise);
+        return new ExerciseAndMeasurementData(measurementDTO.id,
+                measurementDTO.dateOfMeasurement,
+                measurementDTO.data,
+                exerciseDTO.id,
+                exerciseDTO.name,
+                exerciseDTO.description,
+                exerciseDTO.categoryId);
     }
 
     @Override
