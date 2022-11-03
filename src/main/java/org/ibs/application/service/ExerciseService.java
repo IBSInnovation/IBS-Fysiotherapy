@@ -82,7 +82,7 @@ public class ExerciseService implements IExerciseService {
     /**
      * Saves the Exercise collection to the given category.
      * @param saveCategoryExercise
-     * @return
+     * @return the saved Exercise data
      * @throws Exception
      */
     @Override
@@ -101,6 +101,12 @@ public class ExerciseService implements IExerciseService {
         }
     }
 
+    /**
+     * Updates the given exercise in the database
+     * @param getExercise
+     * @return the updated exercise
+     * @throws Exception
+     */
     @Override
     public GetExercise updateExercise(GetExercise getExercise) throws Exception {
         try {
@@ -114,6 +120,12 @@ public class ExerciseService implements IExerciseService {
         }
     }
 
+    /**
+     * Updates the Exercise data in a category
+     * @param saveCategoryExercise
+     * @return
+     * @throws Exception
+     */
     @Override
     public SaveCategoryExercise updateExerciseToCategory(SaveCategoryExercise saveCategoryExercise) throws Exception {
         try {
@@ -151,6 +163,13 @@ public class ExerciseService implements IExerciseService {
         }
     }
 
+    /**
+     * removes the exercise data from a category
+     * @param exerciseId
+     * @param categoryId
+     * @return true if the operation succeeded
+     * @throws Exception
+     */
     @Override
     public boolean removeExerciseFromCategory(String exerciseId, String categoryId) throws Exception {
         try {

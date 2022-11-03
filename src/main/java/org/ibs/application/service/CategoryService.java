@@ -127,7 +127,7 @@ public class CategoryService implements ICategoryService {
      * Updates the given Category in the database.
      *
      * @param getCategory
-     * @return
+     * @return the updated category
      * @throws Exception
      */
     @Override

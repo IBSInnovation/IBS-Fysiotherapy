@@ -5,7 +5,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import lombok.AllArgsConstructor;
-import org.ibs.application.IPageLoaderService;
+import org.ibs.application.IJoinService;
 import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.pageloaderdto.HomePageData;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class JoinService implements IPageLoaderService {
+public class JoinService implements IJoinService {
     private final IPhysiotherapistService physiotherapistService;
 
     @Override

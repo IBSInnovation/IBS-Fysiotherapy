@@ -112,6 +112,13 @@ public class MeasurementService implements IMeasurementService {
         }
     }
 
+    /**
+     * removes the measurement data from a patient
+     * @param measurementId
+     * @param patientId
+     * @return true
+     * @throws Exception
+     */
     @Override
     public boolean removeMeasurementFromPatient(String measurementId, String patientId) throws Exception {
         try {
