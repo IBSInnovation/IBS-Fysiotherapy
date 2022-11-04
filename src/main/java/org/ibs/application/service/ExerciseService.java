@@ -11,7 +11,9 @@ import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -47,6 +49,22 @@ public class ExerciseService implements IExerciseService {
             }
         } catch (Exception e) {
             throw new Exception("Exercise could not be found due to an error", e);
+        }
+    }
+
+    @Override
+    public List<GetExercise> getExerciseDataByCategory(String categoryId) throws Exception {
+        try {
+            ApiFuture<QuerySnapshot> future = db.collection("exercises").whereEqualTo("category", categoryId).get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            ArrayList<GetExercise> exerciseArrayList = new ArrayList<>();
+            for (DocumentSnapshot document : documents) {
+                exerciseArrayList.add(document.toObject(GetExercise.class));
+            }
+            return exerciseArrayList;
+        } catch (Exception e) {
+            throw new Exception("Exercises could not be found due to an error", e);
         }
     }
 
