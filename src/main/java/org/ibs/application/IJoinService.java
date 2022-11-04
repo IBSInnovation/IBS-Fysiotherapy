@@ -17,11 +17,11 @@ public interface IJoinService {
 
     PlaceholderDTO getDataForStartExercisePage();
 
-    PlaceholderDTO updateCategory(GetCategory getCategory);
+    PlaceholderDTO updateCategory(GetCategory getCategory) throws Exception;
 
-    boolean deleteCategoryAndSubcollections(String CategoryId);
+    boolean deleteCategoryAndSubcollections(String CategoryId) throws Exception;
 
-    PlaceholderDTO updateExercise(GetExercise getExercise);
+    PlaceholderDTO updateExercise(GetExercise getExercise) throws Exception;
 
     boolean deleteExerciseAndSubcollections(String ExerciseId);
 
