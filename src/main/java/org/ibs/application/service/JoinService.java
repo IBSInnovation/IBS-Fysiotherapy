@@ -19,6 +19,7 @@ import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.GetPatientMeasurementData;
 import org.ibs.application.dto.physiotherapistdto.GetPhysioPatient;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
+import org.ibs.application.dto.physiotherapistdto.SavePhysioPatient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -103,30 +104,48 @@ public class JoinService implements IJoinService {
 
     @Override
     public PlaceholderDTO updateExercise(GetExercise getExercise) throws Exception {
+
+        // TODO: is deze SaveCategoryExercise dto nodig??
         exerciseService.updateExerciseToCategory(new SaveCategoryExercise(getExercise.categoryId, getExercise.id, getExercise.name));
+
         exerciseService.updateExercise(getExercise);
-//        pak de categorie van de exercise die je wilt updaten
-//        update de exercise in de sub-collectie van die category
-//        update de exercise
+
+        // TODO: return in orde maken
         return null;
     }
 
     @Override
-    public boolean deleteExerciseAndSubcollections(String ExerciseId) {
-//        verwijder alle cate die gelinkt staan aan een category
-//        verwijder alle categorien
+    public boolean deleteExerciseAndSubcollections(String exerciseId) throws Exception {
+        GetExercise exercise = exerciseService.getExerciseData(exerciseId);
+
+        exerciseService.removeExerciseFromCategory(exercise.id, exercise.categoryId);
+        exerciseService.deleteExercise(exerciseId);
+
+//        verwijder alle verwijzingen die gelinkt staan aan een Exercises
+//        verwijder alle Exercises
         return true;
     }
 
     @Override
-    public PlaceholderDTO updatePatient(GetPatient getPatient) {
+    public PlaceholderDTO updatePatient(GetPatient getPatient) throws Exception {
+        patientService.updatePatientToPhysio(new SavePhysioPatient(getPatient.physio, getPatient.id, getPatient.email, getPatient.name));
+
+        patientService.updatePatient(getPatient);
+
+        // TODO: return in orde maken
 //        update de patient gegevens in physio eerst
 //        update patient
         return null;
     }
 
     @Override
-    public boolean deletePatientAndSubcollections(String id) {
+    public boolean deletePatientAndSubcollections(String id) throws Exception {
+        GetPatient patient = patientService.getPatientData(id);
+
+        patientService.deletePatientFromPhysio(patient.id, patient.physio);
+        patientService.deletePatient(id);
+
+
 //        delete patient uit de physio subcollectie
 //        delete patient
         return true;
