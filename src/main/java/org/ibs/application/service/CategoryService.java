@@ -62,8 +62,12 @@ public class CategoryService implements ICategoryService {
     @Override
     public List<GetCategoryMeasurement> getCategoryExerciseData(String id) throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("cateogry")
-                    .document(id).collection("exercises").get();
+            ApiFuture<QuerySnapshot> future = db
+                    .collection("category")
+                    .document(id)
+                    .collection("exercises")
+                    .get();
+
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
             List<GetCategoryMeasurement> dtoList = new ArrayList<>();
