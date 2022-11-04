@@ -23,9 +23,9 @@ public interface IJoinService {
 
     PlaceholderDTO updateExercise(GetExercise getExercise) throws Exception;
 
-    boolean deleteExerciseAndSubcollections(String ExerciseId);
+    boolean deleteExerciseAndSubcollections(String ExerciseId) throws Exception;
 
-    PlaceholderDTO updatePatient(GetPatient getPatient);
+    PlaceholderDTO updatePatient(GetPatient getPatient) throws Exception;
 
-    boolean deletePatientAndSubcollections(String id);
+    boolean deletePatientAndSubcollections(String id) throws Exception;
 }

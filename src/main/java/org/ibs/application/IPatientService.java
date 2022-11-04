@@ -15,5 +15,5 @@ public interface IPatientService {
     GetPatient updatePatient(GetPatient getPatient) throws Exception;
     SavePhysioPatient updatePatientToPhysio(SavePhysioPatient savePhysioPatient) throws Exception;
     boolean deletePatient(String patientId) throws Exception;
-    boolean removePatientFromPhysio(String patientId, String physioId) throws Exception;
+    boolean deletePatientFromPhysio(String patientId, String physioId) throws Exception;
 }
