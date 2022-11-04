@@ -155,7 +155,8 @@ public class PatientService implements IPatientService {
             DocumentReference docRef = db
                     .collection("physiotherapist")
                     .document(savePhysioPatient.physioId)
-                    .collection("patients").document(savePhysioPatient.patientId);
+                    .collection("patients")
+                    .document(savePhysioPatient.patientId);
 
             Map<String, Object> data = new HashMap<>();
             data.put("email", savePhysioPatient.email);
@@ -189,7 +190,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public boolean removePatientFromPhysio(String patientId, String physioId) throws Exception {
+    public boolean deletePatientFromPhysio(String patientId, String physioId) throws Exception {
         try {
             db.collection("physiotherapist")
                     .document(physioId)
