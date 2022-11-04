@@ -2,12 +2,14 @@ package org.ibs.application.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import lombok.AllArgsConstructor;
 import org.ibs.application.*;
 import org.ibs.application.dto.PlaceholderDTO;
 import org.ibs.application.dto.categorydto.GetCategory;
+import org.ibs.application.dto.categorydto.SaveCategoryExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.joindto.ExerciseAndMeasurementData;
 import org.ibs.application.dto.joindto.HomePageData;
@@ -28,6 +30,10 @@ public class JoinService implements IJoinService {
     private final IPatientService patientService;
     private final IMeasurementService measurementService;
     private final IExerciseService exerciseService;
+
+    private final ICategoryService categoryService;
+
+    private final Firestore db;
 
     @Override
     public HomePageData getDataForHomePage(String physioId) throws Exception {
@@ -69,24 +75,38 @@ public class JoinService implements IJoinService {
     }
 
     @Override
-    public PlaceholderDTO updateCategory(GetCategory getCategory) {
-//        pak all exercises van de category die je wilt update
-//        update de category referentie in die exercises
-//        update de category
+    public PlaceholderDTO updateCategory(GetCategory getCategory) throws Exception {
+        List<GetExercise> exerciseList = exerciseService.getExerciseDataByCategory(getCategory.id);
+
+        for (GetExercise g : exerciseList) {
+            exerciseService.updateExercise(g);
+        }
+
+        categoryService.updateCategory(getCategory);
+
+        // TODO: return in orde maken
+
         return null;
     }
 
     @Override
-    public boolean deleteCategoryAndSubcollections(String CategoryId) {
-//        verwijder alle exercises die gelinkt staan aan een category
-//        verwijder alle categorien
+    public boolean deleteCategoryAndSubcollections(String categoryId) throws Exception {
+        List<GetExercise> exerciseList = exerciseService.getExerciseDataByCategory(categoryId);
+
+        for (GetExercise g : exerciseList) {
+            exerciseService.deleteExercise(g.id);
+        }
+
+        categoryService.deleteCategory(categoryId);
         return true;
     }
 
     @Override
-    public PlaceholderDTO updateExercise(GetExercise getExercise) {
+    public PlaceholderDTO updateExercise(GetExercise getExercise) throws Exception {
+        exerciseService.updateExerciseToCategory(new SaveCategoryExercise(getExercise.categoryId, getExercise.id, getExercise.name));
+        exerciseService.updateExercise(getExercise);
 //        pak de categorie van de exercise die je wilt updaten
-//        update de exercise in de subcolelcite van die category
+//        update de exercise in de sub-collectie van die category
 //        update de exercise
         return null;
     }
