@@ -36,12 +36,12 @@ public class CategoryController {
 
 //    TODO: kan verwijderd worden. alle updates worden eigenlijk op de exercises gedaan, dus dat kan geregeld worden in de service laag
     @PatchMapping
-    public PlaceholderDTO updateCategory(@RequestBody GetCategory getCategory) {
+    public PlaceholderDTO updateCategory(@RequestBody GetCategory getCategory) throws Exception {
         return joinService.updateCategory(getCategory);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteCategory(@PathVariable String id) {
+    public boolean deleteCategory(@PathVariable String id) throws Exception {
         return joinService.deleteCategoryAndSubcollections(id);
     }
 }
