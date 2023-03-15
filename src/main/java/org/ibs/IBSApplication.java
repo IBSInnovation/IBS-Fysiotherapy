@@ -21,8 +21,13 @@ public class IBSApplication
 
 
         // Even kijken hoe dit precies werkt
-        File file = new File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")).getFile());
-        FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
+        /*File file = new File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")).getFile());
+        FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());*/
+
+
+        FileInputStream serviceAccount =
+                new FileInputStream("main/java/org.ibs/key/serviceAccountKey.json");
+
 
 //        FileInputStream serviceAccount =
 //                new FileInputStream("path/to/serviceAccountKey.json");
