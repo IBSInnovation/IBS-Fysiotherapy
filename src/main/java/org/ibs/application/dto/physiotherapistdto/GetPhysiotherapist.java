@@ -8,4 +8,7 @@ import org.ibs.utils.DTO;
 public class GetPhysiotherapist extends DTO {
     public String id;
     public String email;
+    public GetPhysiotherapist(String email){
+        this.email = email;
+    }
 }

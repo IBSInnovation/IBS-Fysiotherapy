@@ -1,7 +1,9 @@
 package org.ibs.domain;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,11 +14,22 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
+@Entity
     public class Category {
+    @Id
+    @GeneratedValue
+    @Column(name = "CategoryId")
     private String id;
+    @Column(name = "categoryName")
     private String name;
-    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "exerciseId")
     private List<Exercise> exercises = new ArrayList<>();
+
+    public Category(String name){
+        this.name = name;
+    }
 
     public void addExercise(Exercise exercise) {
         if (!exercises.contains(exercise)) exercises.add(exercise);

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.categorydto.GetCategory;
 import org.ibs.application.dto.categorydto.SaveCategory;
+import org.ibs.domain.Category;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +26,12 @@ public class CategoryController {
     }
 
     @PostMapping
-    public SaveCategory createCategory(@RequestBody SaveCategory saveCategory) throws Exception {
+    public Category createCategory(@RequestBody SaveCategory saveCategory) throws Exception {
         return categoryService.saveCategory(saveCategory);
     }
 
     @PatchMapping
-    public SaveCategory updateCategory(@RequestBody SaveCategory saveCategory) throws Exception {
+    public Category updateCategory(@RequestBody SaveCategory saveCategory) throws Exception {
         return categoryService.saveCategory(saveCategory);
     }
 

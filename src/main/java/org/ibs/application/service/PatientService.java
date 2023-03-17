@@ -9,8 +9,11 @@ import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
+import org.ibs.data.PatientRepository;
 import org.ibs.data.PersistMeasurement;
 import org.ibs.data.PersistPatient;
+import org.ibs.domain.Measurement;
+import org.ibs.domain.Patient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,10 +24,10 @@ import java.util.List;
 @Transactional
 public class PatientService implements IPatientService {
 
-    private final Firestore db;
+    private PatientRepository patientRepository;
 
-    public PatientService() {
-        db = FirestoreClient.getFirestore();
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
     /**
@@ -37,17 +40,9 @@ public class PatientService implements IPatientService {
     @Override
     public GetPatient getById(String id) throws Exception {
         try {
-            DocumentReference documentReference = db.collection("patient").document(id);
-            ApiFuture<DocumentSnapshot> future = documentReference.get();
-            DocumentSnapshot document = future.get();
-
-            if (document.exists()) {
-                return document.toObject(GetPatient.class);
-            }
+            Patient patient = patientRepository.getReferenceById(Long.parseLong(id));
+            return new GetPatient(patient.getName());
 //            TODO add costum errors
-            else {
-                throw new Exception();
-            }
         } catch (Exception e) {
             throw new Exception("Patient could not be found due to an error", e);
         }
@@ -62,14 +57,11 @@ public class PatientService implements IPatientService {
     @Override
     public List<GetPatient> getAll() throws Exception {
         try {
-            ApiFuture<QuerySnapshot> future = db.collection("patient").get();
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
+            List<Patient> patients = patientRepository.findAll();
             List<GetPatient> patientList = new ArrayList<>();
-            for (QueryDocumentSnapshot document : documents) {
-                patientList.add(document.toObject(GetPatient.class));
+            for(Patient patient : patients){
+                patientList.add(new GetPatient(patient.getName()));
             }
-
             return patientList;
         } catch (Exception e) {
             throw new Exception("Patients could not be found due to an error", e);
@@ -86,18 +78,10 @@ public class PatientService implements IPatientService {
     @Override
     public SavePatient savePatient(SavePatient savePatient) throws Exception {
         try {
-            PersistPatient patient = PersistPatient.toPersistPatient(savePatient);
+            Patient patient = new Patient(savePatient.name);
+            patientRepository.save(patient);
 
-            DocumentReference documentReference = db.collection("physiotherapist").document(savePatient.physiotherapistId);
-            patient.setPhysiotherapistReference(documentReference);
-
-            ApiFuture<WriteResult> collectionsApiFuture = db.collection("patient").document(patient.getId()).set(patient);
-
-            // TODO: log dit
-            collectionsApiFuture.get().getUpdateTime().toString();
-
-//            TODO: misschien het nieuwe id in de dto zetten
-            return savePatient;
+            return new SavePatient();
         } catch (Exception e) {
             throw new Exception("Patient was not persisted due to an error", e);
         }
@@ -113,9 +97,8 @@ public class PatientService implements IPatientService {
     @Override
     public boolean deletePatient(String id) throws Exception {
         try {
-            ApiFuture<WriteResult> writeResult = db.collection("patient").document(id).delete();
-            // TODO: log dit
-            writeResult.get().getUpdateTime().toString();
+            Patient patient = patientRepository.getById(Long.parseLong(id));
+            patientRepository.delete(patient);
             return true;
         } catch (Exception e) {
             throw new Exception("Patient could not be deleted due to an error", e);
@@ -125,20 +108,9 @@ public class PatientService implements IPatientService {
     @Override
     public SaveMeasurement saveMeasurement(SaveMeasurement saveMeasurement) throws Exception {
         try {
-            PersistMeasurement measurement = PersistMeasurement.toPersistMeasurement(saveMeasurement);
-
-            DocumentReference measurementRef = db
-                    .collection("patient").document(saveMeasurement.patientId)
-                    .collection("category").document("doc")
-                    .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
-
-
-            // TODO: Als er nog geen map met measurements is wil hij ook niks toevoegen door update(), oplossing voor bedenken. Wss bij het maken van patient meteen een lege measurements list aanmaken
-            ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayUnion(measurement));
-
-            // TODO: log dit
-            collectionsApiFuture.get().getUpdateTime().toString();
-
+            Patient patient = patientRepository.getById(Long.parseLong(saveMeasurement.patientId));
+            patient.addMeasurement(new Measurement(saveMeasurement.dateOfMeasurement));
+            patientRepository.save(patient);
             return saveMeasurement;
         } catch (Exception e) {
             throw new Exception("Measurement was not persisted due to an error", e);
@@ -154,18 +126,9 @@ public class PatientService implements IPatientService {
     @Override
     public boolean deleteMeasurement(SaveMeasurement saveMeasurement) throws Exception {
         try {
-            PersistMeasurement measurement = PersistMeasurement.toPersistMeasurement(saveMeasurement);
-
-            DocumentReference measurementRef = db
-                    .collection("patient").document(saveMeasurement.patientId)
-                    .collection("category").document("doc")
-                    .collection(saveMeasurement.categoryId).document(saveMeasurement.exerciseId);
-
-
-            // TODO: Hier nader naar kijken hoe dit werkt, want op het moment nog niet functioneel
-            ApiFuture<WriteResult> collectionsApiFuture = measurementRef.update("measurements", FieldValue.arrayRemove(measurement));
-            // TODO: log dit
-            collectionsApiFuture.get().getUpdateTime().toString();
+            Patient patient = patientRepository.getById(Long.parseLong(saveMeasurement.patientId));
+            patient.deleteMeasurement(new Measurement(saveMeasurement.dateOfMeasurement));
+            patientRepository.save(patient);
             return true;
         } catch (Exception e) {
             throw new Exception("Measurement could not be deleted due to an error", e);
@@ -179,7 +142,8 @@ public class PatientService implements IPatientService {
      */
     @Override
     public GetMeasurement getAllMeasurements(AskMeasurement askMeasurement) throws Exception {
-        try {
+        /*try {
+            List<>
 
             DocumentReference documentReference = db.collection("patient").document(askMeasurement.patientId)
                     .collection("category").document("doc")
@@ -203,7 +167,8 @@ public class PatientService implements IPatientService {
 
         } catch (Exception e) {
             throw new Exception("Measurements could not be found due to an error", e);
-        }
+        }*/
+        return new GetMeasurement();
     }
 
 }

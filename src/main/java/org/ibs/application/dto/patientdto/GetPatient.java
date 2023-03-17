@@ -16,4 +16,8 @@ public class GetPatient extends DTO {
     public String email;
     public String physiotherapistId;
 
+
+    public GetPatient(String name) {
+        this.name = name;
+    }
 }

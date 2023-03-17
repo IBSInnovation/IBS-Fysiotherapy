@@ -1,7 +1,9 @@
 package org.ibs.domain;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,11 +14,22 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
+@Entity
 public class Physiotherapist {
+    @Id
+    @GeneratedValue
+    @Column(name = "physiotherapistId")
     private String id;
+    @Column(name="email")
     private String email;
-    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL)
+    @Column(name= "patients")
     private List<Patient> patients = new ArrayList<>();
+
+    public Physiotherapist(String email){
+        this.email = email;
+    }
 
     public void addPatient(Patient patient) {
         if (!patients.contains(patient)) patients.add(patient);

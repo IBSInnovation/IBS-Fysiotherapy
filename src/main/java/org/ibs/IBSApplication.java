@@ -5,6 +5,9 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +17,16 @@ import java.util.List;
 import java.util.Objects;
 
 @SpringBootApplication
+@EnableJpaRepositories(basePackages="org.ibs.data")
+@EnableTransactionManagement
+@EntityScan(basePackages="org.ibs.domain")
 public class IBSApplication
 {
-    public static void main( String[] args ) throws IOException {
-        ClassLoader classLoader = IBSApplication.class.getClassLoader();
+    /*public static void main( String[] args ) throws IOException {*/
+        public static void main(String[] args) {
+            SpringApplication.run(IBSApplication.class, args);
+        }
+        /*lassLoader classLoader = IBSApplication.class.getClassLoader();
 
 
         // Even kijken hoe dit precies werkt
@@ -46,6 +55,6 @@ public class IBSApplication
 
 
 
-        SpringApplication.run(IBSApplication.class, args);
-    }
+        SpringApplication.run(IBSApplication.class, args);*/
+
 }

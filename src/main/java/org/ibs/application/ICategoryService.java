@@ -9,6 +9,6 @@ import java.util.List;
 public interface ICategoryService {
     GetCategory getById(String id) throws Exception;
     List<GetCategory> getAll() throws Exception;
-    SaveCategory saveCategory(SaveCategory saveCategory) throws Exception;
+    Category saveCategory(SaveCategory saveCategory) throws Exception;
     boolean deleteCategory(String id) throws Exception;
 }
