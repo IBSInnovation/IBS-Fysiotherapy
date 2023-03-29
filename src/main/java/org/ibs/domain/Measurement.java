@@ -1,13 +1,16 @@
 package org.ibs.domain;
 
+import com.google.type.DateTime;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+/*
 @Getter
 @Setter
 @ToString
@@ -15,12 +18,17 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
+*/
+
+@Data
+@NoArgsConstructor
+@Component
 @Entity
 public class Measurement {
     @Id
     @GeneratedValue
     @Column(name = "measurementId")
-    private String id;
+    private Long id;
     @Column(name="dateOfMeasurement")
     private Date dateOfMeasurement;
 

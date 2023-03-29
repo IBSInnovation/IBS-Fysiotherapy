@@ -6,6 +6,8 @@ import org.ibs.application.dto.exercisedto.AskAllExercise;
 import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
+import org.ibs.application.service.ExerciseService;
+import org.ibs.domain.Exercise;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @RequestMapping("/exercise")
 @AllArgsConstructor
 public class ExerciseController {
-    private final IExerciseService exerciseService;
+    private final ExerciseService exerciseService;
 
     @GetMapping
     public GetExercise getExerciseById(@RequestBody AskExercise askExercise) throws Exception {
@@ -32,8 +34,8 @@ public class ExerciseController {
     }
 
     @PatchMapping
-    public SaveExercise updateExercise(@RequestBody SaveExercise saveExercise) throws Exception {
-        return exerciseService.saveExercise(saveExercise);
+    public Exercise updateExercise(@PathVariable String id, @RequestBody SaveExercise saveExercise) throws Exception {
+        return exerciseService.updateExercise(id, saveExercise);
     }
 
     @DeleteMapping()

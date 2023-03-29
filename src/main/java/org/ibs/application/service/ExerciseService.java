@@ -1,17 +1,11 @@
 package org.ibs.application.service;
 
-import com.google.api.core.ApiFuture;
-import com.google.api.services.storage.Storage;
-import com.google.cloud.firestore.*;
-import com.google.firebase.cloud.FirestoreClient;
-import lombok.AllArgsConstructor;
 import org.ibs.application.IExerciseService;
 import org.ibs.application.dto.exercisedto.AskAllExercise;
 import org.ibs.application.dto.exercisedto.AskExercise;
 import org.ibs.application.dto.exercisedto.GetExercise;
 import org.ibs.application.dto.exercisedto.SaveExercise;
 import org.ibs.data.ExcerciseRepository;
-import org.ibs.data.PersistExercise;
 import org.ibs.domain.Exercise;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +74,18 @@ public class ExerciseService implements IExerciseService {
 
         } catch (Exception e) {
             throw new Exception("Exercise was not persisted due to an error", e);
+        }
+    }
+
+    public Exercise updateExercise(String id, SaveExercise saveExercise) throws Exception {
+        try {
+            Exercise exercise = excerciseRepository.findById(Long.parseLong(id)).get();
+            exercise.setName(saveExercise.name);
+            this.excerciseRepository.save(exercise);
+            return exercise;
+        } catch (Exception e) {
+//            misschien een Log library zoals log4j
+            throw new Exception("Category was not persisted due to an error", e);
         }
     }
 

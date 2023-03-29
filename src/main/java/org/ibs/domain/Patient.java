@@ -9,19 +9,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
+/*@Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component*/
+@Data
+@NoArgsConstructor
 @Component
 @Entity
 public class Patient {
     @Id
     @GeneratedValue
     @Column(name = "patientId")
-    private String id;
+    private Long id;
     @Column(name="patientName")
     private String name;
     @Column(name="surName")
@@ -41,8 +44,13 @@ public class Patient {
     @Column(name="exercises")
     private List<Exercise> exercises = new ArrayList<>();
 
-    public Patient(String name) {
+    public Patient(String name, String surName, double weight, double height, String email)
+    {
         this.name = name;
+        this.surName = surName;
+        this.weight = weight;
+        this.height = height;
+        this.email = email;
     }
 
     public void addMeasurement(Measurement measurement){

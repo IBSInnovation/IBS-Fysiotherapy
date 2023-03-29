@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.categorydto.GetCategory;
 import org.ibs.application.dto.categorydto.SaveCategory;
+import org.ibs.application.service.CategoryService;
 import org.ibs.domain.Category;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/category")
 @AllArgsConstructor
 public class CategoryController {
-    private final ICategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("/{id}")
     public GetCategory getCategoryById(@PathVariable String id) throws Exception {
@@ -30,9 +31,9 @@ public class CategoryController {
         return categoryService.saveCategory(saveCategory);
     }
 
-    @PatchMapping
-    public Category updateCategory(@RequestBody SaveCategory saveCategory) throws Exception {
-        return categoryService.saveCategory(saveCategory);
+    @PatchMapping("/{id}")
+    public Category updateCategory(@PathVariable String id, @RequestBody SaveCategory saveCategory) throws Exception{
+        return categoryService.updateCategory(id, saveCategory);
     }
 
     @DeleteMapping("/{id}")

@@ -1,13 +1,8 @@
 package org.ibs.application.service;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
-import com.google.firebase.cloud.FirestoreClient;
-import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.categorydto.GetCategory;
 import org.ibs.application.dto.categorydto.SaveCategory;
 import org.ibs.data.CategoryRepository;
-import org.ibs.data.PersistCategory;
 import org.ibs.domain.Category;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CategoryService implements ICategoryService {
+public class CategoryService {
     private final CategoryRepository categoryRepository ;
 
     public CategoryService(CategoryRepository categoryRepository) {
@@ -30,7 +25,7 @@ public class CategoryService implements ICategoryService {
      * @return Category of given id
      * @throws Exception
      */
-    @Override
+
     public GetCategory getById(String id) throws Exception {
         try {
             Category category = categoryRepository.getById(Long.parseLong(id));
@@ -47,7 +42,7 @@ public class CategoryService implements ICategoryService {
      * @return List of Category entities
      * @throws Exception
      */
-    @Override
+
     public List<GetCategory> getAll() throws Exception {
         try {
             List<Category> categories = categoryRepository.findAll();
@@ -68,20 +63,23 @@ public class CategoryService implements ICategoryService {
      * @return The saved Category entity
      * @throws Exception
      */
-    @Override
+
     public Category saveCategory(SaveCategory saveCategory) throws Exception {
         try {
             Category category = new Category(saveCategory.name);
             this.categoryRepository.save(category);
+            return category;
+        } catch (Exception e) {
+//            misschien een Log library zoals log4j
+            throw new Exception("Category was not persisted due to an error", e);
+        }
+    }
 
-
-            // TODO: kijken of dit de beste oplossing is, category is namelijk leeg
-            /*ApiFuture<WriteResult> collectionsApiFuture = db.collection("category").document(saveCategory.name).set(category);
-
-            // TODO: log dit
-            collectionsApiFuture.get().getUpdateTime().toString();
-
-            //TODO: misschien het nieuwe id in de dto zetten*/
+    public Category updateCategory(String id, SaveCategory saveCategory) throws Exception {
+        try {
+            Category category = categoryRepository.findById(Long.parseLong(id)).get();
+            category.setName(saveCategory.name);
+            this.categoryRepository.save(category);
             return category;
         } catch (Exception e) {
 //            misschien een Log library zoals log4j
@@ -95,14 +93,11 @@ public class CategoryService implements ICategoryService {
      * @return true if the operation succeeded
      * @throws Exception
      */
-    @Override
+
     public boolean deleteCategory(String id) throws Exception {
         try {
             Category category = categoryRepository.getById(Long.parseLong(id));
             categoryRepository.delete(category);
-/*            ApiFuture<WriteResult> writeResult = db.collection("category").document(id).delete();
-            // TODO: log dit
-            writeResult.get().getUpdateTime().toString();*/
             return true;
         } catch (Exception e) {
             throw new Exception("Category could not be deleted due to an error", e);

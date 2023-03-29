@@ -8,19 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
+/*@Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component*/
+@Data
+@NoArgsConstructor
 @Component
 @Entity
 public class Physiotherapist {
     @Id
     @GeneratedValue
     @Column(name = "physiotherapistId")
-    private String id;
+    private Long id;
     @Column(name="email")
     private String email;
     @OneToMany(cascade = CascadeType.ALL)

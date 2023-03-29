@@ -3,10 +3,14 @@ package org.ibs.presentation;
 import lombok.AllArgsConstructor;
 import org.ibs.application.IPatientService;
 import org.ibs.application.dto.measurementdto.AskMeasurement;
+import org.ibs.application.dto.measurementdto.DeleteMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
 import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
+import org.ibs.application.service.PatientService;
+import org.ibs.domain.Measurement;
+import org.ibs.domain.Patient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +19,7 @@ import java.util.List;
 @RequestMapping("/patient")
 @AllArgsConstructor
 public class PatientController {
-    private final IPatientService patientService;
+    private final PatientService patientService;
 
     @GetMapping("/{id}")
     public GetPatient getPatientById(@PathVariable String id) throws Exception {
@@ -32,9 +36,9 @@ public class PatientController {
         return patientService.savePatient(savePatient);
     }
 
-    @PatchMapping
-    public SavePatient updatePatient(@RequestBody SavePatient savePatient) throws Exception {
-        return patientService.savePatient(savePatient);
+    @PatchMapping("/{id}")
+    public Patient updatePatient(@PathVariable String id, @RequestBody SavePatient savePatient) throws Exception {
+        return patientService.updatePatient(id, savePatient);
     }
 
     @DeleteMapping("/{id}")
@@ -48,19 +52,19 @@ public class PatientController {
         return patientService.getAllMeasurements(askMeasurement);
     }
 
-    @PostMapping("/measurement")
-    public SaveMeasurement saveMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-        return patientService.saveMeasurement(saveMeasurement);
+    @PostMapping("/measurement/{patientId}")
+    public List<Measurement> saveMeasurement(@PathVariable String patientId) throws Exception {
+        return patientService.saveMeasurement(patientId);
     }
 
-    @PatchMapping("/measurement")
+    /*@PatchMapping("/measurement")
     // TODO: Updaten van een measurement is irrelevant je zou dat nooit doen. Dus wss overbodig
-    public SaveMeasurement updateMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-        return patientService.saveMeasurement(saveMeasurement);
-    }
+    public SaveMeasurement updateMeasurement(@PathVariable String id, @RequestBody SaveMeasurement saveMeasurement) throws Exception {
+        return patientService.saveMeasurement(id, saveMeasurement);
+    }*/
 
-    @DeleteMapping("/measurement")
-    public boolean deleteMeasurement(@RequestBody SaveMeasurement saveMeasurement) throws Exception {
-        return patientService.deleteMeasurement(saveMeasurement);
+    @DeleteMapping("/measurement/{id}")
+    public boolean deleteMeasurement(@PathVariable Long id, @RequestBody DeleteMeasurement measurement) throws Exception {
+        return patientService.deleteMeasurement(id, measurement);
     }
 }

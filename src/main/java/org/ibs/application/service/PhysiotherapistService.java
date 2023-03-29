@@ -1,12 +1,7 @@
 package org.ibs.application.service;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
-import com.google.firebase.cloud.FirestoreClient;
-import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
-import org.ibs.data.PersistPhysiotherapist;
 import org.ibs.data.PhysiotherapistRepository;
 import org.ibs.domain.Physiotherapist;
 import org.springframework.stereotype.Service;
@@ -17,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PhysiotherapistService implements IPhysiotherapistService {
+public class PhysiotherapistService {
 
 //    TODO: getter dtos fixen
 
@@ -33,7 +28,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return Physiotherapist of given id
      * @throws Exception
      */
-    @Override
+
     public GetPhysiotherapist getById(String id) throws Exception {
         try {
             Physiotherapist physiotherapist = physiotherapistRepository.getById(Long.parseLong(id));
@@ -48,7 +43,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return List of Physiotherapist entities
      * @throws Exception
      */
-    @Override
+
     public List<GetPhysiotherapist> getAll() throws Exception {
         try {
             List<Physiotherapist> physiotherapists = physiotherapistRepository.findAll();
@@ -69,12 +64,23 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return The saved Physiotherapist entity
      * @throws Exception
      */
-    @Override
-    public SavePhysiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
+
+    public Physiotherapist savePhysiotherapist(SavePhysiotherapist savePhysiotherapist) throws Exception {
         try {
             Physiotherapist physiotherapist = new Physiotherapist(savePhysiotherapist.email);
             physiotherapistRepository.save(physiotherapist);
-            return new SavePhysiotherapist();
+            return physiotherapist;
+        } catch (Exception e) {
+            throw new Exception("Physiotherapist was not persisted due to an error", e);
+        }
+    }
+
+    public Physiotherapist updatePhysiotherapist(String id, SavePhysiotherapist savePhysiotherapist) throws Exception {
+        try {
+            Physiotherapist physiotherapist = physiotherapistRepository.findById(Long.parseLong(id)).get();
+            physiotherapist.setEmail(savePhysiotherapist.email);
+            physiotherapistRepository.save(physiotherapist);
+            return physiotherapist;
         } catch (Exception e) {
             throw new Exception("Physiotherapist was not persisted due to an error", e);
         }
@@ -86,7 +92,7 @@ public class PhysiotherapistService implements IPhysiotherapistService {
      * @return true if the operation succeeded
      * @throws Exception
      */
-    @Override
+
     public boolean deletePhysiotherapist(String id) throws Exception {
         try {
             Physiotherapist physiotherapist = physiotherapistRepository.getById(Long.parseLong(id));

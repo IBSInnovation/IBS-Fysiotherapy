@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
+import org.ibs.application.service.PhysiotherapistService;
+import org.ibs.domain.Physiotherapist;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 @RequestMapping("/physiotherapist")
 @AllArgsConstructor
 public class PhysiotherapistController {
-    private final IPhysiotherapistService physiotherapistService;
+    private final PhysiotherapistService physiotherapistService;
 
     @GetMapping("/{id}")
     public GetPhysiotherapist getPhysiotherapistById(@PathVariable String id) throws Exception {
@@ -25,13 +27,13 @@ public class PhysiotherapistController {
     }
 
     @PostMapping
-    public SavePhysiotherapist createPhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
+    public Physiotherapist createPhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
         return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
     }
 
-    @PatchMapping
-    public SavePhysiotherapist updatePhysiotherapist(@RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
-        return physiotherapistService.savePhysiotherapist(savePhysiotherapist);
+    @PatchMapping("/{id}")
+    public Physiotherapist updatePhysiotherapist(@PathVariable String id, @RequestBody SavePhysiotherapist savePhysiotherapist) throws Exception {
+        return physiotherapistService.updatePhysiotherapist(id, savePhysiotherapist);
     }
 
     @DeleteMapping("/{id}")

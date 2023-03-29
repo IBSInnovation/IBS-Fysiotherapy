@@ -8,19 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
+/*@Getter*/
+/*@Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component*/
+@Data
+@NoArgsConstructor
 @Component
 @Entity
     public class Category {
     @Id
     @GeneratedValue
     @Column(name = "CategoryId")
-    private String id;
+    private Long id;
     @Column(name = "categoryName")
     private String name;
     @OneToMany(cascade = CascadeType.ALL)

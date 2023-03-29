@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
+/*@Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component*/
+@Data
+@NoArgsConstructor
 @Component
 @Entity
 public class Exercise {
