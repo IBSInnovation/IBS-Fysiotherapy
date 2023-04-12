@@ -53,8 +53,8 @@ public class PatientController {
     }
 
     @PostMapping("/measurement/{patientId}")
-    public List<Measurement> saveMeasurement(@PathVariable String patientId) throws Exception {
-        return patientService.saveMeasurement(patientId);
+    public List<Measurement> saveMeasurement(@PathVariable String patientId, @RequestBody SaveMeasurement measurement) throws Exception {
+        return patientService.saveMeasurement(patientId, measurement);
     }
 
     /*@PatchMapping("/measurement")

@@ -3,6 +3,7 @@ package org.ibs.application.service;
 import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.DeleteMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
+import org.ibs.application.dto.measurementdto.SaveMeasurement;
 import org.ibs.application.dto.patientdto.GetPatient;
 import org.ibs.application.dto.patientdto.SavePatient;
 import org.ibs.data.MeasurementRepository;
@@ -115,11 +116,12 @@ public class PatientService {
     }
 
 
-    public List<Measurement> saveMeasurement(String patientId) throws Exception {
+    public List<Measurement> saveMeasurement(String patientId, SaveMeasurement saveMeasurement) throws Exception {
         try {
             Patient patient = patientRepository.getById(Long.parseLong(patientId));
             Date date = new Date();
-            patient.addMeasurement(new Measurement(date));
+            patient.addMeasurement(new Measurement(date, saveMeasurement.euler_x, saveMeasurement.euler_y, saveMeasurement.euler_z,
+                    saveMeasurement.acc_x, saveMeasurement.acc_y, saveMeasurement.acc_z, saveMeasurement.batteryNumber));
             patientRepository.save(patient);
             return patient.getMeasurements();
         } catch (Exception e) {
@@ -129,10 +131,10 @@ public class PatientService {
 
     /**
      * Deletes the Measurement entity with the given id.
-     * @param saveMeasurement
-     * @return true if the operation succeeded
-     * @throws Exception
-     */
+     * @param /*saveMeasurement*/
+//     * @return true if the operation succeeded
+//     * @throws Exception
+//     */
 
     public boolean deleteMeasurement(Long id, DeleteMeasurement deleteMeasurement) throws Exception {
         try {
