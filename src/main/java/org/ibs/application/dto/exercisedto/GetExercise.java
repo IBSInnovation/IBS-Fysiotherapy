@@ -1,6 +1,6 @@
 package org.ibs.application.dto.exercisedto;
 
-import io.opencensus.stats.Measure;
+
 import lombok.NoArgsConstructor;
 import org.ibs.domain.Measurement;
 import org.ibs.utils.DTO;

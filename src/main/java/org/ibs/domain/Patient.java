@@ -44,6 +44,7 @@ public class Patient {
     @Column(name="exercises")
     private List<Exercise> exercises = new ArrayList<>();
 
+
     public Patient(String name, String surName, double weight, double height, String email)
     {
         this.name = name;
