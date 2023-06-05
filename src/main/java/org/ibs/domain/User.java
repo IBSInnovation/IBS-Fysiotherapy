@@ -26,9 +26,9 @@ public class User {
     public List<String> getRoles(){
         return List.of();
     }
-    public List<SimpleGrantedAuthority> getAuthorities() {
+    /*public List<SimpleGrantedAuthority> getAuthorities() {
         return getRoles().stream().map(item->new SimpleGrantedAuthority("ROLE_"+item)).collect(Collectors.toList());
-    }
+    }*/
 
 
 }

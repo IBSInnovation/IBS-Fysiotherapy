@@ -1,4 +1,4 @@
-package org.ibs.application.security;
+/*package org.ibs.application.security;
 
 import org.springframework.security.web.session.InvalidSessionStrategy;
 
@@ -12,4 +12,4 @@ public class MyInvalidSessionStrategy implements InvalidSessionStrategy {
         if(request.getRequestURI().startsWith("/api")) response.setStatus(470);
         else response.sendRedirect("/api/logout");
     }
-}
+}*/

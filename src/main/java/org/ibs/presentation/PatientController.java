@@ -13,7 +13,6 @@ import org.ibs.domain.Measurement;
 import org.ibs.domain.Patient;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController

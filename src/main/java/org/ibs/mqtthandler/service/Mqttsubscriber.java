@@ -1,5 +1,6 @@
 package org.ibs.mqtthandler.service;
 
+import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 

@@ -1,0 +1,8 @@
+lalaland.initial-admin=<email of default admin>
+lalaland.login-url=https://localhost:8000/loggedin
+lalaland.logout-url=https://localhost:8080/loggedout
+
+
+spring.security.oauth2.client.registration.auth0.client-id=...
+spring.security.oauth2.client.registration.auth0.client-secret=...
+spring.security.oauth2.client.registration.auth0.redirect-uri=https://localhost:8000/api/oauth2/callback/auth0

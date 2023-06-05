@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+/*import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;*/
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @EnableJpaRepositories(basePackages="org.ibs.data")
 @EnableTransactionManagement
 @EntityScan(basePackages="org.ibs.domain")
-@EnableGlobalMethodSecurity(jsr250Enabled=true)
+/*@EnableGlobalMethodSecurity(jsr250Enabled=true)*/
 public class IBSApplication
 {
 /*    private final String url = "jdbc:postgresql://localhost/dvdrental";
