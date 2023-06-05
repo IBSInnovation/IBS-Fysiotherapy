@@ -3,20 +3,27 @@ package org.ibs.mqtthandler.service;
 import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Component
 public class Mqttsubscriber {
-    //TODO function maken van hieronder
-    //TODO Presentation class with API call
-    //TODO gemiddelde pakken van al deze opgeslagen data
-    public static void main(String[] args) {
-        String broker = "tcp://nhagens02.duckdns.org:1883";
-        String topic = "dot/sensordata";
+    //TODO gemiddelde pakken van al deze opgeslagen dat
+    String broker = "tcp://nhagens02.duckdns.org:1883";
 
-        String username = "nhagens02_ext";
-        String password = "makingapasswordsucks";
-        String clientid = "subscribe_client_backend";
+    String username = "nhagens02_ext";
+    String password = "makingapasswordsucks";
+    String clientid = "subscribe_client_backend";
 
-        int qos = 0;
+    int qos = 1;
+
+    List<List<String>> dataListS1 = new ArrayList<>();
+    List<List<String>> dataListS2 = new ArrayList<>();
+
+    public List connectMQTT(String topic) {
 
         try {
             System.out.println("Try");
@@ -28,6 +35,7 @@ public class Mqttsubscriber {
             options.setConnectionTimeout(60);
             options.setKeepAliveInterval(60);
             System.out.println("Configure options");
+
             // setup callback
             client.setCallback(new MqttCallback() {
 
@@ -38,7 +46,9 @@ public class Mqttsubscriber {
                 public void messageArrived(String topic, MqttMessage message) {
                     System.out.println("topic: " + topic);
                     System.out.println("Qos: " + message.getQos());
-                    System.out.println("message content: " + message.getPayload());
+                    System.out.println("message content: " + new String(message.getPayload()));
+
+                    byteToStringList(message.getPayload());
 
                 }
 
@@ -51,8 +61,43 @@ public class Mqttsubscriber {
             System.out.println("connected");
             client.subscribe(topic, qos);
             System.out.println("subscribed");
+            return dataListS2;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return dataListS2;
+    }
+
+    private List<String> byteToStringList(byte[] bytelist) {
+        String byteToString = new String(bytelist);
+
+        List<String> splitList = Arrays.asList(byteToString.split(","));
+
+        List list1 = new ArrayList<>();
+
+        List list2 = new ArrayList<>();
+
+        for (String item : splitList) {
+            if (splitList.indexOf(item) < 7) {
+                list1.add(item);
+            }
+            else {
+                dataListS1.add(list1);
+            }
+        }
+
+        for (String item : splitList) {
+            if (splitList.indexOf(item) > 6) {
+                list2.add(item);
+            }
+            else {
+                dataListS2.add(list2);
+            }
+        }
+        System.out.println("s1 " + dataListS1);
+        System.out.println("s2 " + dataListS2);
+        return splitList;
+
     }
 }
+
