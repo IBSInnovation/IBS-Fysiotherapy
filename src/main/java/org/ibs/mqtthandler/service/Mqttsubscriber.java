@@ -3,6 +3,8 @@ package org.ibs.mqtthandler.service;
 import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.ibs.mqtthandler.data.MqttRepository;
+import org.ibs.mqtthandler.domain.Mqtt;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -98,6 +100,57 @@ public class Mqttsubscriber {
         System.out.println("s2 " + dataListS2);
         return splitList;
 
+        return dataListS1;
     }
+
+    public double convertToSingleDoubleListAndCalculateAverage(List<List<String>> datalist) {
+        List<Double> doubleList = new ArrayList<>();
+
+        for (List<String> list : datalist) {
+            for (int i = 1; i < list.size(); i++) {
+                String item = list.get(i);
+                doubleList.add(Double.parseDouble(item));
+            }
+        }
+        return calculateAverage(doubleList);
+    }
+
+    private static double calculateAverage(List<Double> numbers) {
+        int sum = 0;
+        int count = 0;
+
+
+        for (double number : numbers) {
+            sum += number;
+            count++;
+        }
+
+        if (count == 0) {
+            throw new IllegalArgumentException("Cannot calculate average of an empty list");
+        }
+        return (double) sum / count;
+    }
+
+    private void resetTimeoutTimer(String data) {
+        if (timeoutTimer != null) {
+            timeoutTimer.cancel();
+        }
+
+        timeoutTimer = new Timer();
+        timeoutTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                receivingData = false;
+                System.out.println("write to database");
+                jsonConvertor.writeObjectToJSON(new Mqtt(data));
+            }
+
+        }, timeoutDuration);
+    }
+
+    public String getData(String id) {
+        return jsonConvertor.readObjectFromJson(id);
+    }
+
 }
 

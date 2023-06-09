@@ -3,7 +3,12 @@ package org.ibs.mqtthandler.presentation;
 import org.ibs.mqtthandler.dto.InitialSensorDto;
 import org.ibs.mqtthandler.dto.SubscribeSensorDTO;
 import org.ibs.mqtthandler.service.MqttService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/mqtt")

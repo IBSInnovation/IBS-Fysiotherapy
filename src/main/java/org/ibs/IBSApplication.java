@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Objects;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages="org.ibs.data")
+@EnableJpaRepositories(basePackages="org.ibs")
 @EnableTransactionManagement
-@EntityScan(basePackages="org.ibs.domain")
+@EntityScan(basePackages="org.ibs")
 /*@EnableGlobalMethodSecurity(jsr250Enabled=true)*/
 public class IBSApplication
 {
