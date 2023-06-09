@@ -22,16 +22,32 @@ public class MqttController {
 
     @PostMapping("/start")
     public void startMeasurement(@RequestBody InitialSensorDto initialSensorDto){
-        this.mqttService.statusMeasurement(initialSensorDto.topic, initialSensorDto.content);
+        this.mqttService.startMeasurement(initialSensorDto.topic, initialSensorDto.content);
     }
 
     @PostMapping("/stop")
     public void stopMeasurement(@RequestBody InitialSensorDto initialSensorDto) {
-        this.mqttService.statusMeasurement(initialSensorDto.topic, initialSensorDto.content);
+        this.mqttService.stopMeasurement(initialSensorDto.topic, initialSensorDto.content);
+        //this.mqttService.getAverageFromData();
     }
 
     @GetMapping("/connect")
     public void connectSensor(@RequestBody SubscribeSensorDTO subscribeSensorDTO) {
         this.mqttService.connectForSensorData(subscribeSensorDTO.topic);
+    }
+
+    @PostMapping("/csv/generate/{id}")
+    public void generateCsv(@PathVariable String id) throws IOException {
+         this.mqttService.generateCsv(id);
+    }
+
+    @GetMapping("/csv/get/{id}")
+    public ResponseEntity<FileSystemResource> getCsv(@PathVariable String id){
+        return this.mqttService.getCSVFile(id);
+    }
+
+    @GetMapping("/getAverage/{id}")
+    public Double getAverageFromDataSet(@PathVariable String id) {
+        return this.mqttService.getAverageFromData(id);
     }
 }

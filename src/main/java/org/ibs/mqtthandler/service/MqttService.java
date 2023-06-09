@@ -29,7 +29,11 @@ public class MqttService {
         //this.mqttRepository = mqttRepository;
     }
 
-    public void statusMeasurement(String topic, String content) {
+    public void startMeasurement(String topic, String content) {
+        this.mqttpublisher.publishMessageMqtt(topic, content);
+    }
+
+    public void stopMeasurement(String topic, String content) {
         this.mqttpublisher.publishMessageMqtt(topic, content);
     }
 
@@ -37,6 +41,28 @@ public class MqttService {
         this.mqttsubscriber.connectMQTT(topic);
     }
 
+    private String getDataFromJsonFile(String id) {
+        return this.mqttsubscriber.getData(id);
+    }
 
+    public Double getAverageFromData(String id) {
+        List<List<String>> list = this.mqttsubscriber.dataToStringList(getDataFromJsonFile(id));
+        return this.mqttsubscriber.convertToSingleDoubleListAndCalculateAverage(list);
+    }
 
+    /*public File getCSVFile(String id) {
+        return csvHandler.getCSVFile(id);
+    }*/
+
+    public ResponseEntity<FileSystemResource> getCSVFile(String id){
+        return csvHandler.getCSVFile2(id);
+    }
+
+    public void generateCsv(String id) throws IOException {
+        csvHandler.generateCsv(id);
+    }
+
+//    public void saveDatatoDataBase(String str){
+//        this.mqttRepository.save(new Mqtt(str));
+//    }
 }

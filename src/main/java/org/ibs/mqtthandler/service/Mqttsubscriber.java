@@ -1,6 +1,5 @@
 package org.ibs.mqtthandler.service;
 
-import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.ibs.mqtthandler.data.MqttRepository;
@@ -10,10 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Component
 public class Mqttsubscriber {
-    //TODO gemiddelde pakken van al deze opgeslagen dat
     String broker = "tcp://nhagens02.duckdns.org:1883";
 
     String username = "nhagens02_ext";
@@ -22,10 +22,24 @@ public class Mqttsubscriber {
 
     int qos = 1;
 
-    List<List<String>> dataListS1 = new ArrayList<>();
-    List<List<String>> dataListS2 = new ArrayList<>();
+    private boolean receivingData = true;
+    private Timer timeoutTimer;
+    private long timeoutDuration = 5000;
 
-    public List connectMQTT(String topic) {
+
+    String str = "";
+
+    private MqttRepository mqttRepository;
+    private JSONConvertor jsonConvertor;
+
+    public Mqttsubscriber(MqttRepository mqttRepository, JSONConvertor jsonConvertor) {
+        this.mqttRepository = mqttRepository;
+        this.jsonConvertor = jsonConvertor;
+    }
+
+
+
+    public void connectMQTT(String topic) {
 
         try {
             System.out.println("Try");
@@ -50,30 +64,33 @@ public class Mqttsubscriber {
                     System.out.println("Qos: " + message.getQos());
                     System.out.println("message content: " + new String(message.getPayload()));
 
-                    byteToStringList(message.getPayload());
+                    str += new String(message.getPayload()) + ",";
+                    System.out.println("The string is: "  + str);
 
+                    //byteToStringList(message.getPayload());
+
+                    //check if still getting data
+                    resetTimeoutTimer(str);
                 }
 
                 public void deliveryComplete(IMqttDeliveryToken token) {
                     System.out.println("deliveryComplete---------" + token.isComplete());
                 }
-
             });
             client.connect(options);
             System.out.println("connected");
             client.subscribe(topic, qos);
             System.out.println("subscribed");
-            return dataListS2;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return dataListS2;
     }
 
-    private List<String> byteToStringList(byte[] bytelist) {
-        String byteToString = new String(bytelist);
+    public List<List<String>> dataToStringList(String data) {
+        List<List<String>> dataListS1 = new ArrayList<>();
+        List<List<String>> dataListS2 = new ArrayList<>();
 
-        List<String> splitList = Arrays.asList(byteToString.split(","));
+        List<String> splitList = Arrays.asList(data.split(","));
 
         List list1 = new ArrayList<>();
 
@@ -82,8 +99,7 @@ public class Mqttsubscriber {
         for (String item : splitList) {
             if (splitList.indexOf(item) < 7) {
                 list1.add(item);
-            }
-            else {
+            } else {
                 dataListS1.add(list1);
             }
         }
@@ -91,14 +107,12 @@ public class Mqttsubscriber {
         for (String item : splitList) {
             if (splitList.indexOf(item) > 6) {
                 list2.add(item);
-            }
-            else {
+            } else {
                 dataListS2.add(list2);
             }
         }
         System.out.println("s1 " + dataListS1);
         System.out.println("s2 " + dataListS2);
-        return splitList;
 
         return dataListS1;
     }
