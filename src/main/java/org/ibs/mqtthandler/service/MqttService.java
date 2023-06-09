@@ -22,7 +22,7 @@ public class MqttService {
     private csvHandler csvHandler;
     //private MqttRepository mqttRepository;
 
-    public MqttService(Mqttsubscriber mqttsubscriber, MqttPublisher mqttPublisher) {
+    public MqttService(Mqttsubscriber mqttsubscriber, MqttPublisher mqttPublisher,csvHandler csvHandler) {
         this.mqttsubscriber = mqttsubscriber;
         this.mqttpublisher = mqttPublisher;
         this.csvHandler = csvHandler;
