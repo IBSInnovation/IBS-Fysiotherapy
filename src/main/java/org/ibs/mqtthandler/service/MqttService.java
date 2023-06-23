@@ -2,7 +2,6 @@ package org.ibs.mqtthandler.service;
 
 import org.ibs.mqtthandler.csv.SensorData;
 import org.ibs.mqtthandler.csv.csvHandler;
-import org.ibs.mqtthandler.data.MqttRepository;
 import org.ibs.mqtthandler.domain.Mqtt;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
@@ -50,9 +49,6 @@ public class MqttService {
         return this.mqttsubscriber.convertToSingleDoubleListAndCalculateAverage(list);
     }
 
-    /*public File getCSVFile(String id) {
-        return csvHandler.getCSVFile(id);
-    }*/
 
     public ResponseEntity<FileSystemResource> getCSVFile(String id){
         return csvHandler.getCSVFile2(id);
@@ -61,8 +57,4 @@ public class MqttService {
     public void generateCsv(String id) throws IOException {
         csvHandler.generateCsv(id);
     }
-
-//    public void saveDatatoDataBase(String str){
-//        this.mqttRepository.save(new Mqtt(str));
-//    }
 }

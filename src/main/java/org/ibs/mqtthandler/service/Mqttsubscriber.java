@@ -2,7 +2,6 @@ package org.ibs.mqtthandler.service;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.ibs.mqtthandler.data.MqttRepository;
 import org.ibs.mqtthandler.domain.Mqtt;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +28,11 @@ public class Mqttsubscriber {
 
     String str = "";
 
-    private MqttRepository mqttRepository;
+    /*private MqttRepository mqttRepository;*/
     private JSONConvertor jsonConvertor;
 
-    public Mqttsubscriber(MqttRepository mqttRepository, JSONConvertor jsonConvertor) {
-        this.mqttRepository = mqttRepository;
+    public Mqttsubscriber(JSONConvertor jsonConvertor) {
+        /*this.mqttRepository = mqttRepository;*/
         this.jsonConvertor = jsonConvertor;
     }
 

@@ -30,8 +30,6 @@ public class csvHandler {
     }
 
     public void generateCsv(String id) throws IOException {
-
-
         ObjectMapper objectMapper = new ObjectMapper();
         File jsonFile = getJsonFile(id);
         File csvFile = new File("./src/main/java/org/ibs/mqtthandler/csvFiles/" + id + ".csv");
@@ -47,13 +45,11 @@ public class csvHandler {
             String[] headers = {"id", "data"};
             csvWriter.writeNext(headers);
 
-
                 String idText = jsonData.has("id") ? jsonData.get("id").asText() : "";
                 String dataValue = jsonData.has("data") ? jsonData.get("data").asText() : "";
 
                 String[] row = {idText, dataValue};
                 csvWriter.writeNext(row);
-
 
             // Close CSV writer
             csvWriter.close();
@@ -63,16 +59,6 @@ public class csvHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public File getCSVFile(String filename) {
-        String path = this.pathToJSON;
-        File file = new File(path, filename +".csv");
-        File parent = file.getParentFile();
-        if (parent != null)
-            parent.mkdirs();
-        return file;
     }
 
     public ResponseEntity<FileSystemResource> getCSVFile2(String filename){

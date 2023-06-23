@@ -1,7 +1,6 @@
 package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
-import org.ibs.application.ICategoryService;
 import org.ibs.application.dto.categorydto.GetCategory;
 import org.ibs.application.dto.categorydto.SaveCategory;
 import org.ibs.application.service.CategoryService;

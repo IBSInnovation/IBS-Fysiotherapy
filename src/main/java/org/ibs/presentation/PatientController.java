@@ -1,7 +1,6 @@
 package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
-import org.ibs.application.IPatientService;
 import org.ibs.application.dto.measurementdto.AskMeasurement;
 import org.ibs.application.dto.measurementdto.DeleteMeasurement;
 import org.ibs.application.dto.measurementdto.GetMeasurement;
@@ -57,11 +56,6 @@ public class PatientController {
         return patientService.saveMeasurement(patientId, measurement);
     }
 
-    /*@PatchMapping("/measurement")
-    // TODO: Updaten van een measurement is irrelevant je zou dat nooit doen. Dus wss overbodig
-    public SaveMeasurement updateMeasurement(@PathVariable String id, @RequestBody SaveMeasurement saveMeasurement) throws Exception {
-        return patientService.saveMeasurement(id, saveMeasurement);
-    }*/
 
     @DeleteMapping("/measurement/{id}")
     public boolean deleteMeasurement(@PathVariable Long id, @RequestBody DeleteMeasurement measurement) throws Exception {

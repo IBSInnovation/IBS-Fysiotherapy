@@ -42,6 +42,7 @@ public class MqttController {
     }
 
     @GetMapping("/csv/get/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<FileSystemResource> getCsv(@PathVariable String id){
         return this.mqttService.getCSVFile(id);
     }

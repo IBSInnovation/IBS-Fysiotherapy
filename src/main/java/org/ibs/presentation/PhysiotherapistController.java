@@ -1,7 +1,6 @@
 package org.ibs.presentation;
 
 import lombok.AllArgsConstructor;
-import org.ibs.application.IPhysiotherapistService;
 import org.ibs.application.dto.physiotherapistdto.GetPhysiotherapist;
 import org.ibs.application.dto.physiotherapistdto.SavePhysiotherapist;
 import org.ibs.application.service.PhysiotherapistService;
